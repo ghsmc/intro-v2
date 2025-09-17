@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { LoaderIcon } from '@/components/icons';
+import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface ChatHistoryDisplayProps {
@@ -117,7 +117,7 @@ export function ChatHistoryDisplay({ userId }: ChatHistoryDisplayProps) {
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
-            <LoaderIcon className="h-6 w-6 animate-spin mr-2" />
+            <Loader2 className="h-6 w-6 animate-spin mr-2" />
             <span>Loading chat history...</span>
           </div>
         </CardContent>

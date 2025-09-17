@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { LoaderIcon } from '@/components/icons';
+import { Loader2 } from 'lucide-react';
 import { UserProfile } from '@/components/profile/UserProfile';
 import { OnboardingDataDisplay } from '@/components/profile/OnboardingDataDisplay';
 import { ResumeDataDisplay } from '@/components/profile/ResumeDataDisplay';
@@ -68,7 +68,7 @@ export default function ProfilePage() {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
-          <LoaderIcon className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
           <p className="text-lg font-semibold">Loading your profile...</p>
         </div>
       </div>

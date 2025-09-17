@@ -53,7 +53,7 @@ export function Chat({
   initialChatModel: string;
   initialVisibilityType: VisibilityType;
   isReadonly: boolean;
-  session: Session;
+  session: Session | null;
   autoResume: boolean;
   initialLastContext?: AppUsage;
   domain?: 'ENGINEERS' | 'SOFTWARE' | 'FINANCE';

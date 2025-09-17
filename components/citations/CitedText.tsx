@@ -91,7 +91,7 @@ export function CitedText({ text, citations }: CitedTextProps) {
               {part.content}
             </span>
           );
-        } else if (part.type === 'citation') {
+        } else if (part.type === 'citation' && part.source) {
           return (
             <CitationTag
               key={index}

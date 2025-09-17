@@ -25,13 +25,9 @@ export const myProvider = isTestEnvironment
     })()
   : customProvider({
       languageModels: {
-        'chat-model': gateway.languageModel('xai/grok-2-1212', {
-          maxTokens: 32768, // Increased context window
-        }),
+        'chat-model': gateway.languageModel('xai/grok-2-1212'),
         'chat-model-reasoning': wrapLanguageModel({
-          model: gateway.languageModel('xai/grok-3-mini', {
-            maxTokens: 32768, // Increased context window
-          }),
+          model: gateway.languageModel('xai/grok-3-mini'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
         'title-model': gateway.languageModel('xai/grok-2-1212'),

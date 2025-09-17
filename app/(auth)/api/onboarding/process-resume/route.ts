@@ -39,7 +39,7 @@ async function extractTextFromBuffer(buffer: Buffer, contentType: string, url: s
       const PDFParser = (await import('pdf2json')).default;
       
       return new Promise((resolve, reject) => {
-        const pdfParser = new PDFParser(null, 1); // 1 = verbosity level
+        const pdfParser = new PDFParser(null, true); // enable verbosity
         
         // Set up event handlers
         pdfParser.on('pdfParser_dataError', (errData: any) => {
@@ -95,7 +95,7 @@ async function extractTextFromBuffer(buffer: Buffer, contentType: string, url: s
         });
         
         // Parse the buffer
-        pcdfParser.parseBuffer(buffer);
+        pdfParser.parseBuffer(buffer);
       });
       
     } catch (error) {
@@ -265,7 +265,6 @@ ${resumeText}
 
 Return structured JSON with all available information.`,
         temperature: 0.1, // Lower temperature for more consistent extraction
-        maxTokens: 2000,
       });
       
       extractedData = result.object;
@@ -303,7 +302,6 @@ ${JSON.stringify(extractedData, null, 2)}
 
 Generate a compelling summary that highlights their unique value.`,
         temperature: 0.3,
-        maxTokens: 500,
       });
       
       userSummary = summaryResult.object;

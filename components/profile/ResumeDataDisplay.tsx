@@ -63,7 +63,7 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
                   variant="outline"
                   size="sm"
                   className="h-7 px-2 text-xs"
-                  onClick={() => window.open(userData.resume.url, '_blank')}
+                  onClick={() => userData.resume?.url && window.open(userData.resume.url, '_blank')}
                 >
                   <ExternalLink className="h-3 w-3 mr-1" />
                   View
@@ -73,10 +73,12 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
                   size="sm"
                   className="h-7 px-2 text-xs"
                   onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = userData.resume.url;
-                    link.download = userData.resume.fileName;
-                    link.click();
+                    if (userData.resume?.url) {
+                      const link = document.createElement('a');
+                      link.href = userData.resume.url;
+                      link.download = userData.resume.fileName || 'resume';
+                      link.click();
+                    }
                   }}
                 >
                   <Download className="h-3 w-3 mr-1" />

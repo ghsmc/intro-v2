@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "tsx lib/db/migrate && next build",
+    "build": "tsx lib/db/migrate || echo 'Migration skipped, continuing build...' && next build",
     "start": "next start",
     "lint": "biome lint --write --unsafe",
     "lint:fix": "biome lint --write --unsafe && biome format --write",

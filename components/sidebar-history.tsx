@@ -30,7 +30,7 @@ import { ChatItem } from './sidebar-history-item';
 import useSWRInfinite from 'swr/infinite';
 import { LoaderIcon } from './icons';
 import { SidebarMenuItem, SidebarMenuButton } from './ui/sidebar';
-import { Home, Building2, Rss, User, ChevronDown } from 'lucide-react';
+import { Home, Building2, Rss, User as UserIcon, ChevronDown } from 'lucide-react';
 import { useDomain } from './domain-provider';
 
 function NavigationSection() {
@@ -49,11 +49,11 @@ function NavigationSection() {
     { name: 'Home', href: '/', icon: Home },
     { name: 'Companies', href: '/companies', icon: Building2 },
     { name: 'Feed', href: '/feed', icon: Rss },
-    { name: 'Profile', href: '/profile', icon: User },
+    { name: 'Profile', href: '/profile', icon: UserIcon },
   ];
 
   const handleDomainSelect = (domain: string, href: string) => {
-    setSelectedDomain(domain);
+    setSelectedDomain(domain as any);
     setIsDomainsOpen(false);
     // Navigate to the domain-specific page
     router.push(href);

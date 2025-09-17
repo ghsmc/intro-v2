@@ -148,30 +148,34 @@ const PurePreviewMessage = ({
             if (type === 'text') {
               if (mode === 'view') {
                 // Check if this message has citations from web search tools (not job search)
-                const webSearchParts = message.parts?.filter(p => 
-                  p.type.startsWith('tool-') && 
+                const webSearchParts = message.parts?.filter(p =>
+                  p.type.startsWith('tool-') &&
                   (p.type === 'tool-webSearchTool' || p.type === 'tool-newsSearchTool') &&
                   p.state === 'output-available' &&
-                  p.output && 
+                  'output' in p &&
+                  p.output &&
                   !('error' in p.output)
                 ) || [];
 
                 const citations: CitationSource[] = webSearchParts
                   .flatMap(p => {
-                    // Try to get citations from the output
-                    if (p.output.citations) {
-                      return p.output.citations;
-                    }
-                    // If no citations array, try to create them from results
-                    if (p.output.results && Array.isArray(p.output.results)) {
-                      return p.output.results.map((result: any, index: number) => ({
-                        id: `result-${index}`,
-                        title: result.title || 'Untitled',
-                        url: result.link || result.url || '#',
-                        domain: result.link ? new URL(result.link).hostname.replace('www.', '') : 'Unknown',
-                        snippet: result.snippet,
-                        logo: result.link ? `https://www.google.com/s2/favicons?domain=${new URL(result.link).hostname}&sz=32` : undefined
-                      }));
+                    // Check if this is a tool invocation part with output
+                    if ('output' in p && p.output) {
+                      // Try to get citations from the output
+                      if ((p.output as any).citations) {
+                        return (p.output as any).citations;
+                      }
+                      // If no citations array, try to create them from results
+                      if ((p.output as any).results && Array.isArray((p.output as any).results)) {
+                        return (p.output as any).results.map((result: any, index: number) => ({
+                          id: `result-${index}`,
+                          title: result.title || 'Untitled',
+                          url: result.link || result.url || '#',
+                          domain: result.link ? new URL(result.link).hostname.replace('www.', '') : 'Unknown',
+                          snippet: result.snippet,
+                          logo: result.link ? `https://www.google.com/s2/favicons?domain=${new URL(result.link).hostname}&sz=32` : undefined
+                        }));
+                      }
                     }
                     return [];
                   }) || [];
@@ -202,12 +206,13 @@ const PurePreviewMessage = ({
                       }
                     >
                       <Response>
-                        {citations.length > 0 && /\[\d+\]/.test(sanitizedText || '') ? (
-                          <CitedText text={sanitizedText} citations={citations} />
-                        ) : (
-                          sanitizedText || part.text || ''
-                        )}
+                        {sanitizedText || part.text || ''}
                       </Response>
+                      {citations.length > 0 && /\[\d+\]/.test(sanitizedText || '') && (
+                        <div className="mt-2">
+                          <CitedText text={sanitizedText} citations={citations} />
+                        </div>
+                      )}
                     </MessageContent>
                   </div>
                 );
@@ -358,17 +363,11 @@ const PurePreviewMessage = ({
                     <div className="text-sm text-muted-foreground">
                       <div className="font-medium mb-2">⚡ Recent Job Search:</div>
                       <div className="space-y-1">
-                        <div>• <span className="font-medium">{part.output.results?.length || 0}</span> recent opportunities found</div>
+                        <div>• <span className="font-medium">{part.output.results?.length || 0}</span> opportunities found</div>
                         <div>• <span className="font-medium">Query:</span> {part.output.query}</div>
-                        <div>• <span className="font-medium">Location:</span> {part.output.location}</div>
-                        <div>• <span className="font-medium">Recency:</span> {part.output.recency}</div>
-                        {part.output.company && (
-                          <div>• <span className="font-medium">Company:</span> {part.output.company}</div>
+                        {part.output.location && (
+                          <div>• <span className="font-medium">Location:</span> {part.output.location}</div>
                         )}
-                        {part.output.industry && (
-                          <div>• <span className="font-medium">Industry:</span> {part.output.industry}</div>
-                        )}
-                        <div>• <span className="font-medium">Strategy:</span> {part.output.searchStrategy}</div>
                       </div>
                     </div>
                   ) : (
@@ -399,18 +398,21 @@ const PurePreviewMessage = ({
                     !('error' in p.output)
                   )
                   .flatMap(p => {
-                    if (p.output.citations) {
-                      return p.output.citations;
-                    }
-                    if (p.output.results && Array.isArray(p.output.results)) {
-                      return p.output.results.map((result: any, index: number) => ({
+                    // Check if this is a tool invocation part with output
+                    if ('output' in p && p.output) {
+                      if ((p.output as any).citations) {
+                        return (p.output as any).citations;
+                      }
+                      if ((p.output as any).results && Array.isArray((p.output as any).results)) {
+                        return (p.output as any).results.map((result: any, index: number) => ({
                         id: `result-${index}`,
                         title: result.title || 'Untitled',
                         url: result.link || result.url || '#',
                         domain: result.link ? new URL(result.link).hostname.replace('www.', '') : 'Unknown',
-                        snippet: result.snippet,
-                        logo: result.link ? `https://www.google.com/s2/favicons?domain=${new URL(result.link).hostname}&sz=32` : undefined
-                      }));
+                          snippet: result.snippet,
+                          logo: result.link ? `https://www.google.com/s2/favicons?domain=${new URL(result.link).hostname}&sz=32` : undefined
+                        }));
+                      }
                     }
                     return [];
                   }) || [];
@@ -424,8 +426,9 @@ const PurePreviewMessage = ({
                     !('error' in p.output)
                   )
                   .flatMap(p => {
-                    if (p.output.results && Array.isArray(p.output.results)) {
-                      return p.output.results.map((result: any) => ({
+                    // Check if this is a tool invocation part with output
+                    if ('output' in p && p.output && (p.output as any).results && Array.isArray((p.output as any).results)) {
+                      return (p.output as any).results.map((result: any) => ({
                         title: result.title || 'Untitled',
                         link: result.link || '#',
                         snippet: result.snippet || '',

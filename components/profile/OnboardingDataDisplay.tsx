@@ -79,7 +79,7 @@ export function OnboardingDataDisplay({ userData }: OnboardingDataDisplayProps) 
                     <span className="text-xs font-medium">
                       {energyLabels[key] || key}
                     </span>
-                    <Badge variant="outline" className="text-xs">{value}/5</Badge>
+                    <Badge variant="outline" className="text-xs">{value as number}/5</Badge>
                   </div>
                   <Progress value={(value as number) * 20} className="h-1" />
                 </div>
