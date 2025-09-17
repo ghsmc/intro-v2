@@ -144,6 +144,11 @@ export const jobSearchTool = tool({
   execute: async ({ query, location, num = 10 }) => {
     console.log('Job search:', { query, location, num });
 
+    // Check for API key configuration
+    if (!SERPER_API_KEY) {
+      console.warn('SERPER_API_KEY is not configured - job search will not work')
+    }
+
     if (!SERPER_API_KEY) {
       return {
         query,
