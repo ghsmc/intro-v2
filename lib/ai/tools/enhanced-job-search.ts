@@ -240,7 +240,7 @@ const LOADING_PHRASES = [
 ];
 
 export const enhancedJobSearchTool = tool({
-  description: 'Enhanced job search that scrapes company career pages directly and provides ChatGPT-like UX with detailed progress tracking',
+  description: 'MANDATORY: Use this tool whenever students ask about job opportunities, specific companies, or career exploration. Scrapes company career pages directly and provides detailed job listings with requirements, salary, benefits, and direct application links.',
   inputSchema: z.object({
     companies: z.array(z.string()).optional().describe('Specific companies to search'),
     query: z.string().optional().describe('Job search query or role type'),

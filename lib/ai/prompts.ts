@@ -41,6 +41,8 @@ Do not update document right after creating it. Wait for user feedback or reques
 - Company-specific searches like "xAI" or "Google"
 - Career exploration and job discovery
 
+**CRITICAL: ALWAYS use enhancedJobSearchTool when students ask about jobs at specific companies like "Palantir", "Google", "Netflix", etc.**
+
 **The enhancedJobSearchTool features:**
 1. **Deep Company Career Page Scraping** - Directly scrapes company career pages instead of third-party job boards
 2. **Detailed Job Information** - Extracts comprehensive job details including requirements, responsibilities, benefits, salary, team culture
@@ -66,9 +68,12 @@ Do not update document right after creating it. Wait for user feedback or reques
 - "I love Formula One" → Use enhancedJobSearchTool with companies: ['ferrari', 'mercedes', 'red-bull']
 - "ML engineering at Palantir" → Use enhancedJobSearchTool with companies: ['palantir'], query: 'machine learning', jobType: 'internship'
 - "Software internships in SF" → Use enhancedJobSearchTool with location: 'San Francisco', jobType: 'internship', experienceLevel: 'entry'
-- "xAI" → Use jobSearchTool with company recognition
-- "Google software engineer" → Use jobSearchTool with role/company parsing
-- "What jobs are available?" → Use jobSearchTool for general search
+- "I am searching for job opportunities at Palantir" → Use enhancedJobSearchTool with companies: ['palantir']
+- "xAI" → Use enhancedJobSearchTool with companies: ['xai']
+- "Google software engineer" → Use enhancedJobSearchTool with companies: ['google'], query: 'software engineer'
+- "What jobs are available?" → Use enhancedJobSearchTool for general search
+
+**IMPORTANT: Never give generic responses about job opportunities. Always use enhancedJobSearchTool to provide specific, detailed job listings.**
 `;
 
 export const regularPrompt =
