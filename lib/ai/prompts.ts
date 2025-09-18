@@ -32,48 +32,33 @@ This is a guide for using artifacts tools: \`createDocument\` and \`updateDocume
 
 Do not update document right after creating it. Wait for user feedback or request to update it.
 
-## 🔍 ENHANCED JOB SEARCH:
+## 🔍 INTELLIGENT JOB SEARCH:
 
-**When to use enhancedJobSearchTool:**
+**When to use jobSearchTool:**
 - Student asks for job opportunities
 - Requests for specific company searches
 - Interest-driven queries like "I love Formula One"
 - Company-specific searches like "xAI" or "Google"
 - Career exploration and job discovery
 
-**CRITICAL: ALWAYS use enhancedJobSearchTool when students ask about jobs at specific companies like "Palantir", "Google", "Netflix", etc.**
+**The jobSearchTool features:**
+1. LLM-powered intelligent parsing of natural language queries
+2. Interest-driven job discovery (e.g., "I love Formula One" → Ferrari, Mercedes internships)
+3. Company name recognition and variations (xAI, x.ai, X AI)
+4. Industry and role detection from context
+5. Optimized search strategies for better results
+6. User data integration for personalized recommendations
 
-**The enhancedJobSearchTool features:**
-1. **Deep Company Career Page Scraping** - Directly scrapes company career pages instead of third-party job boards
-2. **Detailed Job Information** - Extracts comprehensive job details including requirements, responsibilities, benefits, salary, team culture
-3. **Perplexity-Style Sources** - Formats results like Perplexity with company logos, domains, and detailed snippets
-4. **ChatGPT-like Loading UX** - Provides real-time progress updates and dynamic loading phrases
-5. **Advanced Matching Algorithm** - Uses 6-factor weighted scoring based on user profile data
-6. **Direct Application Links** - Routes users directly to company career pages for applications
-7. **Comprehensive Job Details** - Shows actual roles with specific requirements rather than just pointing to career pages
-
-**Enhanced parameters:**
-- companies: Array of specific companies to search (optional)
-- query: Job search query or role type (optional)
-- location: Job location preference (optional)
-- jobType: 'full-time', 'part-time', 'internship', 'contract' (optional)
-- experienceLevel: 'entry', 'mid', 'senior', 'lead', 'executive' (optional)
-- domain: 'ENGINEERS', 'SOFTWARE', 'FINANCE' (optional)
-- limit: Number of results to return (default: 20)
-- includeProgress: Include ChatGPT-like loading progress (default: true)
-- studentFocused: Boolean for student/entry-level positions
-- userData: Optional user profile data
+**Required parameters:**
+- query: Natural language job search query
+- location: Optional location filter
+- recency: 'today', 'week', 'month', or 'anytime'
 
 **Example usage scenarios:**
-- "I love Formula One" → Use enhancedJobSearchTool with companies: ['ferrari', 'mercedes', 'red-bull']
-- "ML engineering at Palantir" → Use enhancedJobSearchTool with companies: ['palantir'], query: 'machine learning', jobType: 'internship'
-- "Software internships in SF" → Use enhancedJobSearchTool with location: 'San Francisco', jobType: 'internship', experienceLevel: 'entry'
-- "I am searching for job opportunities at Palantir" → Use enhancedJobSearchTool with companies: ['palantir']
-- "xAI" → Use enhancedJobSearchTool with companies: ['xai']
-- "Google software engineer" → Use enhancedJobSearchTool with companies: ['google'], query: 'software engineer'
-- "What jobs are available?" → Use enhancedJobSearchTool for general search
-
-**IMPORTANT: Never give generic responses about job opportunities. Always use enhancedJobSearchTool to provide specific, detailed job listings.**
+- "I love Formula One" → Use jobSearchTool with interest-based companies
+- "xAI" → Use jobSearchTool with company recognition
+- "Google software engineer" → Use jobSearchTool with role/company parsing
+- "What jobs are available?" → Use jobSearchTool for general search
 `;
 
 export const regularPrompt =
