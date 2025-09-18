@@ -1,6 +1,6 @@
 'use client';
 
-import { OnboardingData } from '@/app/(auth)/onboarding/page';
+import type { OnboardingData } from '@/app/(auth)/onboarding/page';
 import { Button } from '@/components/ui/button';
 
 interface WelcomeScreenProps {
@@ -13,11 +13,11 @@ export function WelcomeScreen({ data, onNext }: WelcomeScreenProps) {
   return (
     <div className="flex flex-col gap-6 overflow-hidden rounded-2xl">
       <div className="flex flex-col items-center justify-center gap-4 px-4 text-center sm:px-16">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-6 h-6 bg-red-600 flex items-center justify-center text-white text-xs font-bold shadow-sm border border-red-700 rounded-sm">
+        <div className='mb-2 flex items-center gap-2'>
+          <div className='flex h-6 w-6 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-white text-xs shadow-sm'>
             人
           </div>
-          <span className="font-sans font-semibold text-lg tracking-tight text-gray-900 dark:text-gray-100 uppercase">
+          <span className='font-sans font-semibold text-gray-900 text-lg uppercase tracking-tight dark:text-gray-100'>
             MILO
           </span>
         </div>
@@ -25,13 +25,13 @@ export function WelcomeScreen({ data, onNext }: WelcomeScreenProps) {
         <p className="text-muted-foreground text-sm dark:text-zinc-400">
           Let's help you discover careers you'll love.
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className='text-muted-foreground text-sm'>
           Yale Class of {data.classYear} • {data.major}
         </p>
       </div>
 
       <div className="flex flex-col gap-4 px-4 sm:px-16">
-        <p className="text-sm text-muted-foreground mb-4">This takes just 5 minutes and gets you:</p>
+        <p className='mb-4 text-muted-foreground text-sm'>This takes just 5 minutes and gets you:</p>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-sm">✓</span>

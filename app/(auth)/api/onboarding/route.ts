@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/app/(auth)/auth';
 import { updateUserOnboarding } from '@/lib/db/queries';
-import { OnboardingData } from '@/app/(auth)/onboarding/page';
+import type { OnboardingData } from '@/app/(auth)/onboarding/page';
 
 export async function POST(request: NextRequest) {
   try {

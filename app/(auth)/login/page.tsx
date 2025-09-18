@@ -54,10 +54,10 @@ export default function Page() {
       <div className="flex w-full max-w-md flex-col gap-12 overflow-hidden rounded-2xl">
         <div className="flex flex-col items-center justify-center gap-4 px-4 text-center sm:px-16">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-red-600 flex items-center justify-center text-white text-lg font-bold shadow-sm border border-red-700 rounded-sm">
+            <div className='flex h-10 w-10 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-lg text-white shadow-sm'>
               人
             </div>
-            <span className="font-sans font-semibold text-2xl tracking-tight text-gray-900 dark:text-gray-100 uppercase">
+            <span className='font-sans font-semibold text-2xl text-gray-900 uppercase tracking-tight dark:text-gray-100'>
               MILO
             </span>
           </div>

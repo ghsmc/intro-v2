@@ -14,13 +14,9 @@ import {
   Calendar, 
   TrendingUp, 
   ExternalLink,
-  ChevronDown,
-  ChevronRight,
   Star,
   Clock,
   DollarSign,
-  MapPin,
-  GraduationCap,
   Settings,
   Search,
   Brain,
@@ -145,8 +141,8 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-foreground">🚀 Career Autopilot Results</h2>
+      <div className='space-y-2 text-center'>
+        <h2 className='font-bold text-2xl text-foreground'>🚀 Career Autopilot Results</h2>
         <p className="text-muted-foreground">
           Your personalized career strategy is ready! Here's your comprehensive action plan.
         </p>
@@ -164,14 +160,14 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6">
           {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-2">
                   <Target className="h-5 w-5 text-blue-600" />
                   <div>
-                    <p className="text-sm font-medium">Career Paths</p>
-                    <p className="text-2xl font-bold">{results.careerPaths.length}</p>
+                    <p className='font-medium text-sm'>Career Paths</p>
+                    <p className='font-bold text-2xl'>{results.careerPaths.length}</p>
                   </div>
                 </div>
               </CardContent>
@@ -182,8 +178,8 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                 <div className="flex items-center space-x-2">
                   <Briefcase className="h-5 w-5 text-green-600" />
                   <div>
-                    <p className="text-sm font-medium">Job Opportunities</p>
-                    <p className="text-2xl font-bold">{results.jobOpportunities.length}</p>
+                    <p className='font-medium text-sm'>Job Opportunities</p>
+                    <p className='font-bold text-2xl'>{results.jobOpportunities.length}</p>
                   </div>
                 </div>
               </CardContent>
@@ -194,8 +190,8 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                 <div className="flex items-center space-x-2">
                   <Users className="h-5 w-5 text-purple-600" />
                   <div>
-                    <p className="text-sm font-medium">Alumni Connections</p>
-                    <p className="text-2xl font-bold">{results.alumniMatches.length}</p>
+                    <p className='font-medium text-sm'>Alumni Connections</p>
+                    <p className='font-bold text-2xl'>{results.alumniMatches.length}</p>
                   </div>
                 </div>
               </CardContent>
@@ -206,8 +202,8 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                 <div className="flex items-center space-x-2">
                   <Calendar className="h-5 w-5 text-orange-600" />
                   <div>
-                    <p className="text-sm font-medium">Action Items</p>
-                    <p className="text-2xl font-bold">{results.actionPlan.immediate?.length || 0}</p>
+                    <p className='font-medium text-sm'>Action Items</p>
+                    <p className='font-bold text-2xl'>{results.actionPlan.immediate?.length || 0}</p>
                   </div>
                 </div>
               </CardContent>
@@ -228,14 +224,14 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
             <CardContent>
               <div className="space-y-4">
                 {results.careerPaths.slice(0, 3).map((path, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div key={index} className='flex items-center justify-between rounded-lg border p-4'>
                     <div className="flex-1">
                       <h4 className="font-semibold">{path.title}</h4>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{path.description}</p>
-                      <div className="flex items-center space-x-4 mt-2">
+                      <p className='line-clamp-2 text-muted-foreground text-sm'>{path.description}</p>
+                      <div className='mt-2 flex items-center space-x-4'>
                         <div className="flex items-center space-x-1">
                           <Star className="h-4 w-4 text-yellow-500" />
-                          <span className="text-sm font-medium">{path.fitScore}% fit</span>
+                          <span className='font-medium text-sm'>{path.fitScore}% fit</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Clock className="h-4 w-4 text-blue-500" />
@@ -268,16 +264,16 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
               <CardContent>
                 <div className="space-y-3">
                   {results.actionPlan.immediate.slice(0, 5).map((action, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                    <div key={index} className='flex items-center justify-between rounded-lg bg-muted/50 p-3'>
                       <div className="flex-1">
                         <p className="font-medium">{action.action}</p>
-                        <p className="text-sm text-muted-foreground">Due: {action.deadline}</p>
+                        <p className='text-muted-foreground text-sm'>Due: {action.deadline}</p>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Badge className={getPriorityColor(action.priority)}>
                           {action.priority}
                         </Badge>
-                        <span className="text-sm text-muted-foreground">{action.effort}</span>
+                        <span className='text-muted-foreground text-sm'>{action.effort}</span>
                       </div>
                     </div>
                   ))}
@@ -301,32 +297,32 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                     <CardDescription className="mt-2">{path.description}</CardDescription>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-blue-600">{path.fitScore}%</div>
-                    <div className="text-sm text-muted-foreground">Fit Score</div>
+                    <div className='font-bold text-2xl text-blue-600'>{path.fitScore}%</div>
+                    <div className='text-muted-foreground text-sm'>Fit Score</div>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
                   <div className="flex items-center space-x-2">
                     <Clock className="h-4 w-4 text-blue-500" />
                     <div>
-                      <p className="text-sm font-medium">Time to Ready</p>
-                      <p className="text-sm text-muted-foreground">{path.timeToReady}</p>
+                      <p className='font-medium text-sm'>Time to Ready</p>
+                      <p className='text-muted-foreground text-sm'>{path.timeToReady}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <DollarSign className="h-4 w-4 text-green-500" />
                     <div>
-                      <p className="text-sm font-medium">Average Salary</p>
-                      <p className="text-sm text-muted-foreground">{path.averageSalary}</p>
+                      <p className='font-medium text-sm'>Average Salary</p>
+                      <p className='text-muted-foreground text-sm'>{path.averageSalary}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <TrendingUp className={`h-4 w-4 ${getGrowthPotentialColor(path.growthPotential)}`} />
                     <div>
-                      <p className="text-sm font-medium">Growth Potential</p>
-                      <p className={`text-sm font-medium ${getGrowthPotentialColor(path.growthPotential)}`}>
+                      <p className='font-medium text-sm'>Growth Potential</p>
+                      <p className={`font-medium text-sm ${getGrowthPotentialColor(path.growthPotential)}`}>
                         {path.growthPotential}
                       </p>
                     </div>
@@ -336,13 +332,13 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                 <Separator />
 
                 <div>
-                  <h4 className="font-semibold mb-2">Why This Path Fits You</h4>
-                  <p className="text-sm text-muted-foreground">{path.reasoning}</p>
+                  <h4 className='mb-2 font-semibold'>Why This Path Fits You</h4>
+                  <p className='text-muted-foreground text-sm'>{path.reasoning}</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
                   <div>
-                    <h4 className="font-semibold mb-2">Required Skills</h4>
+                    <h4 className='mb-2 font-semibold'>Required Skills</h4>
                     <div className="flex flex-wrap gap-1">
                       {path.requiredSkills.map((skill, skillIndex) => (
                         <Badge key={skillIndex} variant="secondary">{skill}</Badge>
@@ -350,10 +346,10 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-2">Skill Gaps to Address</h4>
+                    <h4 className='mb-2 font-semibold'>Skill Gaps to Address</h4>
                     <div className="flex flex-wrap gap-1">
                       {path.skillGaps.map((gap, gapIndex) => (
-                        <Badge key={gapIndex} variant="outline" className="text-orange-600 border-orange-200">
+                        <Badge key={gapIndex} variant="outline" className='border-orange-200 text-orange-600'>
                           {gap}
                         </Badge>
                       ))}
@@ -374,20 +370,20 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h4 className="font-semibold text-lg">{job.title}</h4>
-                      <div className="flex items-center space-x-4 mt-1">
-                        <span className="text-sm text-muted-foreground">{job.source}</span>
+                      <div className='mt-1 flex items-center space-x-4'>
+                        <span className='text-muted-foreground text-sm'>{job.source}</span>
                         <Badge variant="outline">{job.careerPath}</Badge>
                         <div className="flex items-center space-x-1">
                           <Star className="h-4 w-4 text-yellow-500" />
-                          <span className="text-sm font-medium">{job.relevanceScore}% match</span>
+                          <span className='font-medium text-sm'>{job.relevanceScore}% match</span>
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{job.snippet}</p>
+                      <p className='mt-2 line-clamp-2 text-muted-foreground text-sm'>{job.snippet}</p>
                     </div>
                     <div className="ml-4">
                       <Button asChild size="sm">
                         <a href={job.link} target="_blank" rel="noopener noreferrer">
-                          Apply <ExternalLink className="h-4 w-4 ml-1" />
+                          Apply <ExternalLink className='ml-1 h-4 w-4' />
                         </a>
                       </Button>
                     </div>
@@ -407,23 +403,23 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h4 className="font-semibold text-lg">{alum.name}</h4>
-                      <p className="text-sm text-muted-foreground">{alum.role} at {alum.company}</p>
-                      <div className="flex items-center space-x-4 mt-2">
+                      <p className='text-muted-foreground text-sm'>{alum.role} at {alum.company}</p>
+                      <div className='mt-2 flex items-center space-x-4'>
                         <div className="flex items-center space-x-1">
                           <Star className="h-4 w-4 text-yellow-500" />
-                          <span className="text-sm font-medium">{alum.relevanceScore}% relevance</span>
+                          <span className='font-medium text-sm'>{alum.relevanceScore}% relevance</span>
                         </div>
                         <Badge variant="outline">{alum.connectionPath}</Badge>
                       </div>
-                      <div className="mt-3 p-3 bg-muted/50 rounded-lg">
-                        <h5 className="font-medium text-sm mb-1">Suggested Outreach Message:</h5>
-                        <p className="text-sm text-muted-foreground">{alum.outreachTemplate}</p>
+                      <div className='mt-3 rounded-lg bg-muted/50 p-3'>
+                        <h5 className='mb-1 font-medium text-sm'>Suggested Outreach Message:</h5>
+                        <p className='text-muted-foreground text-sm'>{alum.outreachTemplate}</p>
                       </div>
                     </div>
                     <div className="ml-4">
                       <Button asChild size="sm" variant="outline">
                         <a href={alum.linkedInUrl} target="_blank" rel="noopener noreferrer">
-                          Connect <ExternalLink className="h-4 w-4 ml-1" />
+                          Connect <ExternalLink className='ml-1 h-4 w-4' />
                         </a>
                       </Button>
                     </div>
@@ -450,30 +446,30 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="text-center p-4 bg-muted/50 rounded-lg">
-                      <div className="text-2xl font-bold text-blue-600">
+                  <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
+                    <div className='rounded-lg bg-muted/50 p-4 text-center'>
+                      <div className='font-bold text-2xl text-blue-600'>
                         {Math.round(results.debugInfo.performanceMetrics.totalDuration / 1000)}s
                       </div>
-                      <div className="text-sm text-muted-foreground">Total Duration</div>
+                      <div className='text-muted-foreground text-sm'>Total Duration</div>
                     </div>
-                    <div className="text-center p-4 bg-muted/50 rounded-lg">
-                      <div className="text-2xl font-bold text-purple-600">
+                    <div className='rounded-lg bg-muted/50 p-4 text-center'>
+                      <div className='font-bold text-2xl text-purple-600'>
                         {results.debugInfo.performanceMetrics.aiCalls}
                       </div>
-                      <div className="text-sm text-muted-foreground">AI Model Calls</div>
+                      <div className='text-muted-foreground text-sm'>AI Model Calls</div>
                     </div>
-                    <div className="text-center p-4 bg-muted/50 rounded-lg">
-                      <div className="text-2xl font-bold text-green-600">
+                    <div className='rounded-lg bg-muted/50 p-4 text-center'>
+                      <div className='font-bold text-2xl text-green-600'>
                         {results.debugInfo.performanceMetrics.webSearches}
                       </div>
-                      <div className="text-sm text-muted-foreground">Web Searches</div>
+                      <div className='text-muted-foreground text-sm'>Web Searches</div>
                     </div>
-                    <div className="text-center p-4 bg-muted/50 rounded-lg">
-                      <div className="text-2xl font-bold text-orange-600">
+                    <div className='rounded-lg bg-muted/50 p-4 text-center'>
+                      <div className='font-bold text-2xl text-orange-600'>
                         {results.debugInfo.performanceMetrics.jobSearches}
                       </div>
-                      <div className="text-sm text-muted-foreground">Job Searches</div>
+                      <div className='text-muted-foreground text-sm'>Job Searches</div>
                     </div>
                   </div>
                 </CardContent>
@@ -495,37 +491,37 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                 <CardContent>
                   <div className="space-y-4">
                     {results.debugInfo.processingSteps.map((step, index) => (
-                      <div key={index} className="flex items-start space-x-3 p-4 border rounded-lg">
-                        <div className="flex-shrink-0 mt-1">
+                      <div key={index} className='flex items-start space-x-3 rounded-lg border p-4'>
+                        <div className='mt-1 flex-shrink-0'>
                           {step.status === 'completed' && (
                             <CheckCircle className="h-5 w-5 text-green-600" />
                           )}
                           {step.status === 'processing' && (
-                            <Loader2 className="h-5 w-5 text-blue-600 animate-spin" />
+                            <Loader2 className='h-5 w-5 animate-spin text-blue-600' />
                           )}
                           {step.status === 'pending' && (
                             <AlertCircle className="h-5 w-5 text-gray-400" />
                           )}
                         </div>
-                        <div className="flex-1 min-w-0">
+                        <div className='min-w-0 flex-1'>
                           <div className="flex items-center justify-between">
                             <h4 className="font-semibold">{step.step}</h4>
                             {step.duration && (
-                              <span className="text-sm text-muted-foreground">
+                              <span className='text-muted-foreground text-sm'>
                                 {step.duration}ms
                               </span>
                             )}
                           </div>
                           {step.details && (
-                            <p className="text-sm text-muted-foreground mt-1">
+                            <p className='mt-1 text-muted-foreground text-sm'>
                               {step.details}
                             </p>
                           )}
                           {step.searchQueries && step.searchQueries.length > 0 && (
                             <div className="mt-2">
-                              <div className="flex items-center space-x-1 mb-1">
+                              <div className='mb-1 flex items-center space-x-1'>
                                 <Search className="h-4 w-4 text-blue-500" />
-                                <span className="text-sm font-medium">Search Queries:</span>
+                                <span className='font-medium text-sm'>Search Queries:</span>
                               </div>
                               <div className="flex flex-wrap gap-1">
                                 {step.searchQueries.map((query, queryIndex) => (
@@ -539,7 +535,7 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                           {step.resultsCount !== undefined && (
                             <div className="mt-2 flex items-center space-x-1">
                               <Database className="h-4 w-4 text-green-500" />
-                              <span className="text-sm text-muted-foreground">
+                              <span className='text-muted-foreground text-sm'>
                                 Found {step.resultsCount} results
                               </span>
                             </div>
@@ -565,23 +561,23 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="p-4 bg-muted/50 rounded-lg">
-                    <h4 className="font-semibold mb-2">Career Path Analysis</h4>
-                    <p className="text-sm text-muted-foreground">
+                  <div className='rounded-lg bg-muted/50 p-4'>
+                    <h4 className='mb-2 font-semibold'>Career Path Analysis</h4>
+                    <p className='text-muted-foreground text-sm'>
                       The AI analyzed your resume data, interests, and values to generate personalized career paths. 
                       Each path was scored based on skill alignment (40%), interest alignment (30%), value alignment (20%), and market opportunity (10%).
                     </p>
                   </div>
-                  <div className="p-4 bg-muted/50 rounded-lg">
-                    <h4 className="font-semibold mb-2">Job Search Strategy</h4>
-                    <p className="text-sm text-muted-foreground">
+                  <div className='rounded-lg bg-muted/50 p-4'>
+                    <h4 className='mb-2 font-semibold'>Job Search Strategy</h4>
+                    <p className='text-muted-foreground text-sm'>
                       Multiple search strategies were employed: direct role searches, entry-level variants, and company-specific searches. 
                       Jobs were scored for relevance and deduplicated to ensure quality results.
                     </p>
                   </div>
-                  <div className="p-4 bg-muted/50 rounded-lg">
-                    <h4 className="font-semibold mb-2">Alumni Network Analysis</h4>
-                    <p className="text-sm text-muted-foreground">
+                  <div className='rounded-lg bg-muted/50 p-4'>
+                    <h4 className='mb-2 font-semibold'>Alumni Network Analysis</h4>
+                    <p className='text-muted-foreground text-sm'>
                       Web searches identified Yale alumni in your target fields, with relevance scoring based on career alignment, 
                       seniority level, and company relevance. Personalized outreach templates were generated for each connection.
                     </p>
@@ -602,37 +598,37 @@ export function CareerAutopilotResults({ results }: CareerAutopilotResultsProps)
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">Job Search APIs</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
+                <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                  <div className='rounded-lg border p-4'>
+                    <h4 className='mb-2 font-semibold'>Job Search APIs</h4>
+                    <ul className='space-y-1 text-muted-foreground text-sm'>
                       <li>• Real-time job postings</li>
                       <li>• Company information</li>
                       <li>• Salary data</li>
                       <li>• Application tracking</li>
                     </ul>
                   </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">Web Search</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
+                  <div className='rounded-lg border p-4'>
+                    <h4 className='mb-2 font-semibold'>Web Search</h4>
+                    <ul className='space-y-1 text-muted-foreground text-sm'>
                       <li>• Alumni LinkedIn profiles</li>
                       <li>• Company research</li>
                       <li>• Industry trends</li>
                       <li>• Networking opportunities</li>
                     </ul>
                   </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">AI Models</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
+                  <div className='rounded-lg border p-4'>
+                    <h4 className='mb-2 font-semibold'>AI Models</h4>
+                    <ul className='space-y-1 text-muted-foreground text-sm'>
                       <li>• Career path generation</li>
                       <li>• Resume analysis</li>
                       <li>• Outreach templates</li>
                       <li>• Action plan creation</li>
                     </ul>
                   </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">Yale Data</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
+                  <div className='rounded-lg border p-4'>
+                    <h4 className='mb-2 font-semibold'>Yale Data</h4>
+                    <ul className='space-y-1 text-muted-foreground text-sm'>
                       <li>• Alumni database</li>
                       <li>• Career services</li>
                       <li>• Student profiles</li>

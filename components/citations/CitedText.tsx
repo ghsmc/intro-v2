@@ -1,7 +1,7 @@
 'use client';
 
 import { CitationTag } from './CitationTag';
-import { type CitationSource } from '@/lib/citations/utils';
+import type { CitationSource } from '@/lib/citations/utils';
 
 interface CitedTextProps {
   text: string;
@@ -27,7 +27,7 @@ export function CitedText({ text, citations }: CitedTextProps) {
     let match;
     
     while ((match = citationRegex.exec(text)) !== null) {
-      const citationIndex = parseInt(match[1]) - 1; // Convert to 0-based index
+      const citationIndex = Number.parseInt(match[1]) - 1; // Convert to 0-based index
       const source = citations[citationIndex];
       
       // Add text before citation
@@ -73,7 +73,7 @@ export function CitedText({ text, citations }: CitedTextProps) {
   if (process.env.NODE_ENV === 'development') {
     console.log('CitedText Debug:', {
       textLength: text.length,
-      textPreview: text.substring(0, 100) + '...',
+      textPreview: `${text.substring(0, 100)}...`,
       citationsCount: citations.length,
       hasCitations,
       partsCount: parts.length,

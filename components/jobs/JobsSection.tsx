@@ -22,23 +22,23 @@ export function JobsSection({ jobs }: JobsSectionProps) {
   if (!jobs || jobs.length === 0) return null;
 
   return (
-    <div className="mt-6 pt-4 border-t border-border">
+    <div className='mt-6 border-border border-t pt-4'>
       {/* Jobs Header */}
       <div 
-        className="flex items-center cursor-pointer group"
+        className='group flex cursor-pointer items-center'
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="mr-3">
           <StackedJobLogos jobs={jobs} />
         </div>
-        <span className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors">
+        <span className='font-medium text-foreground text-sm transition-colors group-hover:text-foreground/80'>
           Job Opportunities
         </span>
-        <span className="ml-2 text-xs text-muted-foreground">
+        <span className='ml-2 text-muted-foreground text-xs'>
           ({jobs.length})
         </span>
         <svg 
-          className={`ml-2 w-4 h-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+          className={`ml-2 h-4 w-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-180' : ''}`}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"

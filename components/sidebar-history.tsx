@@ -30,7 +30,7 @@ import { ChatItem } from './sidebar-history-item';
 import useSWRInfinite from 'swr/infinite';
 import { LoaderIcon } from './icons';
 import { SidebarMenuItem, SidebarMenuButton } from './ui/sidebar';
-import { Home, Building2, Rss, User as UserIcon, ChevronDown } from 'lucide-react';
+import { Home, Building2, Rss, User as UserIcon, ChevronDown, Zap } from 'lucide-react';
 import { useDomain } from './domain-provider';
 
 function NavigationSection() {
@@ -46,6 +46,7 @@ function NavigationSection() {
   ];
 
   const mainPages = [
+    { name: 'Quick Match', href: '/quick-match', icon: Zap },
     { name: 'Home', href: '/', icon: Home },
     { name: 'Companies', href: '/companies', icon: Building2 },
     { name: 'Feed', href: '/feed', icon: Rss },
@@ -63,8 +64,8 @@ function NavigationSection() {
 
   return (
     <>
-      <div className="border-b border-sidebar-border pb-2">
-        <div className="px-2 py-1 text-sidebar-foreground/50 text-xs font-mono tracking-widest uppercase">
+      <div className='border-sidebar-border border-b pb-2'>
+        <div className='px-2 py-1 font-mono text-sidebar-foreground/50 text-xs uppercase tracking-widest'>
           DOMAIN
         </div>
 
@@ -95,7 +96,7 @@ function NavigationSection() {
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="ml-4 mt-1">
+              <div className='mt-1 ml-4'>
                 {domains
                   .filter(domain => domain.name !== selectedDomain)
                   .map((domain) => (
@@ -115,8 +116,8 @@ function NavigationSection() {
         </AnimatePresence>
       </div>
 
-      <div className="border-b border-sidebar-border pb-2">
-        <div className="px-2 py-1 text-sidebar-foreground/50 text-xs font-mono tracking-widest uppercase">
+      <div className='border-sidebar-border border-b pb-2'>
+        <div className='px-2 py-1 font-mono text-sidebar-foreground/50 text-xs uppercase tracking-widest'>
           PAGES
         </div>
         {mainPages.map((page) => {
@@ -272,7 +273,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   if (isLoading) {
     return (
       <SidebarGroup>
-        <div className="px-2 py-1 text-sidebar-foreground/50 text-xs font-mono tracking-widest uppercase">
+        <div className='px-2 py-1 font-mono text-sidebar-foreground/50 text-xs uppercase tracking-widest'>
           TODAY
         </div>
         <SidebarGroupContent>
@@ -328,7 +329,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                     <NavigationSection />
                     {groupedChats.today.length > 0 && (
                       <div>
-                        <div className="px-2 py-1 text-sidebar-foreground/50 text-xs font-mono tracking-widest uppercase">
+                        <div className='px-2 py-1 font-mono text-sidebar-foreground/50 text-xs uppercase tracking-widest'>
                           TODAY
                         </div>
                         {groupedChats.today.map((chat) => (
@@ -348,7 +349,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
 
                     {groupedChats.yesterday.length > 0 && (
                       <div>
-                        <div className="px-2 py-1 text-sidebar-foreground/50 text-xs font-mono tracking-widest uppercase">
+                        <div className='px-2 py-1 font-mono text-sidebar-foreground/50 text-xs uppercase tracking-widest'>
                           YESTERDAY
                         </div>
                         {groupedChats.yesterday.map((chat) => (
@@ -368,7 +369,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
 
                     {groupedChats.lastWeek.length > 0 && (
                       <div>
-                        <div className="px-2 py-1 text-sidebar-foreground/50 text-xs font-mono tracking-widest uppercase">
+                        <div className='px-2 py-1 font-mono text-sidebar-foreground/50 text-xs uppercase tracking-widest'>
                           LAST 7 DAYS
                         </div>
                         {groupedChats.lastWeek.map((chat) => (
@@ -388,7 +389,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
 
                     {groupedChats.lastMonth.length > 0 && (
                       <div>
-                        <div className="px-2 py-1 text-sidebar-foreground/50 text-xs font-mono tracking-widest uppercase">
+                        <div className='px-2 py-1 font-mono text-sidebar-foreground/50 text-xs uppercase tracking-widest'>
                           LAST 30 DAYS
                         </div>
                         {groupedChats.lastMonth.map((chat) => (
@@ -408,7 +409,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
 
                     {groupedChats.older.length > 0 && (
                       <div>
-                        <div className="px-2 py-1 text-sidebar-foreground/50 text-xs font-mono tracking-widest uppercase">
+                        <div className='px-2 py-1 font-mono text-sidebar-foreground/50 text-xs uppercase tracking-widest'>
                           OLDER
                         </div>
                         {groupedChats.older.map((chat) => (

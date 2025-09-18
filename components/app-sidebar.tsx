@@ -36,7 +36,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               }}
               className="flex flex-row items-center gap-3"
             >
-              <div className={`w-7 h-7 bg-gradient-to-br ${domainConfigs[selectedDomain].theme.logoColor} flex items-center justify-center text-white font-medium shadow-sm border ${
+              <div className={`h-7 w-7 bg-gradient-to-br ${domainConfigs[selectedDomain].theme.logoColor} flex items-center justify-center border font-medium text-white shadow-sm ${
                 selectedDomain === 'FINANCE' ? 'border-green-800/20' :
                 selectedDomain === 'SOFTWARE' ? 'border-blue-800/20' :
                 'border-red-800/20'
@@ -44,10 +44,10 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                 <span className="font-mono text-sm">人</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="cursor-pointer font-semibold text-base text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                <span className='cursor-pointer font-semibold text-base text-gray-900 transition-colors hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300'>
                   Milo
                 </span>
-                <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+                <span className='font-mono text-muted-foreground text-xs uppercase tracking-widest'>
                   [{selectedDomain === 'ENGINEERS' ? 'ENGINEERING' : selectedDomain}]
                 </span>
               </div>

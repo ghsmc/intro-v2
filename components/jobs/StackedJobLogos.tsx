@@ -51,17 +51,17 @@ export function StackedJobLogos({ jobs, maxVisible = 3 }: StackedJobLogosProps) 
   };
 
   return (
-    <div className="flex items-center -space-x-2">
+    <div className='-space-x-2 flex items-center'>
       {visibleSources.map((job, index) => (
         <div
           key={job.source}
-          className="relative w-6 h-6 rounded-full border-2 border-background bg-background overflow-hidden ring-1 ring-border"
+          className='relative h-6 w-6 overflow-hidden rounded-full border-2 border-background bg-background ring-1 ring-border'
           style={{ zIndex: visibleSources.length - index }}
         >
           <img 
             src={getSourceLogo(job.source)} 
             alt={`${job.source} logo`}
-            className="w-full h-full object-cover"
+            className='h-full w-full object-cover'
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
@@ -71,10 +71,10 @@ export function StackedJobLogos({ jobs, maxVisible = 3 }: StackedJobLogosProps) 
       
       {remainingCount > 0 && (
         <div 
-          className="relative w-6 h-6 rounded-full border-2 border-background bg-muted flex items-center justify-center ring-1 ring-border"
+          className='relative flex h-6 w-6 items-center justify-center rounded-full border-2 border-background bg-muted ring-1 ring-border'
           style={{ zIndex: 0 }}
         >
-          <span className="text-xs font-bold text-muted-foreground">
+          <span className='font-bold text-muted-foreground text-xs'>
             +{remainingCount}
           </span>
         </div>

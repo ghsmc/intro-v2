@@ -1,7 +1,6 @@
 'use client';
 
 import { ChevronUp } from 'lucide-react';
-import Image from 'next/image';
 import type { User } from 'next-auth';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
@@ -50,10 +49,10 @@ export function SidebarUserNav({ user }: { user: User }) {
             ) : (
               <SidebarMenuButton
                 data-testid="user-nav-button"
-                className="h-auto py-3 bg-background data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                className='h-auto bg-background py-3 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
               >
-                <div className="size-6 bg-black flex items-center justify-center text-white rounded">
-                  <span className="font-mono text-xs font-medium">
+                <div className='flex size-6 items-center justify-center rounded bg-black text-white'>
+                  <span className='font-medium font-mono text-xs'>
                     {(() => {
                       if (user.name) {
                         const names = user.name.split(' ');
@@ -69,12 +68,12 @@ export function SidebarUserNav({ user }: { user: User }) {
                     })()}
                   </span>
                 </div>
-                <div className="flex flex-col items-start min-w-0 flex-1">
+                <div className='flex min-w-0 flex-1 flex-col items-start'>
                   <span data-testid="user-name" className="truncate font-medium text-sm">
                     {isGuest ? 'Guest' : (user?.name || user?.email)}
                   </span>
                   {!isGuest && user?.classYear && (
-                    <span className="truncate text-xs text-muted-foreground">
+                    <span className='truncate text-muted-foreground text-xs'>
                       Yale {user.classYear}
                     </span>
                   )}

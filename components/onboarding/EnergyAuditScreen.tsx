@@ -1,6 +1,6 @@
 'use client';
 
-import { OnboardingData } from '@/app/(auth)/onboarding/page';
+import type { OnboardingData } from '@/app/(auth)/onboarding/page';
 import { Button } from '@/components/ui/button';
 
 interface EnergyAuditScreenProps {
@@ -33,11 +33,11 @@ export function EnergyAuditScreen({ data, onNext, onPrev, onUpdate }: EnergyAudi
   return (
     <div className="flex flex-col gap-6 overflow-hidden rounded-2xl">
       <div className="flex flex-col items-center justify-center gap-4 px-4 text-center sm:px-16">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-6 h-6 bg-red-600 flex items-center justify-center text-white text-xs font-bold shadow-sm border border-red-700 rounded-sm">
+        <div className='mb-2 flex items-center gap-2'>
+          <div className='flex h-6 w-6 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-white text-xs shadow-sm'>
             人
           </div>
-          <span className="font-sans font-semibold text-lg tracking-tight text-gray-900 dark:text-gray-100 uppercase">
+          <span className='font-sans font-semibold text-gray-900 text-lg uppercase tracking-tight dark:text-gray-100'>
             MILO
           </span>
         </div>
@@ -50,7 +50,7 @@ export function EnergyAuditScreen({ data, onNext, onPrev, onUpdate }: EnergyAudi
       <div className="flex flex-col gap-4 px-4 sm:px-16">
         {energyQuestions.map((question) => (
           <div key={question.key} className="space-y-3">
-            <p className="text-sm font-medium">
+            <p className='font-medium text-sm'>
               {question.text}
             </p>
             <div className="flex items-center gap-2">
@@ -58,7 +58,7 @@ export function EnergyAuditScreen({ data, onNext, onPrev, onUpdate }: EnergyAudi
                 <button
                   key={rating}
                   onClick={() => updateEnergyRating(question.key as keyof OnboardingData['energyProfile'], rating)}
-                  className={`w-8 h-8 rounded border transition-all ${
+                  className={`h-8 w-8 rounded border transition-all ${
                     data.energyProfile[question.key as keyof OnboardingData['energyProfile']] === rating
                       ? 'bg-primary text-primary-foreground'
                       : 'border-input hover:bg-muted'

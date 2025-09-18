@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/app/(auth)/auth';
 import { updateUserOnboarding } from '@/lib/db/queries';
 import { generateObject } from 'ai';
@@ -52,7 +52,7 @@ async function extractTextFromBuffer(buffer: Buffer, contentType: string, url: s
             let text = '';
             
             // Extract text from all pages
-            if (pdfData && pdfData.Pages) {
+            if (pdfData?.Pages) {
               pdfData.Pages.forEach((page: any, pageIndex: number) => {
                 console.log(`Processing page ${pageIndex + 1}`);
                 
@@ -63,7 +63,7 @@ async function extractTextFromBuffer(buffer: Buffer, contentType: string, url: s
                         if (r.T) {
                           // Decode the text (it's URL encoded)
                           const decodedText = decodeURIComponent(r.T);
-                          text += decodedText + ' ';
+                          text += `${decodedText} `;
                         }
                       });
                     }
@@ -82,7 +82,7 @@ async function extractTextFromBuffer(buffer: Buffer, contentType: string, url: s
             
             if (text.length > 50) {
               console.log('PDF parsed successfully with pdf2json, text length:', text.length);
-              console.log('Text preview:', text.substring(0, 200) + '...');
+              console.log('Text preview:', `${text.substring(0, 200)}...`);
               resolve(text);
             } else {
               console.log('No sufficient text found in PDF');
@@ -231,7 +231,7 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('Text extracted successfully, length:', resumeText.length);
-    console.log('Preview:', resumeText.substring(0, 200) + '...');
+    console.log('Preview:', `${resumeText.substring(0, 200)}...`);
 
     // Truncate if too long for LLM
     const MAX_LENGTH = 10000; // Adjust based on your LLM's context window

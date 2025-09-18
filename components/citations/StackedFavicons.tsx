@@ -1,6 +1,6 @@
 'use client';
 
-import { type CitationSource } from '@/lib/citations/utils';
+import type { CitationSource } from '@/lib/citations/utils';
 
 interface StackedFaviconsProps {
   sources: CitationSource[];
@@ -20,26 +20,26 @@ export function StackedFavicons({ sources, maxVisible = 3 }: StackedFaviconsProp
   const remainingCount = uniqueSources.length - maxVisible;
 
   return (
-    <div className="flex items-center -space-x-2">
+    <div className='-space-x-2 flex items-center'>
       {visibleSources.map((source, index) => (
         <div
           key={source.id}
-          className="relative w-6 h-6 rounded-full border-2 border-background bg-background overflow-hidden ring-1 ring-border"
+          className='relative h-6 w-6 overflow-hidden rounded-full border-2 border-background bg-background ring-1 ring-border'
           style={{ zIndex: visibleSources.length - index }}
         >
           {source.logo ? (
             <img 
               src={source.logo} 
               alt={`${source.domain} logo`}
-              className="w-full h-full object-cover"
+              className='h-full w-full object-cover'
               onError={(e) => {
                 // Fallback to domain initial if logo fails
                 e.currentTarget.style.display = 'none';
               }}
             />
           ) : (
-            <div className="w-full h-full bg-primary flex items-center justify-center">
-              <span className="text-xs font-bold text-primary-foreground">
+            <div className='flex h-full w-full items-center justify-center bg-primary'>
+              <span className='font-bold text-primary-foreground text-xs'>
                 {source.domain.charAt(0).toUpperCase()}
               </span>
             </div>
@@ -49,10 +49,10 @@ export function StackedFavicons({ sources, maxVisible = 3 }: StackedFaviconsProp
       
       {remainingCount > 0 && (
         <div 
-          className="relative w-6 h-6 rounded-full border-2 border-background bg-muted flex items-center justify-center ring-1 ring-border"
+          className='relative flex h-6 w-6 items-center justify-center rounded-full border-2 border-background bg-muted ring-1 ring-border'
           style={{ zIndex: 0 }}
         >
-          <span className="text-xs font-bold text-muted-foreground">
+          <span className='font-bold text-muted-foreground text-xs'>
             +{remainingCount}
           </span>
         </div>

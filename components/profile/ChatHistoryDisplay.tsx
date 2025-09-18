@@ -117,7 +117,7 @@ export function ChatHistoryDisplay({ userId }: ChatHistoryDisplayProps) {
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin mr-2" />
+            <Loader2 className='mr-2 h-6 w-6 animate-spin' />
             <span>Loading chat history...</span>
           </div>
         </CardContent>
@@ -132,8 +132,8 @@ export function ChatHistoryDisplay({ userId }: ChatHistoryDisplayProps) {
           <CardTitle>Chat History</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8">
-            <p className="text-red-600 mb-4">{error}</p>
+          <div className='py-8 text-center'>
+            <p className='mb-4 text-red-600'>{error}</p>
             <Button variant="outline" onClick={() => window.location.reload()}>
               Try Again
             </Button>
@@ -147,14 +147,14 @@ export function ChatHistoryDisplay({ userId }: ChatHistoryDisplayProps) {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base">Recent Conversations</CardTitle>
-        <p className="text-xs text-muted-foreground">
+        <p className='text-muted-foreground text-xs'>
           Your chat history with Milo
         </p>
       </CardHeader>
       <CardContent>
         {chatHistory.length === 0 ? (
-          <div className="text-center py-6">
-            <p className="text-muted-foreground text-sm mb-3">No conversations yet</p>
+          <div className='py-6 text-center'>
+            <p className='mb-3 text-muted-foreground text-sm'>No conversations yet</p>
             <Button size="sm" onClick={() => router.push('/')}>
               Start Your First Conversation
             </Button>
@@ -166,23 +166,23 @@ export function ChatHistoryDisplay({ userId }: ChatHistoryDisplayProps) {
               return (
                 <div
                   key={chat.id}
-                  className="border rounded-lg p-3 hover:bg-muted/50 transition-colors cursor-pointer"
+                  className='cursor-pointer rounded-lg border p-3 transition-colors hover:bg-muted/50'
                   onClick={() => router.push(`/chat/${chat.id}`)}
                 >
-                  <div className="flex items-start justify-between mb-1">
+                  <div className='mb-1 flex items-start justify-between'>
                     <h4 className="font-medium text-xs">{chat.title}</h4>
                     <Badge variant="outline" className="text-xs">
                       {formatDate(chat.updatedAt)}
                     </Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground line-clamp-2">
+                  <p className='line-clamp-2 text-muted-foreground text-xs'>
                     {lastMessage.content}
                   </p>
-                  <div className="flex items-center gap-2 mt-1">
+                  <div className='mt-1 flex items-center gap-2'>
                     <Badge variant="secondary" className="text-xs">
                       {chat.messages.length} messages
                     </Badge>
-                    <span className="text-xs text-muted-foreground">
+                    <span className='text-muted-foreground text-xs'>
                       Last: {formatDate(lastMessage.createdAt)}
                     </span>
                   </div>

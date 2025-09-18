@@ -21,7 +21,7 @@ export function CitationTag({ source, index }: CitationTagProps) {
   return (
     <div className="relative inline-block">
       <span
-        className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors cursor-pointer bg-secondary text-secondary-foreground hover:bg-secondary/80 border-transparent"
+        className='inline-flex cursor-pointer items-center rounded-full border border-transparent bg-secondary px-2.5 py-0.5 font-semibold text-secondary-foreground text-xs transition-colors hover:bg-secondary/80'
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

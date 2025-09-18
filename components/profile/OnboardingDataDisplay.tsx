@@ -60,14 +60,14 @@ const goalLabels: Record<string, string> = {
 export function OnboardingDataDisplay({ userData }: OnboardingDataDisplayProps) {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Career Discovery Profile</h3>
+      <h3 className='font-semibold text-lg'>Career Discovery Profile</h3>
       
       {/* Energy Profile */}
       {userData.energyProfile && (
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Energy Profile</CardTitle>
-            <p className="text-xs text-muted-foreground">
+            <p className='text-muted-foreground text-xs'>
               What energizes you most (1 = draining, 5 = energizing)
             </p>
           </CardHeader>
@@ -75,8 +75,8 @@ export function OnboardingDataDisplay({ userData }: OnboardingDataDisplayProps) 
             <div className="space-y-3">
               {Object.entries(userData.energyProfile).map(([key, value]) => (
                 <div key={key} className="space-y-1">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-medium">
+                  <div className='flex items-center justify-between'>
+                    <span className='font-medium text-xs'>
                       {energyLabels[key] || key}
                     </span>
                     <Badge variant="outline" className="text-xs">{value as number}/5</Badge>
@@ -94,7 +94,7 @@ export function OnboardingDataDisplay({ userData }: OnboardingDataDisplayProps) 
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Peak Moment</CardTitle>
-            <p className="text-xs text-muted-foreground">
+            <p className='text-muted-foreground text-xs'>
               A moment when you felt completely absorbed
             </p>
           </CardHeader>
@@ -109,7 +109,7 @@ export function OnboardingDataDisplay({ userData }: OnboardingDataDisplayProps) 
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Core Values</CardTitle>
-            <p className="text-xs text-muted-foreground">
+            <p className='text-muted-foreground text-xs'>
               Your top 3 non-negotiable values
             </p>
           </CardHeader>
@@ -130,21 +130,21 @@ export function OnboardingDataDisplay({ userData }: OnboardingDataDisplayProps) 
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Career Constraints</CardTitle>
-            <p className="text-xs text-muted-foreground">
+            <p className='text-muted-foreground text-xs'>
               Your practical considerations
             </p>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className='grid grid-cols-1 gap-3 md:grid-cols-2'>
               {userData.constraints.geography && (
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Location Preference</label>
+                  <label className='font-medium text-muted-foreground text-xs uppercase tracking-wide'>Location Preference</label>
                   <p className="text-xs">{geographyLabels[userData.constraints.geography] || userData.constraints.geography}</p>
                 </div>
               )}
               {userData.constraints.salary_minimum && userData.constraints.salary_minimum !== '0' && (
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Salary Minimum</label>
+                  <label className='font-medium text-muted-foreground text-xs uppercase tracking-wide'>Salary Minimum</label>
                   <p className="text-xs">{salaryLabels[userData.constraints.salary_minimum] || userData.constraints.salary_minimum}</p>
                 </div>
               )}
@@ -158,7 +158,7 @@ export function OnboardingDataDisplay({ userData }: OnboardingDataDisplayProps) 
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Immediate Goal</CardTitle>
-            <p className="text-xs text-muted-foreground">
+            <p className='text-muted-foreground text-xs'>
               What you want to accomplish this week
             </p>
           </CardHeader>
@@ -177,26 +177,26 @@ export function OnboardingDataDisplay({ userData }: OnboardingDataDisplayProps) 
             <CardTitle>Onboarding Stats</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
               {userData.onboardingEngagement.timeToComplete && (
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className='font-bold text-2xl text-blue-600'>
                     {Math.floor(userData.onboardingEngagement.timeToComplete / 60)}m
                   </div>
-                  <p className="text-sm text-muted-foreground">Time to complete</p>
+                  <p className='text-muted-foreground text-sm'>Time to complete</p>
                 </div>
               )}
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
+                <div className='font-bold text-2xl text-green-600'>
                   {userData.onboardingEngagement.clickedTemplates ? '✓' : '○'}
                 </div>
-                <p className="text-sm text-muted-foreground">Used templates</p>
+                <p className='text-muted-foreground text-sm'>Used templates</p>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">
+                <div className='font-bold text-2xl text-purple-600'>
                   {userData.onboardingEngagement.savedOpportunities?.length || 0}
                 </div>
-                <p className="text-sm text-muted-foreground">Saved opportunities</p>
+                <p className='text-muted-foreground text-sm'>Saved opportunities</p>
               </div>
             </div>
           </CardContent>

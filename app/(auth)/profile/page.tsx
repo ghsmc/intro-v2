@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Loader2 } from 'lucide-react';
@@ -68,8 +66,8 @@ export default function ProfilePage() {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p className="text-lg font-semibold">Loading your profile...</p>
+          <Loader2 className='mx-auto mb-4 h-8 w-8 animate-spin' />
+          <p className='font-semibold text-lg'>Loading your profile...</p>
         </div>
       </div>
     );
@@ -79,8 +77,8 @@ export default function ProfilePage() {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
-          <p className="text-lg font-semibold text-red-600 mb-4">Error loading profile</p>
-          <p className="text-muted-foreground mb-4">{error}</p>
+          <p className='mb-4 font-semibold text-lg text-red-600'>Error loading profile</p>
+          <p className='mb-4 text-muted-foreground'>{error}</p>
           <Button onClick={() => window.location.reload()}>
             Try Again
           </Button>
@@ -93,17 +91,17 @@ export default function ProfilePage() {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
-          <p className="text-lg font-semibold">No profile data found</p>
+          <p className='font-semibold text-lg'>No profile data found</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-4xl">
+    <div className='container mx-auto max-w-4xl px-4 py-8'>
       {/* Header with Back Button and Milo Logo */}
       <div className="mb-6">
-        <div className="flex items-center justify-between mb-4">
+        <div className='mb-4 flex items-center justify-between'>
           <Button
             variant="ghost"
             size="sm"
@@ -114,17 +112,17 @@ export default function ProfilePage() {
             Back
           </Button>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-red-600 flex items-center justify-center text-white text-sm font-bold shadow-sm border border-red-700 rounded-sm">
+            <div className='flex h-8 w-8 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-sm text-white shadow-sm'>
               人
             </div>
-            <span className="font-sans font-semibold text-lg tracking-tight text-gray-900 dark:text-gray-100 uppercase">
+            <span className='font-sans font-semibold text-gray-900 text-lg uppercase tracking-tight dark:text-gray-100'>
               MILO
             </span>
           </div>
-          <div className="w-16"></div> {/* Spacer for centering */}
+          <div className="w-16" /> {/* Spacer for centering */}
         </div>
-        <h1 className="text-2xl font-semibold text-center">Profile</h1>
-        <p className="text-muted-foreground text-sm mt-1 text-center">
+        <h1 className='text-center font-semibold text-2xl'>Profile</h1>
+        <p className='mt-1 text-center text-muted-foreground text-sm'>
           Your career discovery data and chat history
         </p>
       </div>

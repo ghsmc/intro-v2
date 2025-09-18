@@ -1,6 +1,4 @@
 'use client';
-
-import { Badge } from '@/components/ui/badge';
 import {
   Collapsible,
   CollapsibleContent,
@@ -66,6 +64,16 @@ const getStatusBadge = (status: ToolUIPart['state'], type?: ToolUIPart['type']) 
     return newsSearchLabels[status];
   };
 
+  const getBulgeBracketLabel = (status: ToolUIPart['state']) => {
+    const bulgeBracketLabels = {
+      'input-streaming': 'Preparing search',
+      'input-available': 'Searching IB programs',
+      'output-available': 'Complete',
+      'output-error': 'Failed',
+    } as const;
+    return bulgeBracketLabels[status];
+  };
+
   const getDefaultLabel = (status: ToolUIPart['state']) => {
     const defaultLabels = {
       'input-streaming': 'Pending',
@@ -81,6 +89,7 @@ const getStatusBadge = (status: ToolUIPart['state'], type?: ToolUIPart['type']) 
     if (type === 'tool-jobSearchTool') return getJobSearchLabel(status);
     if (type === 'tool-webSearchTool') return getWebSearchLabel(status);
     if (type === 'tool-newsSearchTool') return getNewsSearchLabel(status);
+    if (type === 'tool-bulgeBracketSearchTool') return getBulgeBracketLabel(status);
     return getDefaultLabel(status);
   };
 
@@ -92,9 +101,9 @@ const getStatusBadge = (status: ToolUIPart['state'], type?: ToolUIPart['type']) 
   } as const;
 
   return (
-    <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-mono">
+    <div className='flex items-center gap-1.5 font-mono text-muted-foreground text-xs'>
       {status === 'input-available' && (
-        <div className="size-2 rounded-full bg-blue-500 animate-pulse" />
+        <div className='size-2 animate-pulse rounded-full bg-blue-500' />
       )}
       {status === 'output-available' && (
         <div className="size-2 rounded-full bg-green-500" />
@@ -121,6 +130,7 @@ export const ToolHeader = ({
       'tool-jobSearchTool': 'Job Search',
       'tool-webSearchTool': 'Web Search',
       'tool-newsSearchTool': 'News Search',
+      'tool-bulgeBracketSearchTool': 'IB Programs Search',
       'tool-requestSuggestions': 'Suggestions',
       'tool-updateDocument': 'Document Update',
       'tool-createDocument': 'Document Creation',

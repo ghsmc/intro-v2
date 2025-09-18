@@ -27,7 +27,7 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return `${Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
   };
 
   const formatDate = (dateString: string) => {
@@ -42,7 +42,7 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Resume Analysis</h3>
+      <h3 className='font-semibold text-lg'>Resume Analysis</h3>
       
       {/* Resume File Info */}
       {userData.resume && (
@@ -53,8 +53,8 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
           <CardContent>
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <p className="text-sm font-medium">{userData.resume.fileName}</p>
-                <p className="text-xs text-muted-foreground">
+                <p className='font-medium text-sm'>{userData.resume.fileName}</p>
+                <p className='text-muted-foreground text-xs'>
                   {formatFileSize(userData.resume.fileSize)} • Uploaded {formatDate(userData.resume.uploadedAt)}
                 </p>
               </div>
@@ -65,7 +65,7 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
                   className="h-7 px-2 text-xs"
                   onClick={() => userData.resume?.url && window.open(userData.resume.url, '_blank')}
                 >
-                  <ExternalLink className="h-3 w-3 mr-1" />
+                  <ExternalLink className='mr-1 h-3 w-3' />
                   View
                 </Button>
                 <Button
@@ -81,7 +81,7 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
                     }
                   }}
                 >
-                  <Download className="h-3 w-3 mr-1" />
+                  <Download className='mr-1 h-3 w-3' />
                   Download
                 </Button>
               </div>
@@ -95,21 +95,21 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-base">AI-Generated Professional Summary</CardTitle>
-            <p className="text-xs text-muted-foreground">
+            <p className='text-muted-foreground text-xs'>
               Generated on {userData.resumeData.processedAt ? formatDate(userData.resumeData.processedAt) : 'Unknown date'}
             </p>
           </CardHeader>
           <CardContent className="space-y-3">
             {userData.resumeData.userSummary.professionalSummary && (
               <div>
-                <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Professional Summary</h4>
+                <h4 className='mb-1 font-medium text-muted-foreground text-xs uppercase tracking-wide'>Professional Summary</h4>
                 <p className="text-xs leading-relaxed">{userData.resumeData.userSummary.professionalSummary}</p>
               </div>
             )}
             
             {userData.resumeData.userSummary.keyStrengths && (
               <div>
-                <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Key Strengths</h4>
+                <h4 className='mb-1 font-medium text-muted-foreground text-xs uppercase tracking-wide'>Key Strengths</h4>
                 <div className="flex flex-wrap gap-1">
                   {userData.resumeData.userSummary.keyStrengths.map((strength: string, index: number) => (
                     <Badge key={index} variant="secondary" className="text-xs">{strength}</Badge>
@@ -120,14 +120,14 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
             
             {userData.resumeData.userSummary.careerFocus && (
               <div>
-                <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Career Focus</h4>
+                <h4 className='mb-1 font-medium text-muted-foreground text-xs uppercase tracking-wide'>Career Focus</h4>
                 <p className="text-xs">{userData.resumeData.userSummary.careerFocus}</p>
               </div>
             )}
             
             {userData.resumeData.userSummary.valueProposition && (
               <div>
-                <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Value Proposition</h4>
+                <h4 className='mb-1 font-medium text-muted-foreground text-xs uppercase tracking-wide'>Value Proposition</h4>
                 <p className="text-xs leading-relaxed">{userData.resumeData.userSummary.valueProposition}</p>
               </div>
             )}
@@ -137,7 +137,7 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
 
       {/* Extracted Data */}
       {userData.resumeData?.extractedData && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
           {/* Skills */}
           {userData.resumeData.extractedData.skills && (
             <Card>
@@ -163,10 +163,10 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
               <CardContent>
                 <div className="space-y-4">
                   {userData.resumeData.extractedData.experience.map((exp: any, index: number) => (
-                    <div key={index} className="border-l-2 border-muted pl-4">
+                    <div key={index} className='border-muted border-l-2 pl-4'>
                       <h4 className="font-medium">{exp.title}</h4>
-                      <p className="text-sm text-muted-foreground">{exp.company} • {exp.duration}</p>
-                      <p className="text-sm mt-1">{exp.description}</p>
+                      <p className='text-muted-foreground text-sm'>{exp.company} • {exp.duration}</p>
+                      <p className='mt-1 text-sm'>{exp.description}</p>
                     </div>
                   ))}
                 </div>
@@ -185,8 +185,8 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
                   {userData.resumeData.extractedData.education.map((edu: any, index: number) => (
                     <div key={index}>
                       <h4 className="font-medium">{edu.degree}</h4>
-                      <p className="text-sm text-muted-foreground">{edu.institution} • {edu.year}</p>
-                      {edu.gpa && <p className="text-sm text-muted-foreground">GPA: {edu.gpa}</p>}
+                      <p className='text-muted-foreground text-sm'>{edu.institution} • {edu.year}</p>
+                      {edu.gpa && <p className='text-muted-foreground text-sm'>GPA: {edu.gpa}</p>}
                     </div>
                   ))}
                 </div>
@@ -205,9 +205,9 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
                   {userData.resumeData.extractedData.projects.map((project: any, index: number) => (
                     <div key={index}>
                       <h4 className="font-medium">{project.name}</h4>
-                      <p className="text-sm mt-1">{project.description}</p>
+                      <p className='mt-1 text-sm'>{project.description}</p>
                       {project.technologies && (
-                        <div className="flex flex-wrap gap-1 mt-2">
+                        <div className='mt-2 flex flex-wrap gap-1'>
                           {project.technologies.map((tech: string, techIndex: number) => (
                             <Badge key={techIndex} variant="outline" className="text-xs">{tech}</Badge>
                           ))}
@@ -229,8 +229,8 @@ export function ResumeDataDisplay({ userData }: ResumeDataDisplayProps) {
               <CardContent>
                 <ul className="space-y-2">
                   {userData.resumeData.extractedData.achievements.map((achievement: string, index: number) => (
-                    <li key={index} className="text-sm flex items-start gap-2">
-                      <span className="text-green-600 mt-1">•</span>
+                    <li key={index} className='flex items-start gap-2 text-sm'>
+                      <span className='mt-1 text-green-600'>•</span>
                       <span>{achievement}</span>
                     </li>
                   ))}

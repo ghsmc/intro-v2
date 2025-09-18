@@ -1,6 +1,6 @@
 'use client';
 
-import { OnboardingData } from '@/app/(auth)/onboarding/page';
+import type { OnboardingData } from '@/app/(auth)/onboarding/page';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -21,11 +21,11 @@ export function PeakMomentsScreen({ data, onNext, onPrev, onUpdate }: PeakMoment
   return (
     <div className="flex flex-col gap-6 overflow-hidden rounded-2xl">
       <div className="flex flex-col items-center justify-center gap-4 px-4 text-center sm:px-16">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-6 h-6 bg-red-600 flex items-center justify-center text-white text-xs font-bold shadow-sm border border-red-700 rounded-sm">
+        <div className='mb-2 flex items-center gap-2'>
+          <div className='flex h-6 w-6 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-white text-xs shadow-sm'>
             人
           </div>
-          <span className="font-sans font-semibold text-lg tracking-tight text-gray-900 dark:text-gray-100 uppercase">
+          <span className='font-sans font-semibold text-gray-900 text-lg uppercase tracking-tight dark:text-gray-100'>
             MILO
           </span>
         </div>
@@ -37,7 +37,7 @@ export function PeakMomentsScreen({ data, onNext, onPrev, onUpdate }: PeakMoment
 
       <div className="flex flex-col gap-4 px-4 sm:px-16">
         <div className="space-y-2">
-          <p className="text-sm text-muted-foreground">
+          <p className='text-muted-foreground text-sm'>
             Could be in class, extracurricular, job, or personal project. When did time fly by?
           </p>
           <Textarea
@@ -46,7 +46,7 @@ export function PeakMomentsScreen({ data, onNext, onPrev, onUpdate }: PeakMoment
             placeholder="Last week in my economics problem set, I spent 3 hours building a model to predict market trends. I completely lost track of time because I was so focused on finding the right variables and testing different scenarios..."
             className="min-h-[120px]"
           />
-          <p className="text-xs text-muted-foreground">
+          <p className='text-muted-foreground text-xs'>
             {data.peakMoment.length} characters
           </p>
         </div>

@@ -183,7 +183,7 @@ export default function OnboardingPage() {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 bg-red-600 flex items-center justify-center text-white text-sm font-bold shadow-sm border border-red-700 rounded-sm mx-auto mb-4">
+          <div className='mx-auto mb-4 flex h-8 w-8 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-sm text-white shadow-sm'>
             人
           </div>
           <p className="text-gray-600">Loading...</p>
@@ -277,13 +277,13 @@ export default function OnboardingPage() {
       <div className="flex w-full max-w-2xl flex-col gap-4 overflow-hidden rounded-2xl">
         {/* Progress bar */}
         <div className="px-4 sm:px-16">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-muted-foreground">Step {currentScreen} of 8</span>
-            <span className="text-sm text-muted-foreground">{Math.round((currentScreen / 8) * 100)}%</span>
+          <div className='mb-2 flex items-center justify-between'>
+            <span className='text-muted-foreground text-sm'>Step {currentScreen} of 8</span>
+            <span className='text-muted-foreground text-sm'>{Math.round((currentScreen / 8) * 100)}%</span>
           </div>
-          <div className="w-full bg-muted rounded-full h-1">
+          <div className='h-1 w-full rounded-full bg-muted'>
             <div
-              className="bg-primary h-1 rounded-full transition-all duration-300"
+              className='h-1 rounded-full bg-primary transition-all duration-300'
               style={{ width: `${(currentScreen / 8) * 100}%` }}
             />
           </div>

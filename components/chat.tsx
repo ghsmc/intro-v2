@@ -24,7 +24,7 @@ import { ChatSDKError } from '@/lib/errors';
 import type { Attachment, ChatMessage } from '@/lib/types';
 import type { AppUsage } from '@/lib/usage';
 import { useDataStream } from './data-stream-provider';
-import { domainConfigs, type DomainType } from '@/lib/ai/domain-config';
+import { domainConfigs, } from '@/lib/ai/domain-config';
 import { useDomain } from './domain-provider';
 import {
   AlertDialog,
@@ -241,16 +241,16 @@ export function Chat({
             <div className="w-full max-w-4xl space-y-6">
               {/* Main Header with domain-specific accent */}
               <div className="flex items-center justify-center gap-2 sm:gap-3">
-                <div className={`flex size-6 sm:size-8 md:size-10 items-center justify-center bg-gradient-to-br ${
+                <div className={`flex size-6 items-center justify-center bg-gradient-to-br sm:size-8 md:size-10 ${
                   activeDomain ? domainConfigs[activeDomain].theme.logoColor : 'from-red-600 to-red-700'
-                } shadow-lg border ${
+                } border shadow-lg ${
                   activeDomain === 'FINANCE' ? 'border-green-800/20' :
                   activeDomain === 'SOFTWARE' ? 'border-blue-800/20' :
                   'border-red-800/20'
                 } rounded`}>
-                  <span className="text-sm sm:text-base md:text-lg font-medium text-white font-mono">人</span>
+                  <span className='font-medium font-mono text-sm text-white sm:text-base md:text-lg'>人</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-center">
+                <h1 className='text-center font-semibold text-xl sm:text-2xl md:text-3xl lg:text-4xl'>
                   {activeDomain ? domainConfigs[activeDomain].landingMessage : 'Find the dream job.'}
                 </h1>
               </div>

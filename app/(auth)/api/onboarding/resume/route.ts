@@ -1,5 +1,5 @@
 import { auth } from '@/app/(auth)/auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
 
 export async function POST(request: NextRequest) {

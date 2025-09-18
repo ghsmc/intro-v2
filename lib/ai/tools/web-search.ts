@@ -1,7 +1,6 @@
 // lib/ai/tools/web-search.ts
 import { z } from 'zod';
 import { tool } from 'ai';
-import { processSearchResults, type CitationSource } from '@/lib/citations/utils';
 
 const SERPER_API_KEY = process.env.SERPER_API_KEY;
 

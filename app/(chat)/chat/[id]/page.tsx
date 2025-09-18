@@ -7,7 +7,7 @@ import { getChatById, getMessagesByChatId } from '@/lib/db/queries';
 import { DataStreamHandler } from '@/components/data-stream-handler';
 import { DEFAULT_CHAT_MODEL } from '@/lib/ai/models';
 import { convertToUIMessages } from '@/lib/utils';
-import { getDomainFromPath, type DomainType } from '@/lib/ai/domain-config';
+import type { DomainType } from '@/lib/ai/domain-config';
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

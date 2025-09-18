@@ -42,7 +42,7 @@ import { useDataStream } from './data-stream-provider';
 import { CitedText } from './citations/CitedText';
 import { SourcesSection } from './citations/SourcesSection';
 import { JobsSection } from './jobs/JobsSection';
-import { type CitationSource } from '@/lib/citations/utils';
+import type { CitationSource } from '@/lib/citations/utils';
 
 const PurePreviewMessage = ({
   chatId,
@@ -91,7 +91,7 @@ const PurePreviewMessage = ({
       >
         {message.role === 'assistant' && (
           <div className="-mt-1 flex size-8 shrink-0">
-            <div className="w-5 h-5 bg-red-600 flex items-center justify-center text-white text-xs font-bold shadow-sm border border-red-700 rounded-sm">
+            <div className='flex h-5 w-5 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-white text-xs shadow-sm'>
               人
             </div>
           </div>
@@ -360,8 +360,8 @@ const PurePreviewMessage = ({
                       Error: {String(part.output.error)}
                     </div>
                   ) : type === 'tool-jobSearchTool' ? (
-                    <div className="text-sm text-muted-foreground">
-                      <div className="font-medium mb-2">⚡ Recent Job Search:</div>
+                    <div className='text-muted-foreground text-sm'>
+                      <div className='mb-2 font-medium'>⚡ Recent Job Search:</div>
                       <div className="space-y-1">
                         <div>• <span className="font-medium">{part.output.results?.length || 0}</span> opportunities found</div>
                         <div>• <span className="font-medium">Query:</span> {part.output.query}</div>
@@ -371,7 +371,7 @@ const PurePreviewMessage = ({
                       </div>
                     </div>
                   ) : (
-                    <div className="text-sm text-muted-foreground">
+                    <div className='text-muted-foreground text-sm'>
                       Found {part.output.results?.length || 0} results for "{part.output.query}"
                     </div>
                   )
@@ -496,7 +496,7 @@ export const ThinkingMessage = () => {
     >
       <div className="flex items-start justify-start gap-3">
         <div className="-mt-1 flex size-8 shrink-0">
-          <div className="w-5 h-5 bg-red-600 flex items-center justify-center text-white text-xs font-bold shadow-sm border border-red-700 rounded-sm">
+          <div className='flex h-5 w-5 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-white text-xs shadow-sm'>
             人
           </div>
         </div>

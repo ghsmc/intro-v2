@@ -1,6 +1,6 @@
 'use client';
 
-import { OnboardingData } from '@/app/(auth)/onboarding/page';
+import type { OnboardingData } from '@/app/(auth)/onboarding/page';
 import { Button } from '@/components/ui/button';
 
 interface ValuesCompassScreenProps {
@@ -43,11 +43,11 @@ export function ValuesCompassScreen({ data, onNext, onPrev, onUpdate }: ValuesCo
   return (
     <div className="flex flex-col gap-6 overflow-hidden rounded-2xl">
       <div className="flex flex-col items-center justify-center gap-4 px-4 text-center sm:px-16">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-6 h-6 bg-red-600 flex items-center justify-center text-white text-xs font-bold shadow-sm border border-red-700 rounded-sm">
+        <div className='mb-2 flex items-center gap-2'>
+          <div className='flex h-6 w-6 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-white text-xs shadow-sm'>
             人
           </div>
-          <span className="font-sans font-semibold text-lg tracking-tight text-gray-900 dark:text-gray-100 uppercase">
+          <span className='font-sans font-semibold text-gray-900 text-lg uppercase tracking-tight dark:text-gray-100'>
             MILO
           </span>
         </div>
@@ -68,16 +68,16 @@ export function ValuesCompassScreen({ data, onNext, onPrev, onUpdate }: ValuesCo
                 key={value}
                 onClick={() => toggleValue(value)}
                 disabled={!canSelect}
-                className={`p-3 rounded border text-left transition-all ${
+                className={`rounded border p-3 text-left transition-all ${
                   isSelected
                     ? 'border-primary bg-primary/10'
                     : canSelect
                     ? 'border-input hover:bg-muted'
-                    : 'border-input bg-muted text-muted-foreground cursor-not-allowed'
+                    : 'cursor-not-allowed border-input bg-muted text-muted-foreground'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-4 h-4 rounded border flex items-center justify-center ${
+                  <div className={`flex h-4 w-4 items-center justify-center rounded border ${
                     isSelected
                       ? 'border-primary bg-primary'
                       : 'border-input'
@@ -93,7 +93,7 @@ export function ValuesCompassScreen({ data, onNext, onPrev, onUpdate }: ValuesCo
           })}
         </div>
 
-        <p className="text-xs text-muted-foreground">
+        <p className='text-muted-foreground text-xs'>
           Selected: {data.values.length}/3 values
         </p>
       </div>

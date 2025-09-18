@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Building2, Users, MapPin, ExternalLink, Briefcase, TrendingUp } from 'lucide-react';
+import { Building2, Users, MapPin, Briefcase, TrendingUp } from 'lucide-react';
 import { useDomain } from '@/components/domain-provider';
 import { domainConfigs } from '@/lib/ai/domain-config';
 import type { Session } from 'next-auth';
@@ -318,11 +318,11 @@ export function CompaniesView({ session }: { session: Session | null }) {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className='flex h-full flex-col'>
       {/* Header */}
-      <div className="border-b border-border px-6 py-4">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-2xl font-semibold mb-2">Companies</h1>
+      <div className='border-border border-b px-6 py-4'>
+        <div className='mx-auto max-w-6xl'>
+          <h1 className='mb-2 font-semibold text-2xl'>Companies</h1>
           <p className="text-muted-foreground">
             Top companies hiring in {domainConfigs[selectedDomain].name.toLowerCase()}
           </p>
@@ -334,7 +334,7 @@ export function CompaniesView({ session }: { session: Session | null }) {
               placeholder="Search companies..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full max-w-md px-4 py-2 bg-muted/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className='w-full max-w-md rounded-lg border border-border bg-muted/50 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20'
             />
           </div>
         </div>
@@ -342,19 +342,19 @@ export function CompaniesView({ session }: { session: Session | null }) {
 
       {/* Companies Grid */}
       <div className="flex-1 overflow-y-auto px-6 py-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className='mx-auto max-w-6xl'>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
             {filteredCompanies.map((company, index) => (
               <motion.div
                 key={company.name}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative bg-card hover:bg-accent/5 border border-border hover:border-primary/20 rounded-lg p-5 transition-all duration-200"
+                className='group relative rounded-lg border border-border bg-card p-5 transition-all duration-200 hover:border-primary/20 hover:bg-accent/5'
               >
                 {company.trending && (
                   <div className="absolute top-3 right-3">
-                    <span className="flex items-center gap-1 px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
+                    <span className='flex items-center gap-1 rounded bg-primary/10 px-2 py-1 font-medium text-primary text-xs'>
                       <TrendingUp className="size-3" />
                       Trending
                     </span>
@@ -362,7 +362,7 @@ export function CompaniesView({ session }: { session: Session | null }) {
                 )}
 
                 {/* Company Logo & Name */}
-                <div className="flex items-start gap-3 mb-3">
+                <div className='mb-3 flex items-start gap-3'>
                   <img
                     src={getLogoUrl(company.domain)}
                     alt={`${company.name} logo`}
@@ -372,25 +372,25 @@ export function CompaniesView({ session }: { session: Session | null }) {
                     }}
                   />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                    <h3 className='font-semibold text-foreground transition-colors group-hover:text-primary'>
                       {company.name}
                     </h3>
-                    <p className="text-sm text-muted-foreground">{company.industry}</p>
+                    <p className='text-muted-foreground text-sm'>{company.industry}</p>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                <p className='mb-4 line-clamp-2 text-muted-foreground text-sm'>
                   {company.description}
                 </p>
 
                 {/* Company Info */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className='mb-4 space-y-2'>
+                  <div className='flex items-center gap-2 text-muted-foreground text-sm'>
                     <MapPin className="size-3.5" />
                     <span>{company.location}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className='flex items-center gap-2 text-muted-foreground text-sm'>
                     <Users className="size-3.5" />
                     <span>{company.employees} employees</span>
                   </div>
@@ -402,7 +402,7 @@ export function CompaniesView({ session }: { session: Session | null }) {
                     href={company.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-muted hover:bg-muted/80 rounded-md transition-colors"
+                    className='flex items-center gap-1.5 rounded-md bg-muted px-3 py-1.5 text-sm transition-colors hover:bg-muted/80'
                   >
                     <Building2 className="size-3.5" />
                     Website
@@ -412,7 +412,7 @@ export function CompaniesView({ session }: { session: Session | null }) {
                       href={company.jobsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-primary/10 hover:bg-primary/20 text-primary rounded-md transition-colors"
+                      className='flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-primary text-sm transition-colors hover:bg-primary/20'
                     >
                       <Briefcase className="size-3.5" />
                       View Jobs
@@ -424,7 +424,7 @@ export function CompaniesView({ session }: { session: Session | null }) {
           </div>
 
           {filteredCompanies.length === 0 && (
-            <div className="text-center py-12">
+            <div className='py-12 text-center'>
               <p className="text-muted-foreground">No companies found matching your search.</p>
             </div>
           )}

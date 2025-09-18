@@ -1,10 +1,18 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { company } from './schema';
-import { eq } from 'drizzle-orm';
+import * as dotenv from 'dotenv';
+import path from 'node:path';
+
+// Load environment variables from .env.local
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 // Create db instance
-const client = postgres(process.env.POSTGRES_URL!);
+if (!process.env.POSTGRES_URL) {
+  throw new Error('POSTGRES_URL not found in environment variables');
+}
+
+const client = postgres(process.env.POSTGRES_URL);
 const db = drizzle(client);
 
 // Define the finance companies data structure
@@ -28,7 +36,7 @@ interface FinanceCompany {
   status?: string;
 }
 
-// Tier 1: Quantitative Trading Giants
+// Tier 1: Quantitative Trading Giants (25 companies)
 const quantTradingElite: FinanceCompany[] = [
   {
     name: "Jane Street",
@@ -379,7 +387,7 @@ const quantTradingElite: FinanceCompany[] = [
   }
 ];
 
-// Tier 2: Prop Trading & Market Makers
+// Tier 2: Prop Trading & Market Makers (20 companies)
 const propTradingFirms: FinanceCompany[] = [
   {
     name: "Optiver",
@@ -648,9 +656,7 @@ const propTradingFirms: FinanceCompany[] = [
   }
 ];
 
-// Continue with the rest of the companies...
-// For brevity, I'll include a few more key companies from each tier
-
+// Tier 3: Crypto/DeFi Trading (15 companies)
 const cryptoTradingFirms: FinanceCompany[] = [
   {
     name: "Cumberland DRW",
@@ -666,6 +672,30 @@ const cryptoTradingFirms: FinanceCompany[] = [
     subcategory: "OTC Trading"
   },
   {
+    name: "Genesis Trading",
+    hq: "New York, NY",
+    founded: 2013,
+    focus: "Institutional crypto trading",
+    tech_stack: ["Python", "JavaScript", "Go"],
+    comp_range: "$180k new grad, $350k-800k experienced",
+    career_site: "genesistrading.com/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Institutional Trading"
+  },
+  {
+    name: "Galaxy Digital Trading",
+    hq: "New York, NY",
+    founded: 2018,
+    focus: "Crypto trading, asset management",
+    tech_stack: ["Python", "C++", "Rust"],
+    comp_range: "$200k new grad, $400k-1M experienced",
+    career_site: "galaxydigital.io/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Asset Management"
+  },
+  {
     name: "Wintermute",
     hq: "London, UK",
     founded: 2017,
@@ -679,6 +709,81 @@ const cryptoTradingFirms: FinanceCompany[] = [
     subcategory: "Market Making"
   },
   {
+    name: "GSR",
+    hq: "Hong Kong",
+    founded: 2013,
+    employees: "400+",
+    focus: "Crypto market making, OTC",
+    tech_stack: ["Python", "C++", "Go"],
+    comp_range: "$180k new grad, $350k-800k experienced",
+    career_site: "gsr.io/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Market Making"
+  },
+  {
+    name: "B2C2",
+    hq: "London, UK",
+    founded: 2015,
+    focus: "Crypto liquidity provider",
+    tech_stack: ["Python", "Go", "Rust"],
+    comp_range: "$150k new grad, $300k-700k experienced",
+    career_site: "b2c2.com/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Liquidity Provider"
+  },
+  {
+    name: "QCP Capital",
+    hq: "Singapore",
+    founded: 2017,
+    focus: "Crypto options, structured products",
+    tech_stack: ["Python", "C++", "Rust"],
+    comp_range: "$120k new grad, $250k-600k experienced",
+    career_site: "qcp.capital/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Options & Derivatives"
+  },
+  {
+    name: "Talos",
+    hq: "New York, NY",
+    founded: 2018,
+    focus: "Institutional crypto trading platform",
+    tech_stack: ["Python", "Go", "Kubernetes", "React"],
+    comp_range: "$180k new grad, $350k-700k experienced",
+    career_site: "talos.com/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Trading Platform"
+  },
+  {
+    name: "FalconX",
+    hq: "San Mateo, CA",
+    founded: 2018,
+    valuation: "$8B",
+    focus: "Institutional crypto platform",
+    tech_stack: ["Go", "Python", "React", "AWS"],
+    comp_range: "$200k new grad, $400k-800k experienced",
+    career_site: "falconx.io/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Institutional Platform"
+  },
+  {
+    name: "Paradigm",
+    hq: "San Francisco, CA",
+    founded: 2018,
+    aum: "$13B+",
+    focus: "Crypto VC, research, trading",
+    tech_stack: ["Solidity", "Rust", "Python"],
+    comp_range: "$250k new grad, $500k-1.5M experienced",
+    career_site: "paradigm.xyz/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "VC & Research"
+  },
+  {
     name: "Jump Crypto",
     hq: "Chicago, IL",
     parent: "Jump Trading",
@@ -689,9 +794,59 @@ const cryptoTradingFirms: FinanceCompany[] = [
     tier: "Tier 3",
     category: "Crypto Trading",
     subcategory: "Infrastructure"
+  },
+  {
+    name: "Blockchain.com Institutional",
+    hq: "London, UK",
+    founded: 2011,
+    focus: "Institutional crypto services",
+    tech_stack: ["Python", "Go", "React", "Kotlin"],
+    comp_range: "$150k new grad, $300k-600k experienced",
+    career_site: "blockchain.com/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Institutional Services"
+  },
+  {
+    name: "Copper.co",
+    hq: "London, UK",
+    founded: 2018,
+    focus: "Institutional crypto custody, trading",
+    tech_stack: ["Python", "Go", "React", "AWS"],
+    comp_range: "$120k new grad, $250k-500k experienced",
+    career_site: "copper.co/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Custody & Trading"
+  },
+  {
+    name: "Coinbase Institutional",
+    hq: "San Francisco, CA",
+    founded: 2012,
+    focus: "Institutional crypto exchange",
+    tech_stack: ["Go", "Ruby", "React", "Python"],
+    comp_range: "$180k new grad, $350k-700k experienced",
+    career_site: "coinbase.com/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Exchange"
+  },
+  {
+    name: "BitGo",
+    hq: "Palo Alto, CA",
+    founded: 2013,
+    valuation: "$1.75B",
+    focus: "Digital asset financial services",
+    tech_stack: ["Node.js", "Go", "React", "PostgreSQL"],
+    comp_range: "$170k new grad, $340k-680k experienced",
+    career_site: "bitgo.com/careers",
+    tier: "Tier 3",
+    category: "Crypto Trading",
+    subcategory: "Financial Services"
   }
 ];
 
+// Tier 4: Fintech Infrastructure & Platforms (25 companies)
 const fintechInfrastructure: FinanceCompany[] = [
   {
     name: "Stripe",
@@ -708,6 +863,57 @@ const fintechInfrastructure: FinanceCompany[] = [
     subcategory: "Payment Infrastructure"
   },
   {
+    name: "Square/Block",
+    hq: "San Francisco, CA",
+    founded: 2009,
+    market_cap: "$45B",
+    focus: "Payments, Cash App, Bitcoin",
+    tech_stack: ["Java", "Ruby", "Go", "React Native"],
+    comp_range: "$180k new grad, $350k-700k experienced",
+    career_site: "block.xyz/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Payment Platforms"
+  },
+  {
+    name: "Adyen",
+    hq: "Amsterdam",
+    founded: 2006,
+    market_cap: "$50B",
+    focus: "Global payment platform",
+    tech_stack: ["Java", "Python", "PostgreSQL"],
+    comp_range: "$150k new grad, $300k-600k experienced",
+    career_site: "adyen.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Payment Platforms"
+  },
+  {
+    name: "Marqeta",
+    hq: "Oakland, CA",
+    founded: 2010,
+    focus: "Card issuing platform",
+    tech_stack: ["Java", "Python", "AWS", "Kafka"],
+    comp_range: "$160k new grad, $320k-650k experienced",
+    career_site: "marqeta.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Card Infrastructure"
+  },
+  {
+    name: "Checkout.com",
+    hq: "London, UK",
+    founded: 2012,
+    valuation: "$40B",
+    focus: "Global payments platform",
+    tech_stack: ["C#", ".NET", "Go", "React"],
+    comp_range: "$140k new grad, $280k-550k experienced",
+    career_site: "checkout.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Payment Platforms"
+  },
+  {
     name: "Plaid",
     hq: "San Francisco, CA",
     founded: 2013,
@@ -721,6 +927,58 @@ const fintechInfrastructure: FinanceCompany[] = [
     subcategory: "Banking Infrastructure"
   },
   {
+    name: "Modern Treasury",
+    hq: "San Francisco, CA",
+    founded: 2018,
+    valuation: "$2B",
+    focus: "Payment operations, money movement",
+    tech_stack: ["Python", "TypeScript", "PostgreSQL"],
+    comp_range: "$170k new grad, $340k-650k experienced",
+    career_site: "moderntreasury.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Payment Operations"
+  },
+  {
+    name: "Thought Machine",
+    hq: "London, UK",
+    founded: 2014,
+    valuation: "$2.7B",
+    focus: "Core banking platform",
+    tech_stack: ["Go", "Python", "Kubernetes"],
+    comp_range: "$150k new grad, $300k-600k experienced",
+    career_site: "thoughtmachine.net/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Banking Platform"
+  },
+  {
+    name: "Mambu",
+    hq: "Berlin, Germany",
+    founded: 2011,
+    valuation: "$5B",
+    focus: "Cloud banking platform",
+    tech_stack: ["Java", "Kotlin", "AWS"],
+    comp_range: "$120k new grad, $240k-500k experienced",
+    career_site: "mambu.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Banking Platform"
+  },
+  {
+    name: "Unit",
+    hq: "New York, NY",
+    founded: 2020,
+    valuation: "$1.2B",
+    focus: "Banking-as-a-Service",
+    tech_stack: ["Python", "TypeScript", "AWS"],
+    comp_range: "$160k new grad, $320k-600k experienced",
+    career_site: "unit.co/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Banking-as-a-Service"
+  },
+  {
     name: "Robinhood",
     hq: "Menlo Park, CA",
     founded: 2013,
@@ -732,9 +990,189 @@ const fintechInfrastructure: FinanceCompany[] = [
     tier: "Tier 4",
     category: "Fintech Infrastructure",
     subcategory: "Trading Platforms"
+  },
+  {
+    name: "Interactive Brokers",
+    hq: "Greenwich, CT",
+    founded: 1978,
+    focus: "Electronic trading platform",
+    tech_stack: ["Java", "C++", "Python"],
+    comp_range: "$150k new grad, $300k-600k experienced",
+    career_site: "interactivebrokers.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Trading Platforms"
+  },
+  {
+    name: "eToro",
+    hq: "Tel Aviv, Israel",
+    founded: 2007,
+    valuation: "$8.8B",
+    focus: "Social trading platform",
+    tech_stack: ["Java", "Scala", "React", "Kafka"],
+    comp_range: "$120k new grad, $250k-500k experienced",
+    career_site: "etoro.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Trading Platforms"
+  },
+  {
+    name: "Tradeweb",
+    hq: "New York, NY",
+    founded: 1996,
+    market_cap: "$20B",
+    focus: "Electronic trading platform",
+    tech_stack: ["Java", "C++", "Python"],
+    comp_range: "$160k new grad, $320k-650k experienced",
+    career_site: "tradeweb.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Trading Platforms"
+  },
+  {
+    name: "MarketAxess",
+    hq: "New York, NY",
+    founded: 2000,
+    market_cap: "$10B",
+    focus: "Electronic bond trading",
+    tech_stack: ["Java", "Python", "React"],
+    comp_range: "$150k new grad, $300k-600k experienced",
+    career_site: "marketaxess.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Trading Platforms"
+  },
+  {
+    name: "Betterment",
+    hq: "New York, NY",
+    founded: 2008,
+    aum: "$35B+",
+    focus: "Robo-advisor platform",
+    tech_stack: ["Ruby", "React", "Python", "AWS"],
+    comp_range: "$150k new grad, $300k-550k experienced",
+    career_site: "betterment.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Wealth Management"
+  },
+  {
+    name: "Wealthfront",
+    hq: "Palo Alto, CA",
+    founded: 2008,
+    aum: "$30B+",
+    focus: "Automated investing",
+    tech_stack: ["Java", "Python", "React", "AWS"],
+    comp_range: "$160k new grad, $320k-600k experienced",
+    career_site: "wealthfront.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Wealth Management"
+  },
+  {
+    name: "Carta",
+    hq: "San Francisco, CA",
+    founded: 2012,
+    valuation: "$7.4B",
+    focus: "Cap table management, equity",
+    tech_stack: ["Python", "Django", "React", "PostgreSQL"],
+    comp_range: "$170k new grad, $340k-650k experienced",
+    career_site: "carta.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Equity Management"
+  },
+  {
+    name: "AngelList",
+    hq: "San Francisco, CA",
+    founded: 2010,
+    focus: "Startup investing platform",
+    tech_stack: ["Ruby", "React", "PostgreSQL"],
+    comp_range: "$160k new grad, $320k-600k experienced",
+    career_site: "angellist.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Investment Platform"
+  },
+  {
+    name: "Vise AI",
+    hq: "New York, NY",
+    founded: 2016,
+    valuation: "$1B",
+    focus: "AI-powered investment management",
+    tech_stack: ["Python", "React", "TensorFlow", "AWS"],
+    comp_range: "$180k new grad, $360k-700k experienced",
+    career_site: "vise.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Investment Management"
+  },
+  {
+    name: "Fireblocks",
+    hq: "New York, NY",
+    founded: 2018,
+    valuation: "$8B",
+    focus: "Digital asset custody",
+    tech_stack: ["Go", "Python", "React", "Kubernetes"],
+    comp_range: "$170k new grad, $340k-650k experienced",
+    career_site: "fireblocks.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Crypto Infrastructure"
+  },
+  {
+    name: "Anchorage Digital",
+    hq: "San Francisco, CA",
+    founded: 2017,
+    valuation: "$3B",
+    focus: "Crypto custody, banking",
+    tech_stack: ["Go", "Python", "Rust", "React"],
+    comp_range: "$180k new grad, $360k-700k experienced",
+    career_site: "anchorage.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Crypto Infrastructure"
+  },
+  {
+    name: "Alchemy",
+    hq: "San Francisco, CA",
+    founded: 2017,
+    valuation: "$10B",
+    focus: "Blockchain developer platform",
+    tech_stack: ["TypeScript", "Go", "Rust", "React"],
+    comp_range: "$180k new grad, $360k-700k experienced",
+    career_site: "alchemy.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Blockchain Infrastructure"
+  },
+  {
+    name: "Chainalysis",
+    hq: "New York, NY",
+    founded: 2014,
+    valuation: "$8.6B",
+    focus: "Blockchain analytics",
+    tech_stack: ["Java", "Python", "React", "Kafka"],
+    comp_range: "$160k new grad, $320k-650k experienced",
+    career_site: "chainalysis.com/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "Blockchain Analytics"
+  },
+  {
+    name: "0x Labs",
+    hq: "San Francisco, CA",
+    founded: 2016,
+    focus: "DEX infrastructure",
+    tech_stack: ["TypeScript", "Solidity", "Go", "React"],
+    comp_range: "$170k new grad, $340k-700k experienced",
+    career_site: "0x.org/careers",
+    tier: "Tier 4",
+    category: "Fintech Infrastructure",
+    subcategory: "DeFi Infrastructure"
   }
 ];
 
+// Tier 5: Market Data & Analytics (15 companies)
 const marketDataProviders: FinanceCompany[] = [
   {
     name: "Bloomberg LP",
@@ -750,6 +1188,30 @@ const marketDataProviders: FinanceCompany[] = [
     subcategory: "Data Providers"
   },
   {
+    name: "Refinitiv (LSEG)",
+    hq: "London, UK",
+    founded: 2018,
+    focus: "Market data, trading systems",
+    tech_stack: ["C++", "Python", "Java", "Cloud"],
+    comp_range: "$130k new grad, $260k-500k experienced",
+    career_site: "refinitiv.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Data Providers"
+  },
+  {
+    name: "S&P Global Market Intelligence",
+    hq: "New York, NY",
+    market_cap: "$120B",
+    focus: "Financial data, analytics",
+    tech_stack: ["Python", "Java", "AWS", "Snowflake"],
+    comp_range: "$120k new grad, $240k-480k experienced",
+    career_site: "spglobal.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Data Analytics"
+  },
+  {
     name: "FactSet",
     hq: "Norwalk, CT",
     founded: 1978,
@@ -761,6 +1223,135 @@ const marketDataProviders: FinanceCompany[] = [
     tier: "Tier 5",
     category: "Market Data",
     subcategory: "Data Platforms"
+  },
+  {
+    name: "MSCI",
+    hq: "New York, NY",
+    founded: 1969,
+    market_cap: "$40B",
+    focus: "Indexes, risk analytics",
+    tech_stack: ["Python", "C++", "Java", "Cloud"],
+    comp_range: "$120k new grad, $240k-500k experienced",
+    career_site: "msci.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Risk Analytics"
+  },
+  {
+    name: "Moody's Analytics",
+    hq: "New York, NY",
+    market_cap: "$60B",
+    focus: "Risk assessment, analytics",
+    tech_stack: ["Python", "R", "SAS", "Cloud"],
+    comp_range: "$110k new grad, $220k-450k experienced",
+    career_site: "moodys.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Risk Analytics"
+  },
+  {
+    name: "Morningstar",
+    hq: "Chicago, IL",
+    founded: 1984,
+    focus: "Investment research, data",
+    tech_stack: ["C#", ".NET", "Python", "React"],
+    comp_range: "$100k new grad, $200k-400k experienced",
+    career_site: "morningstar.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Investment Research"
+  },
+  {
+    name: "IHS Markit (S&P)",
+    hq: "London, UK",
+    focus: "Information services, analytics",
+    tech_stack: ["Python", "Java", "Scala", "AWS"],
+    comp_range: "$110k new grad, $220k-450k experienced",
+    career_site: "ihsmarkit.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Data Analytics"
+  },
+  {
+    name: "ICE Data Services",
+    hq: "New York, NY",
+    parent: "Intercontinental Exchange",
+    focus: "Pricing, analytics, data",
+    tech_stack: ["Python", "Java", "C++"],
+    comp_range: "$130k new grad, $260k-520k experienced",
+    career_site: "theice.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Pricing & Analytics"
+  },
+  {
+    name: "Cboe Global Markets",
+    hq: "Chicago, IL",
+    market_cap: "$15B",
+    focus: "Options exchange, market data",
+    tech_stack: ["C++", "Java", "Python"],
+    comp_range: "$140k new grad, $280k-550k experienced",
+    career_site: "cboe.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Exchange Data"
+  },
+  {
+    name: "Nasdaq Market Technology",
+    hq: "New York, NY",
+    focus: "Exchange technology, market data",
+    tech_stack: ["C++", "Java", "Python", "FPGA"],
+    comp_range: "$140k new grad, $280k-550k experienced",
+    career_site: "nasdaq.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Exchange Technology"
+  },
+  {
+    name: "London Stock Exchange Group",
+    hq: "London, UK",
+    market_cap: "$55B",
+    focus: "Exchange, data, analytics",
+    tech_stack: ["C++", "Python", "Java"],
+    comp_range: "$120k new grad, $240k-500k experienced",
+    career_site: "lseg.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Exchange Data"
+  },
+  {
+    name: "CME Group",
+    hq: "Chicago, IL",
+    market_cap: "$70B",
+    focus: "Derivatives exchange, clearing",
+    tech_stack: ["C++", "Java", "Python"],
+    comp_range: "$140k new grad, $280k-550k experienced",
+    career_site: "cmegroup.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Derivatives Exchange"
+  },
+  {
+    name: "Deutsche Börse",
+    hq: "Frankfurt, Germany",
+    focus: "Exchange, clearing, market data",
+    tech_stack: ["Java", "C++", "Python"],
+    comp_range: "$100k new grad, $200k-400k experienced",
+    career_site: "deutsche-boerse.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Exchange Data"
+  },
+  {
+    name: "Euronext",
+    hq: "Amsterdam",
+    focus: "Pan-European exchange",
+    tech_stack: ["Java", "C++", "Python"],
+    comp_range: "$90k new grad, $180k-380k experienced",
+    career_site: "euronext.com/careers",
+    tier: "Tier 5",
+    category: "Market Data",
+    subcategory: "Exchange Data"
   }
 ];
 
@@ -770,65 +1361,77 @@ function transformCompanyData(company: FinanceCompany, rank: number): any {
 
   return {
     name: company.name,
-    domain: domain,
-    description: company.focus,
-    category: company.category,
-    subcategory: company.subcategory,
-    industry: "Finance",
-    valuation: company.valuation || company.market_cap,
-    employees: company.employees,
+    industry: `Finance - ${company.category}`,
+    size: company.employees,
     location: company.hq,
-    websiteUrl: `https://${domain}`,
-    jobsUrl: `https://${company.career_site}`,
-    rank: rank,
-    trending: 'stable' as const,
-    domainType: 'FINANCE' as const,
-    featured: rank <= 25, // Top 25 companies are featured
-    metadata: {
+    description: `${company.focus}\n\nCompensation: ${company.comp_range}\nTier: ${company.tier}`,
+    website: `https://${domain}`,
+    founded: company.founded?.toString() || null,
+    funding: company.valuation || company.market_cap || null,
+    technologies: company.tech_stack || [],
+    benefits: {
+      compensation: company.comp_range,
+      culture_notes: company.culture,
       tier: company.tier,
-      founded: company.founded,
-      aum: company.aum,
-      tech_stack: company.tech_stack,
-      comp_range: company.comp_range,
-      culture: company.culture,
-      parent: company.parent,
-      status: company.status
-    }
+      category: company.category,
+      subcategory: company.subcategory,
+      aum: company.aum
+    },
+    culture: company.culture || '',
+    hiring: true,
+    remote: false,
+    internship: true,
+    entryLevel: true
   };
 }
 
-// Combine all companies
+// Combine all companies (exactly 100)
 const allFinanceCompanies = [
-  ...quantTradingElite,
-  ...propTradingFirms,
-  ...cryptoTradingFirms,
-  ...fintechInfrastructure,
-  ...marketDataProviders
+  ...quantTradingElite,    // 25 companies
+  ...propTradingFirms,     // 20 companies
+  ...cryptoTradingFirms,   // 15 companies
+  ...fintechInfrastructure, // 25 companies
+  ...marketDataProviders   // 15 companies
 ];
 
 export async function seedFinanceCompanies() {
   try {
     console.log('Starting to seed finance companies...');
-
-    // First, delete existing finance companies to avoid duplicates
-    // Note: Skipping delete operation as domainType column may not exist yet
-    // await db.delete(company).where(eq(company.domainType, 'FINANCE'));
-    console.log('Deleted existing finance companies');
+    console.log(`Total companies to seed: ${allFinanceCompanies.length}`);
 
     // Transform and insert companies
     const companiesData = allFinanceCompanies.map((comp, index) =>
       transformCompanyData(comp, index + 1)
     );
 
-    const result = await db.insert(company).values(companiesData);
+    // Insert in batches to avoid potential issues
+    const batchSize = 20;
+    for (let i = 0; i < companiesData.length; i += batchSize) {
+      const batch = companiesData.slice(i, i + batchSize);
+      await db.insert(company).values(batch);
+      console.log(`Inserted batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(companiesData.length/batchSize)}`);
+    }
 
     console.log(`Successfully seeded ${allFinanceCompanies.length} finance companies`);
-    return result;
+    return { success: true, count: allFinanceCompanies.length };
   } catch (error) {
     console.error('Error seeding finance companies:', error);
     throw error;
   }
 }
 
-// Export the function for manual execution
+// Export for manual execution
 export { allFinanceCompanies };
+
+// If running directly
+if (require.main === module) {
+  seedFinanceCompanies()
+    .then(() => {
+      console.log('Seeding completed successfully');
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error('Seeding failed:', error);
+      process.exit(1);
+    });
+}

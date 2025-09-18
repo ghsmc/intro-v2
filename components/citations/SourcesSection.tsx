@@ -24,23 +24,23 @@ export function SourcesSection({ sources }: SourcesSectionProps) {
   if (!sources || sources.length === 0) return null;
 
   return (
-    <div className="mt-6 pt-4 border-t border-border">
+    <div className='mt-6 border-border border-t pt-4'>
       {/* Sources Header */}
       <div 
-        className="flex items-center cursor-pointer group"
+        className='group flex cursor-pointer items-center'
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="mr-3">
           <StackedFavicons sources={sources} />
         </div>
-        <span className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors">
+        <span className='font-medium text-foreground text-sm transition-colors group-hover:text-foreground/80'>
           Sources
         </span>
-        <span className="ml-2 text-xs text-muted-foreground">
+        <span className='ml-2 text-muted-foreground text-xs'>
           ({sources.length})
         </span>
         <svg 
-          className={`ml-2 w-4 h-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+          className={`ml-2 h-4 w-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-180' : ''}`}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -55,24 +55,24 @@ export function SourcesSection({ sources }: SourcesSectionProps) {
           {sources.map((source, index) => (
             <div 
               key={source.id}
-              className="relative flex items-start p-3 bg-muted/50 rounded-md hover:bg-muted/70 transition-colors"
+              className='relative flex items-start rounded-md bg-muted/50 p-3 transition-colors hover:bg-muted/70'
               onMouseEnter={() => setHoveredSource(source)}
               onMouseLeave={() => setHoveredSource(null)}
             >
               {/* Source Logo */}
-              <div className="flex-shrink-0 mr-3">
+              <div className='mr-3 flex-shrink-0'>
                 {source.logo ? (
                   <img 
                     src={source.logo} 
                     alt={`${source.domain} logo`}
-                    className="w-5 h-5 rounded-sm"
+                    className='h-5 w-5 rounded-sm'
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                     }}
                   />
                 ) : (
-                  <div className="w-5 h-5 bg-primary rounded-sm flex items-center justify-center">
-                    <span className="text-xs font-bold text-primary-foreground">
+                  <div className='flex h-5 w-5 items-center justify-center rounded-sm bg-primary'>
+                    <span className='font-bold text-primary-foreground text-xs'>
                       {source.domain.charAt(0).toUpperCase()}
                     </span>
                   </div>
@@ -80,20 +80,20 @@ export function SourcesSection({ sources }: SourcesSectionProps) {
               </div>
 
               {/* Source Content */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center mb-1">
-                  <span className="text-xs font-medium text-muted-foreground mr-2">
+              <div className='min-w-0 flex-1'>
+                <div className='mb-1 flex items-center'>
+                  <span className='mr-2 font-medium text-muted-foreground text-xs'>
                     [{index + 1}]
                   </span>
-                  <span className="text-sm font-medium text-foreground">
+                  <span className='font-medium text-foreground text-sm'>
                     {source.domain}
                   </span>
                 </div>
-                <h4 className="text-sm font-semibold text-foreground mb-1 line-clamp-2">
+                <h4 className='mb-1 line-clamp-2 font-semibold text-foreground text-sm'>
                   {source.title}
                 </h4>
                 {source.snippet && (
-                  <p className="text-xs text-muted-foreground line-clamp-2">
+                  <p className='line-clamp-2 text-muted-foreground text-xs'>
                     {source.snippet}
                   </p>
                 )}
@@ -101,7 +101,7 @@ export function SourcesSection({ sources }: SourcesSectionProps) {
                   href={source.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors mt-1 inline-block"
+                  className='mt-1 inline-block text-primary text-xs transition-colors hover:text-primary/80'
                 >
                   View source →
                 </a>
@@ -109,7 +109,7 @@ export function SourcesSection({ sources }: SourcesSectionProps) {
 
               {/* Hover Popup - positioned relative to this source item */}
               {hoveredSource && hoveredSource.id === source.id && (
-                <div className="absolute top-full left-0 mt-2 z-50">
+                <div className='absolute top-full left-0 z-50 mt-2'>
                   <CitationPopup 
                     source={hoveredSource} 
                     index={index + 1}

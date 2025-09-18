@@ -104,11 +104,11 @@ export function ResumeUploadScreen({ data, onNext, onPrev, onUpdate }: ResumeUpl
   return (
     <div className="flex flex-col gap-6 overflow-hidden rounded-2xl">
       <div className="flex flex-col items-center justify-center gap-4 px-4 text-center sm:px-16">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-6 h-6 bg-red-600 flex items-center justify-center text-white text-xs font-bold shadow-sm border border-red-700 rounded-sm">
+        <div className='mb-2 flex items-center gap-2'>
+          <div className='flex h-6 w-6 items-center justify-center rounded-sm border border-red-700 bg-red-600 font-bold text-white text-xs shadow-sm'>
             人
           </div>
-          <span className="font-sans font-semibold text-lg tracking-tight text-gray-900 dark:text-gray-100 uppercase">
+          <span className='font-sans font-semibold text-gray-900 text-lg uppercase tracking-tight dark:text-gray-100'>
             MILO
           </span>
         </div>
@@ -119,7 +119,7 @@ export function ResumeUploadScreen({ data, onNext, onPrev, onUpdate }: ResumeUpl
       </div>
 
       <div className="flex flex-col gap-4 px-4 sm:px-16">
-        <div className="border-2 border-dashed border-input rounded-lg p-8 text-center">
+        <div className='rounded-lg border-2 border-input border-dashed p-8 text-center'>
           <input
             ref={fileInputRef}
             type="file"
@@ -131,24 +131,24 @@ export function ResumeUploadScreen({ data, onNext, onPrev, onUpdate }: ResumeUpl
           
           {uploadStatus === 'success' ? (
             <div className="space-y-2">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className='mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100'>
+                <svg className='h-6 w-6 text-green-600' fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <p className="text-sm font-medium text-green-600">Resume uploaded successfully!</p>
-              <p className="text-xs text-muted-foreground">{data.resume?.fileName}</p>
+              <p className='font-medium text-green-600 text-sm'>Resume uploaded successfully!</p>
+              <p className='text-muted-foreground text-xs'>{data.resume?.fileName}</p>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto">
-                <svg className="w-6 h-6 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className='mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-muted'>
+                <svg className='h-6 w-6 text-muted-foreground' fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-medium">Upload your resume</p>
-                <p className="text-xs text-muted-foreground">PDF or Word document, max 5MB</p>
+                <p className='font-medium text-sm'>Upload your resume</p>
+                <p className='text-muted-foreground text-xs'>PDF or Word document, max 5MB</p>
               </div>
               <Button
                 onClick={() => fileInputRef.current?.click()}
@@ -161,13 +161,13 @@ export function ResumeUploadScreen({ data, onNext, onPrev, onUpdate }: ResumeUpl
           )}
 
           {uploadStatus === 'error' && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-sm text-red-600">{errorMessage}</p>
+            <div className='mt-4 rounded-md border border-red-200 bg-red-50 p-3'>
+              <p className='text-red-600 text-sm'>{errorMessage}</p>
             </div>
           )}
         </div>
 
-        <p className="text-xs text-muted-foreground text-center">
+        <p className='text-center text-muted-foreground text-xs'>
           Your resume helps us provide more accurate career matches and opportunities
         </p>
       </div>
