@@ -394,8 +394,51 @@ export const enhancedJobSearchTool = tool({
 
       const totalDuration = Date.now() - startTime;
 
+      // Format results like Perplexity sources
+      const formattedJobs = finalResults.map((job, index) => ({
+        id: job.id,
+        title: job.title,
+        company: job.company,
+        location: job.location,
+        type: job.type,
+        level: job.level,
+        description: job.description,
+        requirements: job.requirements,
+        responsibilities: job.responsibilities,
+        benefits: job.benefits,
+        salary: job.salary,
+        applyUrl: job.applyUrl,
+        source: job.source,
+        companyLogo: job.companyLogo,
+        team: job.team,
+        culture: job.culture,
+        mission: job.mission,
+        urgency: job.urgency,
+        matchScore: job.matchScore,
+        postedDate: job.postedDate,
+        // Perplexity-style source formatting
+        sourceInfo: {
+          company: job.company,
+          logo: job.companyLogo,
+          url: job.applyUrl,
+          domain: new URL(job.applyUrl).hostname,
+          type: 'Job Opportunity'
+        }
+      }));
+
       return {
-        jobs: finalResults,
+        jobs: formattedJobs,
+        sources: formattedJobs.map(job => ({
+          title: `${job.title} at ${job.company}`,
+          url: job.applyUrl,
+          domain: job.sourceInfo.domain,
+          logo: job.companyLogo,
+          snippet: job.description.substring(0, 200) + '...',
+          type: 'Job Opportunity',
+          company: job.company,
+          location: job.location,
+          matchScore: job.matchScore
+        })),
         metadata: {
           totalFound: allJobs.length,
           filteredCount: finalResults.length,
@@ -486,26 +529,37 @@ async function scrapeCompanyCareers(
           return;
         }
 
+        // Extract more detailed information
+        const fullDescription = $job.find(companyConfig.jobDescriptionSelector).html() || description;
+        const detailedRequirements = extractDetailedRequirements(fullDescription);
+        const detailedResponsibilities = extractDetailedResponsibilities(fullDescription);
+        const detailedBenefits = extractDetailedBenefits(fullDescription);
+        const teamInfo = extractDetailedTeamInfo(fullDescription);
+        const cultureInfo = extractDetailedCultureInfo(fullDescription);
+        const missionInfo = extractDetailedMissionInfo(fullDescription);
+        const salaryInfo = extractDetailedSalary(fullDescription);
+        const workArrangement = extractWorkArrangement(fullDescription);
+
         const job: JobListing = {
           id: `${company}-${index}-${Date.now()}`,
           title,
           company: company.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
           companyId: company,
           location: location || 'Not specified',
-          description,
-          requirements: extractRequirements(description),
-          responsibilities: extractResponsibilities(description),
-          benefits: extractBenefits(description),
-          salary: extractSalary(description),
+          description: cleanDescription(description),
+          requirements: detailedRequirements,
+          responsibilities: detailedResponsibilities,
+          benefits: detailedBenefits,
+          salary: salaryInfo,
           type: jobType,
           level,
           postedDate: extractPostedDate($job),
           applyUrl: applyUrl ? (applyUrl.startsWith('http') ? applyUrl : `${companyConfig.baseUrl}${applyUrl}`) : companyConfig.url,
           source: 'Company Career Page',
           companyLogo: getCompanyLogo(company),
-          team: extractTeamInfo(description),
-          culture: extractCultureInfo(description),
-          mission: extractMissionInfo(description),
+          team: teamInfo,
+          culture: cultureInfo,
+          mission: missionInfo,
           urgency: determineUrgency(title, description),
           matchScore: calculateMatchScore(title, description, filters)
         };
@@ -675,4 +729,146 @@ function calculateMatchScore(title: string, description: string, filters: any): 
   }
   
   return Math.min(100, score);
+}
+
+// Enhanced extraction functions for more detailed job information
+function extractDetailedRequirements(html: string): string[] {
+  const requirements: string[] = [];
+  const $ = cheerio.load(html);
+  
+  // Look for requirement sections
+  $('li, p').each((_, element) => {
+    const text = $(element).text().trim();
+    if (text.toLowerCase().includes('required') || 
+        text.toLowerCase().includes('must have') ||
+        text.toLowerCase().includes('qualifications') ||
+        text.toLowerCase().includes('experience with')) {
+      if (text.length > 10 && text.length < 200) {
+        requirements.push(text);
+      }
+    }
+  });
+  
+  return requirements.slice(0, 8); // More requirements
+}
+
+function extractDetailedResponsibilities(html: string): string[] {
+  const responsibilities: string[] = [];
+  const $ = cheerio.load(html);
+  
+  $('li, p').each((_, element) => {
+    const text = $(element).text().trim();
+    if (text.toLowerCase().includes('responsibilities') || 
+        text.toLowerCase().includes('you will') ||
+        text.toLowerCase().includes('duties') ||
+        text.toLowerCase().includes('develop') ||
+        text.toLowerCase().includes('build')) {
+      if (text.length > 10 && text.length < 200) {
+        responsibilities.push(text);
+      }
+    }
+  });
+  
+  return responsibilities.slice(0, 8);
+}
+
+function extractDetailedBenefits(html: string): string[] {
+  const benefits: string[] = [];
+  const $ = cheerio.load(html);
+  const text = $.text().toLowerCase();
+  
+  const benefitKeywords = [
+    'health insurance', 'dental', 'vision', '401k', 'retirement',
+    'unlimited pto', 'vacation', 'flexible hours', 'remote work',
+    'equity', 'stock options', 'bonus', 'learning budget',
+    'gym membership', 'catered meals', 'transportation', 'childcare'
+  ];
+  
+  for (const benefit of benefitKeywords) {
+    if (text.includes(benefit)) {
+      benefits.push(benefit);
+    }
+  }
+  
+  return benefits;
+}
+
+function extractDetailedTeamInfo(html: string): string {
+  const $ = cheerio.load(html);
+  const text = $.text();
+  
+  const teamMatch = text.match(/team[^.]*\./i);
+  if (teamMatch) return teamMatch[0];
+  
+  const collaborationMatch = text.match(/collaborat[^.]*\./i);
+  if (collaborationMatch) return collaborationMatch[0];
+  
+  return 'Join our collaborative team';
+}
+
+function extractDetailedCultureInfo(html: string): string {
+  const $ = cheerio.load(html);
+  const text = $.text();
+  
+  const cultureMatch = text.match(/culture[^.]*\./i);
+  if (cultureMatch) return cultureMatch[0];
+  
+  const environmentMatch = text.match(/environment[^.]*\./i);
+  if (environmentMatch) return environmentMatch[0];
+  
+  return 'Innovative and collaborative environment';
+}
+
+function extractDetailedMissionInfo(html: string): string {
+  const $ = cheerio.load(html);
+  const text = $.text();
+  
+  const missionMatch = text.match(/mission[^.]*\./i);
+  if (missionMatch) return missionMatch[0];
+  
+  const impactMatch = text.match(/impact[^.]*\./i);
+  if (impactMatch) return impactMatch[0];
+  
+  return 'Help us build the future';
+}
+
+function extractDetailedSalary(html: string): string | undefined {
+  const $ = cheerio.load(html);
+  const text = $.text();
+  
+  // Look for various salary patterns
+  const salaryPatterns = [
+    /\$[\d,]+(?:k|K)?(?:\s*-\s*\$[\d,]+(?:k|K)?)?/g,
+    /salary[^$]*\$[\d,]+(?:k|K)?/gi,
+    /compensation[^$]*\$[\d,]+(?:k|K)?/gi,
+    /pay[^$]*\$[\d,]+(?:k|K)?/gi
+  ];
+  
+  for (const pattern of salaryPatterns) {
+    const match = text.match(pattern);
+    if (match) {
+      return match[0];
+    }
+  }
+  
+  return undefined;
+}
+
+function extractWorkArrangement(html: string): string {
+  const $ = cheerio.load(html);
+  const text = $.text().toLowerCase();
+  
+  if (text.includes('remote') && text.includes('hybrid')) return 'Hybrid';
+  if (text.includes('remote')) return 'Remote';
+  if (text.includes('on-site') || text.includes('onsite')) return 'On-site';
+  return 'Not specified';
+}
+
+function cleanDescription(description: string): string {
+  // Remove HTML tags and clean up text
+  return description
+    .replace(/<[^>]*>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .substring(0, 500); // Limit length
 }
