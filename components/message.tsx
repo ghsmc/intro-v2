@@ -342,37 +342,84 @@ const PurePreviewMessage = ({
             }
 
     // Web Search Tool Results
-    if (type === 'tool-webSearchTool' || type === 'tool-newsSearchTool' || type === 'tool-jobSearchTool') {
-      const { toolCallId, state } = part;
+    if (type.startsWith('tool-') && ['tool-webSearchTool', 'tool-newsSearchTool', 'tool-jobSearchTool', 'tool-webJobSearchTool', 'tool-peopleSearchTool'].includes(type)) {
+      const { toolCallId, state } = part as any;
+      const toolType = type as string;
 
       return (
         <Tool key={toolCallId} defaultOpen={false}>
-          <ToolHeader type={type} state={state} />
+          <ToolHeader type={type as any} state={state} />
           <ToolContent>
             {state === 'input-available' && (
-              <ToolInput input={part.input} />
+              <ToolInput input={(part as any).input} />
             )}
             {state === 'output-available' && (
               <ToolOutput
                 output={
-                  'error' in part.output ? (
+                  'error' in (part as any).output ? (
                     <div className="rounded border p-2 text-red-500">
-                      Error: {String(part.output.error)}
+                      Error: {String((part as any).output.error)}
                     </div>
-                  ) : type === 'tool-jobSearchTool' ? (
+                  ) : toolType === 'tool-jobSearchTool' ? (
                     <div className='text-muted-foreground text-sm'>
                       <div className='mb-2 font-medium'>⚡ Recent Job Search:</div>
                       <div className="space-y-1">
-                        <div>• <span className="font-medium">{part.output.results?.length || 0}</span> opportunities found</div>
-                        <div>• <span className="font-medium">Query:</span> {part.output.query}</div>
-                        {part.output.location && (
-                          <div>• <span className="font-medium">Location:</span> {part.output.location}</div>
+                        <div>• <span className="font-medium">{(part as any).output.results?.length || 0}</span> opportunities found</div>
+                        <div>• <span className="font-medium">Query:</span> {(part as any).output.query}</div>
+                        {(part as any).output.location && (
+                          <div>• <span className="font-medium">Location:</span> {(part as any).output.location}</div>
+                        )}
+                      </div>
+                    </div>
+                  ) : toolType === 'tool-webJobSearchTool' ? (
+                    <div className='font-mono text-muted-foreground text-xs'>
+                      <div className='mb-2 flex items-center gap-2'>
+                        <div className='size-2 rounded-full bg-green-500'></div>
+                        <span className='uppercase tracking-wider'>SEARCH COMPLETE</span>
+                      </div>
+                      <div className="space-y-1 pl-4 border-l border-muted-foreground/20">
+                        <div className='flex justify-between'>
+                          <span className="text-muted-foreground/60">Jobs found:</span>
+                          <span className="text-foreground">{(part as any).output.jobs?.length || 0}</span>
+                        </div>
+                        {(part as any).output.searchMetadata && (
+                          <div className='flex justify-between'>
+                            <span className="text-muted-foreground/60">Sources:</span>
+                            <span className="text-foreground">{(part as any).output.searchMetadata.sources?.length || 0}</span>
+                          </div>
+                        )}
+                        <div className='flex justify-between'>
+                          <span className="text-muted-foreground/60">Query:</span>
+                          <span className="text-foreground truncate max-w-[200px]">{(part as any).input?.query || 'N/A'}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : toolType === 'tool-peopleSearchTool' ? (
+                    <div className='font-mono text-muted-foreground text-xs'>
+                      <div className='mb-2 flex items-center gap-2'>
+                        <div className='size-2 rounded-full bg-green-500'></div>
+                        <span className='uppercase tracking-wider'>SEARCH COMPLETE</span>
+                      </div>
+                      <div className="space-y-1 pl-4 border-l border-muted-foreground/20">
+                        <div className='flex justify-between'>
+                          <span className="text-muted-foreground/60">Profiles:</span>
+                          <span className="text-foreground">{(part as any).output.profiles?.length || 0}</span>
+                        </div>
+                        <div className='flex justify-between'>
+                          <span className="text-muted-foreground/60">Query:</span>
+                          <span className="text-foreground truncate max-w-[200px]">{(part as any).input?.query || 'N/A'}</span>
+                        </div>
+                        {(part as any).output.profiles?.[0]?.sourceDomain && (
+                          <div className='flex justify-between'>
+                            <span className="text-muted-foreground/60">Primary source:</span>
+                            <span className="text-foreground">{(part as any).output.profiles[0].sourceDomain}</span>
+                          </div>
                         )}
                       </div>
                     </div>
                   ) : (
                     <div className='text-muted-foreground text-sm'>
-                      Found {part.output.results?.length || 0} results for "{part.output.query}"
+                      Found {(part as any).output.results?.length || 0} results for "{(part as any).output.query}"
                     </div>
                   )
                 }
@@ -390,12 +437,12 @@ const PurePreviewMessage = ({
               {message.role === 'assistant' && mode === 'view' && (() => {
                 // Collect all citations from web search tools
                 const allCitations = message.parts
-                  ?.filter(p => 
-                    p.type.startsWith('tool-') && 
-                    (p.type === 'tool-webSearchTool' || p.type === 'tool-newsSearchTool') &&
-                    p.state === 'output-available' &&
-                    p.output && 
-                    !('error' in p.output)
+                  ?.filter(p =>
+                    p.type.startsWith('tool-') &&
+                    ['tool-webSearchTool', 'tool-newsSearchTool', 'tool-webJobSearchTool', 'tool-peopleSearchTool'].includes(p.type) &&
+                    (p as any).state === 'output-available' &&
+                    (p as any).output &&
+                    !('error' in (p as any).output)
                   )
                   .flatMap(p => {
                     // Check if this is a tool invocation part with output
@@ -411,6 +458,28 @@ const PurePreviewMessage = ({
                         domain: result.link ? new URL(result.link).hostname.replace('www.', '') : 'Unknown',
                           snippet: result.snippet,
                           logo: result.link ? `https://www.google.com/s2/favicons?domain=${new URL(result.link).hostname}&sz=32` : undefined
+                        }));
+                      }
+                      // Handle peopleSearchTool profiles
+                      if ((p as any).type === 'tool-peopleSearchTool' && (p.output as any).profiles && Array.isArray((p.output as any).profiles)) {
+                        return (p.output as any).profiles.map((profile: any, index: number) => ({
+                          id: `profile-${index}`,
+                          title: `${profile.name} - ${profile.title || profile.company || 'Professional'}`,
+                          url: profile.url || '#',
+                          domain: profile.sourceDomain || (profile.url ? new URL(profile.url).hostname.replace('www.', '') : 'LinkedIn'),
+                          snippet: profile.description || profile.connectionReason || '',
+                          logo: profile.url ? `https://www.google.com/s2/favicons?domain=${new URL(profile.url).hostname}&sz=32` : undefined
+                        }));
+                      }
+                      // Handle webJobSearchTool jobs
+                      if ((p as any).type === 'tool-webJobSearchTool' && (p.output as any).jobs && Array.isArray((p.output as any).jobs)) {
+                        return (p.output as any).jobs.slice(0, 10).map((job: any, index: number) => ({
+                          id: `job-${index}`,
+                          title: `${job.title} at ${job.company}`,
+                          url: job.url || '#',
+                          domain: job.sourceDomain || (job.url ? new URL(job.url).hostname.replace('www.', '') : 'Job Board'),
+                          snippet: job.description || `${job.location || 'Location TBD'} • ${job.type || 'Full-time'}`,
+                          logo: job.url ? `https://www.google.com/s2/favicons?domain=${new URL(job.url).hostname}&sz=32` : undefined
                         }));
                       }
                     }

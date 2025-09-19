@@ -1,5 +1,5 @@
 // Streaming API for intelligent job search with Server-Sent Events
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 import { searchJobs, type JobSearchParams } from '@/lib/db/queries/jobs';
 import { getCompanies } from '@/lib/db/queries/companies';
 
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   const location = searchParams.get('location') || undefined;
   const remote = searchParams.get('remote') === 'true';
   const experienceLevel = searchParams.get('level') || undefined;
-  const limit = parseInt(searchParams.get('limit') || '20');
+  const limit = Number.parseInt(searchParams.get('limit') || '20');
 
   if (!query) {
     return new Response('Query parameter required', { status: 400 });

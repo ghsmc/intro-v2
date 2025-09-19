@@ -35,10 +35,11 @@ export const bulgeBracketSearchTool = tool({
             return openDate && openDate <= today && (!closeDate || closeDate >= today);
           case 'Upcoming':
             return openDate && openDate > today;
-          case 'Closing Soon':
+          case 'Closing Soon': {
             if (!closeDate) return false;
             const daysUntilClose = Math.ceil((closeDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
             return daysUntilClose >= 0 && daysUntilClose <= 7;
+          }
           case 'Closed':
             return closeDate && closeDate < today;
           default:

@@ -1,5 +1,5 @@
-import { Company } from '@/lib/db/schema';
-import { OnboardingData } from '@/app/(auth)/onboarding/page';
+import type { Company } from '@/lib/db/schema';
+import type { OnboardingData } from '@/app/(auth)/onboarding/page';
 
 export interface MatchScore {
   total: number;
@@ -311,7 +311,7 @@ export class AdvancedCareerMatcher {
 
     // Salary constraint
     if (constraints.salary_minimum && constraints.salary_minimum !== '0') {
-      const minSalary = parseInt(constraints.salary_minimum);
+      const minSalary = Number.parseInt(constraints.salary_minimum);
       const companyValuation = this.parseValuation(company.valuation);
       
       if (companyValuation < minSalary) {
@@ -519,7 +519,7 @@ export class AdvancedCareerMatcher {
       baseBenefits.push('Equity', 'Stock Options', 'Unlimited PTO');
     }
     
-    if (company.employees && parseInt(company.employees) < 100) {
+    if (company.employees && Number.parseInt(company.employees) < 100) {
       baseBenefits.push('Flexible Hours', 'Remote Work', 'Learning Budget');
     }
     
@@ -621,7 +621,7 @@ export class AdvancedCareerMatcher {
       traits.push('building_something_new');
     }
     
-    if (company.employees && parseInt(company.employees) < 100) {
+    if (company.employees && Number.parseInt(company.employees) < 100) {
       traits.push('creative_expression');
     }
     
@@ -641,7 +641,7 @@ export class AdvancedCareerMatcher {
     if (!valuation) return 0;
     
     const clean = valuation.replace(/[^0-9.]/g, '');
-    const num = parseFloat(clean);
+    const num = Number.parseFloat(clean);
     
     if (valuation.includes('B')) return num * 1000000000;
     if (valuation.includes('M')) return num * 1000000;
@@ -653,7 +653,7 @@ export class AdvancedCareerMatcher {
   private parseCompanySize(employees?: string | null): string {
     if (!employees) return 'unknown';
     
-    const num = parseInt(employees);
+    const num = Number.parseInt(employees);
     if (num < 50) return 'startup';
     if (num < 500) return 'medium';
     return 'large';

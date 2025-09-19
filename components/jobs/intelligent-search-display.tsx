@@ -88,16 +88,16 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
   return (
     <div className="w-full space-y-4">
       {/* Search Progress Visualization */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className='rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 p-6 dark:from-gray-800 dark:to-gray-900'>
+        <div className='mb-4 flex items-center justify-between'>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-blue-500" />
-            <h3 className="text-lg font-semibold">Intelligent Job Search</h3>
+            <Sparkles className='h-5 w-5 text-blue-500' />
+            <h3 className='font-semibold text-lg'>Intelligent Job Search</h3>
           </div>
           {isSearching && (
             <div className="flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">Searching...</span>
+              <Loader2 className='h-4 w-4 animate-spin text-blue-500' />
+              <span className='text-gray-600 text-sm dark:text-gray-400'>Searching...</span>
             </div>
           )}
         </div>
@@ -107,9 +107,9 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
+            className='mb-4 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-800'
           >
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <p className='font-medium text-gray-700 text-sm dark:text-gray-300'>
               {currentStatus}
             </p>
           </motion.div>
@@ -125,7 +125,7 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3 }}
-                className={`flex items-start gap-3 p-3 rounded-lg transition-colors ${
+                className={`flex items-start gap-3 rounded-lg p-3 transition-colors ${
                   update.type === 'complete'
                     ? 'bg-green-50 dark:bg-green-900/20'
                     : update.type === 'error'
@@ -136,32 +136,32 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
                 {/* Status Icon */}
                 <div className="mt-1">
                   {update.status === 'analyzing' && (
-                    <Search className="w-4 h-4 text-blue-500" />
+                    <Search className='h-4 w-4 text-blue-500' />
                   )}
                   {update.status === 'searching' && (
-                    <Zap className="w-4 h-4 text-yellow-500" />
+                    <Zap className='h-4 w-4 text-yellow-500' />
                   )}
                   {update.status === 'reading' && (
-                    <TrendingUp className="w-4 h-4 text-purple-500" />
+                    <TrendingUp className='h-4 w-4 text-purple-500' />
                   )}
                   {update.status === 'found' && (
-                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <CheckCircle className='h-4 w-4 text-green-500' />
                   )}
                   {update.status === 'complete' && (
-                    <CheckCircle className="w-4 h-4 text-green-600" />
+                    <CheckCircle className='h-4 w-4 text-green-600' />
                   )}
                   {update.type === 'error' && (
-                    <AlertCircle className="w-4 h-4 text-red-500" />
+                    <AlertCircle className='h-4 w-4 text-red-500' />
                   )}
                 </div>
 
                 {/* Update Content */}
                 <div className="flex-1">
-                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                  <p className='text-gray-700 text-sm dark:text-gray-300'>
                     {update.message}
                   </p>
                   {update.stats && (
-                    <div className="mt-1 flex gap-3 text-xs text-gray-500 dark:text-gray-400">
+                    <div className='mt-1 flex gap-3 text-gray-500 text-xs dark:text-gray-400'>
                       <span>{update.stats.totalResults} results</span>
                       <span>{update.stats.elapsed}ms</span>
                       <span>{update.stats.sources} sources</span>
@@ -171,7 +171,7 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
 
                 {/* Timestamp */}
                 {update.timestamp && (
-                  <span className="text-xs text-gray-400 dark:text-gray-500">
+                  <span className='text-gray-400 text-xs dark:text-gray-500'>
                     {new Date(update.timestamp).toLocaleTimeString()}
                   </span>
                 )}
@@ -185,19 +185,19 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-4 p-4 bg-white dark:bg-gray-800 rounded-lg"
+            className='mt-4 rounded-lg bg-white p-4 dark:bg-gray-800'
           >
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <div className='mb-2 flex items-center justify-between'>
+              <h4 className='font-semibold text-gray-700 text-sm dark:text-gray-300'>
                 Live Results
               </h4>
-              <span className="text-xs text-gray-500">
+              <span className='text-gray-500 text-xs'>
                 {allResults.length} positions found
               </span>
             </div>
 
             {/* Mini Results List */}
-            <div className="space-y-1 max-h-40 overflow-y-auto">
+            <div className='max-h-40 space-y-1 overflow-y-auto'>
               {allResults.slice(0, 5).map((job, idx) => (
                 <motion.div
                   key={job.id || idx}
@@ -210,7 +210,7 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
                     <span className="font-medium text-gray-700 dark:text-gray-300">
                       {job.title}
                     </span>
-                    <span className="text-gray-500 dark:text-gray-400 ml-2">
+                    <span className='ml-2 text-gray-500 dark:text-gray-400'>
                       at {job.company}
                     </span>
                   </div>
@@ -222,7 +222,7 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
             </div>
 
             {allResults.length > 5 && (
-              <p className="mt-2 text-xs text-gray-500 text-center">
+              <p className='mt-2 text-center text-gray-500 text-xs'>
                 +{allResults.length - 5} more results
               </p>
             )}
@@ -237,25 +237,27 @@ export function IntelligentJobSearch({ query, onResults }: IntelligentJobSearchP
           animate={{ opacity: 1 }}
           className="grid grid-cols-3 gap-4"
         >
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <div className='rounded-lg bg-white p-4 text-center dark:bg-gray-800'>
+            <p className='font-bold text-2xl text-blue-600 dark:text-blue-400'>
               {allResults.length}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Total Jobs</p>
+            <p className='text-gray-500 text-xs dark:text-gray-400'>Total Jobs</p>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+          <div className='rounded-lg bg-white p-4 text-center dark:bg-gray-800'>
+            <p className='font-bold text-2xl text-green-600 dark:text-green-400'>
               {searchUpdates.find(u => u.stats)?.stats?.sources || 0}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Sources</p>
+            <p className='text-gray-500 text-xs dark:text-gray-400'>Sources</p>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-              {searchUpdates.find(u => u.type === 'complete')?.stats?.elapsed
-                ? `${(searchUpdates.find(u => u.type === 'complete')!.stats!.elapsed / 1000).toFixed(1)}s`
-                : '---'}
+          <div className='rounded-lg bg-white p-4 text-center dark:bg-gray-800'>
+            <p className='font-bold text-2xl text-purple-600 dark:text-purple-400'>
+              {(() => {
+                const completeUpdate = searchUpdates.find(u => u.type === 'complete');
+                const elapsed = completeUpdate?.stats?.elapsed;
+                return elapsed ? `${(elapsed / 1000).toFixed(1)}s` : '---';
+              })()}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Search Time</p>
+            <p className='text-gray-500 text-xs dark:text-gray-400'>Search Time</p>
           </div>
         </motion.div>
       )}
@@ -270,38 +272,38 @@ export function StreamingJobCard({ job, delay = 0 }: { job: any; delay?: number 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
+      className='rounded-lg bg-white p-4 shadow-sm transition-shadow hover:shadow-md dark:bg-gray-800'
     >
-      <div className="flex justify-between items-start">
+      <div className='flex items-start justify-between'>
         <div className="flex-1">
           <h3 className="font-semibold text-gray-900 dark:text-gray-100">
             {job.title}
           </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className='text-gray-600 text-sm dark:text-gray-400'>
             {job.company} • {job.location}
           </p>
           {job.salary && (
-            <p className="text-sm text-green-600 dark:text-green-400 mt-1">
+            <p className='mt-1 text-green-600 text-sm dark:text-green-400'>
               {job.salary}
             </p>
           )}
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
+          <p className='mt-2 line-clamp-2 text-gray-500 text-sm dark:text-gray-400'>
             {job.description}
           </p>
         </div>
-        <div className="ml-4 text-xs text-gray-400">
+        <div className='ml-4 text-gray-400 text-xs'>
           {job.source}
         </div>
       </div>
       {job.matchScore && (
         <div className="mt-3 flex items-center gap-2">
-          <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+          <div className='h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700'>
             <div
-              className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+              className='h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500'
               style={{ width: `${job.matchScore}%` }}
             />
           </div>
-          <span className="text-xs text-gray-500">{job.matchScore}% match</span>
+          <span className='text-gray-500 text-xs'>{job.matchScore}% match</span>
         </div>
       )}
     </motion.div>

@@ -87,6 +87,8 @@ const getStatusBadge = (status: ToolUIPart['state'], type?: ToolUIPart['type']) 
   // Get the appropriate label based on tool type
   const getLabel = () => {
     if (type === 'tool-jobSearchTool') return getJobSearchLabel(status);
+    if (type === 'tool-webJobSearchTool') return getJobSearchLabel(status);
+    if (type === 'tool-peopleSearchTool') return getWebSearchLabel(status);
     if (type === 'tool-webSearchTool') return getWebSearchLabel(status);
     if (type === 'tool-newsSearchTool') return getNewsSearchLabel(status);
     if (type === 'tool-bulgeBracketSearchTool') return getBulgeBracketLabel(status);
@@ -128,6 +130,8 @@ export const ToolHeader = ({
   const getToolName = (toolType: string) => {
     const toolNames: Record<string, string> = {
       'tool-jobSearchTool': 'Job Search',
+      'tool-webJobSearchTool': 'Web Job Search',
+      'tool-peopleSearchTool': 'People & Alumni Search',
       'tool-webSearchTool': 'Web Search',
       'tool-newsSearchTool': 'News Search',
       'tool-bulgeBracketSearchTool': 'IB Programs Search',

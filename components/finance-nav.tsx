@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { MessageSquare, Building2, Briefcase, TrendingUp } from 'lucide-react';
+import { MessageSquare, Building2, Briefcase, } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function FinanceNav() {

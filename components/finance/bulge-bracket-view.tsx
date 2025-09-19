@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Calendar,
   MapPin,
-  Building2,
   ExternalLink,
   Clock,
   AlertCircle,
@@ -77,23 +76,23 @@ export function BulgeBracketView() {
     const closeDate = program.closingDate ? new Date(program.closingDate) : null;
 
     if (program.latestStage === 'Offers Out') {
-      return <span className="px-2 py-0.5 bg-green-500/10 text-green-600 text-xs rounded-full">Offers Out</span>;
+      return <span className='rounded-full bg-green-500/10 px-2 py-0.5 text-green-600 text-xs'>Offers Out</span>;
     }
     if (openDate && openDate > today) {
       const daysUntil = Math.ceil((openDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-      return <span className="px-2 py-0.5 bg-yellow-500/10 text-yellow-600 text-xs rounded-full">Opens in {daysUntil}d</span>;
+      return <span className='rounded-full bg-yellow-500/10 px-2 py-0.5 text-xs text-yellow-600'>Opens in {daysUntil}d</span>;
     }
     if (closeDate && closeDate >= today && openDate && openDate <= today) {
       const daysLeft = Math.ceil((closeDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
       if (daysLeft <= 7) {
-        return <span className="px-2 py-0.5 bg-red-500/10 text-red-600 text-xs rounded-full">{daysLeft}d left</span>;
+        return <span className='rounded-full bg-red-500/10 px-2 py-0.5 text-red-600 text-xs'>{daysLeft}d left</span>;
       }
-      return <span className="px-2 py-0.5 bg-green-500/10 text-green-600 text-xs rounded-full">Open</span>;
+      return <span className='rounded-full bg-green-500/10 px-2 py-0.5 text-green-600 text-xs'>Open</span>;
     }
     if (closeDate && closeDate < today) {
-      return <span className="px-2 py-0.5 bg-gray-500/10 text-gray-600 text-xs rounded-full">Closed</span>;
+      return <span className='rounded-full bg-gray-500/10 px-2 py-0.5 text-gray-600 text-xs'>Closed</span>;
     }
-    return <span className="px-2 py-0.5 bg-blue-500/10 text-blue-600 text-xs rounded-full">Rolling</span>;
+    return <span className='rounded-full bg-blue-500/10 px-2 py-0.5 text-blue-600 text-xs'>Rolling</span>;
   };
 
   const getTierBadgeColor = (tier: string) => {
@@ -130,29 +129,29 @@ export function BulgeBracketView() {
   }, [filteredPrograms]);
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className='flex h-full flex-col bg-background'>
       {/* Compact Header */}
-      <div className="border-b border-border">
+      <div className='border-border border-b'>
         <div className="px-6 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <div>
-                <h1 className="text-xl font-semibold">Bulge Bracket</h1>
-                <p className="text-xs text-muted-foreground">2026 Investment Banking Programs</p>
+                <h1 className='font-semibold text-xl'>Bulge Bracket</h1>
+                <p className='text-muted-foreground text-xs'>2026 Investment Banking Programs</p>
               </div>
 
               {/* Quick Stats */}
-              <div className="hidden md:flex items-center gap-4 text-xs">
+              <div className='hidden items-center gap-4 text-xs md:flex'>
                 <div className="flex items-center gap-1.5">
-                  <div className="size-2 bg-green-500 rounded-full"></div>
+                  <div className='size-2 rounded-full bg-green-500' />
                   <span className="text-muted-foreground">{getOpenPrograms().length} Open</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="size-2 bg-yellow-500 rounded-full"></div>
+                  <div className='size-2 rounded-full bg-yellow-500' />
                   <span className="text-muted-foreground">{getUpcomingPrograms().length} Upcoming</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="size-2 bg-gray-500 rounded-full"></div>
+                  <div className='size-2 rounded-full bg-gray-500' />
                   <span className="text-muted-foreground">{filteredPrograms.length} Total</span>
                 </div>
               </div>
@@ -161,19 +160,19 @@ export function BulgeBracketView() {
             {/* Search Bar */}
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 size-3.5 text-muted-foreground" />
+                <Search className='-translate-y-1/2 absolute top-1/2 left-3 size-3.5 transform text-muted-foreground' />
                 <input
                   type="text"
                   placeholder="Search programs..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-64 pl-9 pr-3 py-1.5 text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary/20"
+                  className='w-64 rounded-md border border-border bg-muted/50 py-1.5 pr-3 pl-9 text-sm focus:outline-none focus:ring-1 focus:ring-primary/20'
                 />
               </div>
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className={cn(
-                  "p-1.5 rounded-md transition-colors",
+                  'rounded-md p-1.5 transition-colors',
                   showFilters ? "bg-primary/10 text-primary" : "hover:bg-muted"
                 )}
               >
@@ -189,12 +188,12 @@ export function BulgeBracketView() {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                className="pt-3 flex gap-2 overflow-hidden"
+                className='flex gap-2 overflow-hidden pt-3'
               >
                 <select
                   value={filterType}
                   onChange={(e) => setFilterType(e.target.value as FilterType)}
-                  className="px-3 py-1 text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary/20"
+                  className='rounded-md border border-border bg-muted/50 px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary/20'
                 >
                   <option value="all">All Status</option>
                   <option value="open">Open Now</option>
@@ -205,7 +204,7 @@ export function BulgeBracketView() {
                 <select
                   value={tierFilter}
                   onChange={(e) => setTierFilter(e.target.value as TierFilter)}
-                  className="px-3 py-1 text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary/20"
+                  className='rounded-md border border-border bg-muted/50 px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary/20'
                 >
                   <option value="all">All Tiers</option>
                   <option value="Bulge Bracket">Bulge Bracket</option>
@@ -222,16 +221,16 @@ export function BulgeBracketView() {
       {/* Compact Table View */}
       <div className="flex-1 overflow-auto">
         <table className="w-full">
-          <thead className="sticky top-0 bg-background border-b border-border">
-            <tr className="text-xs text-muted-foreground">
-              <th className="text-left px-6 py-2 font-medium">Company</th>
-              <th className="text-left px-2 py-2 font-medium hidden lg:table-cell">Program</th>
-              <th className="text-left px-2 py-2 font-medium">Status</th>
-              <th className="text-left px-2 py-2 font-medium hidden md:table-cell">Opens</th>
-              <th className="text-left px-2 py-2 font-medium hidden md:table-cell">Closes</th>
-              <th className="text-left px-2 py-2 font-medium hidden sm:table-cell">Locations</th>
-              <th className="text-left px-2 py-2 font-medium hidden xl:table-cell">Requirements</th>
-              <th className="px-2 py-2"></th>
+          <thead className='sticky top-0 border-border border-b bg-background'>
+            <tr className='text-muted-foreground text-xs'>
+              <th className='px-6 py-2 text-left font-medium'>Company</th>
+              <th className='hidden px-2 py-2 text-left font-medium lg:table-cell'>Program</th>
+              <th className='px-2 py-2 text-left font-medium'>Status</th>
+              <th className='hidden px-2 py-2 text-left font-medium md:table-cell'>Opens</th>
+              <th className='hidden px-2 py-2 text-left font-medium md:table-cell'>Closes</th>
+              <th className='hidden px-2 py-2 text-left font-medium sm:table-cell'>Locations</th>
+              <th className='hidden px-2 py-2 text-left font-medium xl:table-cell'>Requirements</th>
+              <th className="px-2 py-2" />
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -241,16 +240,16 @@ export function BulgeBracketView() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: index * 0.01 }}
-                className="group hover:bg-muted/30 transition-colors cursor-pointer"
+                className='group cursor-pointer transition-colors hover:bg-muted/30'
                 onClick={() => setSelectedProgram(program)}
               >
                 <td className="px-6 py-2.5">
                   <div className="flex items-center gap-2">
                     <div>
                       <div className="font-medium text-sm">{program.company}</div>
-                      <div className="text-xs text-muted-foreground lg:hidden">{program.programName}</div>
+                      <div className='text-muted-foreground text-xs lg:hidden'>{program.programName}</div>
                     </div>
-                    <span className={cn("px-1.5 py-0.5 text-xs rounded border hidden sm:inline-flex", getTierBadgeColor(program.tier))}>
+                    <span className={cn('hidden rounded border px-1.5 py-0.5 text-xs sm:inline-flex', getTierBadgeColor(program.tier))}>
                       {program.tier === 'Bulge Bracket' ? 'BB' :
                        program.tier === 'Elite Boutique' ? 'EB' :
                        program.tier === 'Middle Market' ? 'MM' :
@@ -258,45 +257,45 @@ export function BulgeBracketView() {
                     </span>
                   </div>
                 </td>
-                <td className="px-2 py-2.5 hidden lg:table-cell">
-                  <span className="text-sm text-muted-foreground">{program.programName}</span>
+                <td className='hidden px-2 py-2.5 lg:table-cell'>
+                  <span className='text-muted-foreground text-sm'>{program.programName}</span>
                 </td>
                 <td className="px-2 py-2.5">
                   {getStatusBadge(program)}
                 </td>
-                <td className="px-2 py-2.5 hidden md:table-cell">
-                  <span className="text-sm text-muted-foreground">{formatDate(program.openingDate)}</span>
+                <td className='hidden px-2 py-2.5 md:table-cell'>
+                  <span className='text-muted-foreground text-sm'>{formatDate(program.openingDate)}</span>
                 </td>
-                <td className="px-2 py-2.5 hidden md:table-cell">
-                  <span className="text-sm text-muted-foreground">{formatDate(program.closingDate)}</span>
+                <td className='hidden px-2 py-2.5 md:table-cell'>
+                  <span className='text-muted-foreground text-sm'>{formatDate(program.closingDate)}</span>
                 </td>
-                <td className="px-2 py-2.5 hidden sm:table-cell">
+                <td className='hidden px-2 py-2.5 sm:table-cell'>
                   <div className="flex items-center gap-1">
                     <MapPin className="size-3 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">{program.locations.length}</span>
+                    <span className='text-muted-foreground text-sm'>{program.locations.length}</span>
                   </div>
                 </td>
-                <td className="px-2 py-2.5 hidden xl:table-cell">
+                <td className='hidden px-2 py-2.5 xl:table-cell'>
                   <div className="flex gap-1">
                     {program.requiresCV && (
-                      <span className="size-6 rounded bg-muted flex items-center justify-center" title="CV Required">
+                      <span className='flex size-6 items-center justify-center rounded bg-muted' title="CV Required">
                         <FileText className="size-3 text-muted-foreground" />
                       </span>
                     )}
                     {program.requiresCoverLetter && (
-                      <span className="size-6 rounded bg-muted flex items-center justify-center" title="Cover Letter">
+                      <span className='flex size-6 items-center justify-center rounded bg-muted' title="Cover Letter">
                         <FileText className="size-3 text-muted-foreground" />
                       </span>
                     )}
                     {program.testPrep && (
-                      <span className="size-6 rounded bg-blue-500/10 flex items-center justify-center" title={program.testPrep}>
+                      <span className='flex size-6 items-center justify-center rounded bg-blue-500/10' title={program.testPrep}>
                         <AlertCircle className="size-3 text-blue-600" />
                       </span>
                     )}
                   </div>
                 </td>
                 <td className="px-2 py-2.5">
-                  <ChevronRight className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  <ChevronRight className='size-4 text-muted-foreground transition-colors group-hover:text-foreground' />
                 </td>
               </motion.tr>
             ))}
@@ -304,10 +303,10 @@ export function BulgeBracketView() {
         </table>
 
         {filteredPrograms.length === 0 && (
-          <div className="flex items-center justify-center h-64">
+          <div className='flex h-64 items-center justify-center'>
             <div className="text-center">
-              <Briefcase className="size-12 text-muted-foreground/50 mx-auto mb-3" />
-              <p className="text-sm text-muted-foreground">No programs match your filters</p>
+              <Briefcase className='mx-auto mb-3 size-12 text-muted-foreground/50' />
+              <p className='text-muted-foreground text-sm'>No programs match your filters</p>
             </div>
           </div>
         )}
@@ -320,26 +319,26 @@ export function BulgeBracketView() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className='fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm'
             onClick={() => setSelectedProgram(null)}
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-card border border-border rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              className='max-h-[80vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-border bg-card'
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div className="sticky top-0 bg-card border-b border-border px-6 py-4">
+              <div className='sticky top-0 border-border border-b bg-card px-6 py-4'>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-lg font-semibold">{selectedProgram.company}</h2>
-                    <p className="text-sm text-muted-foreground">{selectedProgram.programName}</p>
+                    <h2 className='font-semibold text-lg'>{selectedProgram.company}</h2>
+                    <p className='text-muted-foreground text-sm'>{selectedProgram.programName}</p>
                   </div>
                   <button
                     onClick={() => setSelectedProgram(null)}
-                    className="p-1 hover:bg-muted rounded transition-colors"
+                    className='rounded p-1 transition-colors hover:bg-muted'
                   >
                     <X className="size-4" />
                   </button>
@@ -347,12 +346,12 @@ export function BulgeBracketView() {
               </div>
 
               {/* Modal Content */}
-              <div className="p-6 space-y-6">
+              <div className='space-y-6 p-6'>
                 {/* Key Info Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-3">
                     <div>
-                      <p className="text-xs text-muted-foreground mb-1">Timeline</p>
+                      <p className='mb-1 text-muted-foreground text-xs'>Timeline</p>
                       <div className="space-y-1">
                         <div className="flex items-center gap-2 text-sm">
                           <Calendar className="size-3 text-muted-foreground" />
@@ -369,14 +368,14 @@ export function BulgeBracketView() {
 
                     {selectedProgram.division && (
                       <div>
-                        <p className="text-xs text-muted-foreground mb-1">Division</p>
+                        <p className='mb-1 text-muted-foreground text-xs'>Division</p>
                         <p className="text-sm">{selectedProgram.division}</p>
                       </div>
                     )}
 
                     {selectedProgram.compensationRange && (
                       <div>
-                        <p className="text-xs text-muted-foreground mb-1">Compensation</p>
+                        <p className='mb-1 text-muted-foreground text-xs'>Compensation</p>
                         <div className="flex items-center gap-1.5 text-sm">
                           <DollarSign className="size-3 text-green-600" />
                           <span>{selectedProgram.compensationRange}</span>
@@ -387,10 +386,10 @@ export function BulgeBracketView() {
 
                   <div className="space-y-3">
                     <div>
-                      <p className="text-xs text-muted-foreground mb-1">Requirements</p>
+                      <p className='mb-1 text-muted-foreground text-xs'>Requirements</p>
                       <div className="space-y-1 text-sm">
                         <div className="flex items-center gap-2">
-                          <div className={cn("size-4 rounded-full flex items-center justify-center",
+                          <div className={cn('flex size-4 items-center justify-center rounded-full',
                             selectedProgram.requiresCV ? "bg-green-500/20" : "bg-gray-500/20"
                           )}>
                             {selectedProgram.requiresCV ? '✓' : '–'}
@@ -398,7 +397,7 @@ export function BulgeBracketView() {
                           <span className={cn(selectedProgram.requiresCV ? "" : "text-muted-foreground")}>CV/Resume</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className={cn("size-4 rounded-full flex items-center justify-center",
+                          <div className={cn('flex size-4 items-center justify-center rounded-full',
                             selectedProgram.requiresCoverLetter ? "bg-green-500/20" : "bg-gray-500/20"
                           )}>
                             {selectedProgram.requiresCoverLetter ? '✓' : '–'}
@@ -406,7 +405,7 @@ export function BulgeBracketView() {
                           <span className={cn(selectedProgram.requiresCoverLetter ? "" : "text-muted-foreground")}>Cover Letter</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className={cn("size-4 rounded-full flex items-center justify-center",
+                          <div className={cn('flex size-4 items-center justify-center rounded-full',
                             selectedProgram.requiresWrittenAnswers ? "bg-green-500/20" : "bg-gray-500/20"
                           )}>
                             {selectedProgram.requiresWrittenAnswers ? '✓' : '–'}
@@ -418,8 +417,8 @@ export function BulgeBracketView() {
 
                     {selectedProgram.testPrep && (
                       <div>
-                        <p className="text-xs text-muted-foreground mb-1">Assessment</p>
-                        <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-blue-500/10 text-blue-600 rounded text-sm">
+                        <p className='mb-1 text-muted-foreground text-xs'>Assessment</p>
+                        <div className='inline-flex items-center gap-1.5 rounded bg-blue-500/10 px-2 py-1 text-blue-600 text-sm'>
                           <AlertCircle className="size-3" />
                           {selectedProgram.testPrep}
                         </div>
@@ -430,10 +429,10 @@ export function BulgeBracketView() {
 
                 {/* Locations */}
                 <div>
-                  <p className="text-xs text-muted-foreground mb-2">Locations ({selectedProgram.locations.length})</p>
+                  <p className='mb-2 text-muted-foreground text-xs'>Locations ({selectedProgram.locations.length})</p>
                   <div className="flex flex-wrap gap-1.5">
                     {selectedProgram.locations.map((location) => (
-                      <span key={location} className="px-2 py-1 bg-muted text-xs rounded">
+                      <span key={location} className='rounded bg-muted px-2 py-1 text-xs'>
                         {location}
                       </span>
                     ))}
@@ -443,8 +442,8 @@ export function BulgeBracketView() {
                 {/* Notes */}
                 {selectedProgram.notes && (
                   <div>
-                    <p className="text-xs text-muted-foreground mb-2">Important Notes</p>
-                    <div className="p-3 bg-muted/50 rounded-md">
+                    <p className='mb-2 text-muted-foreground text-xs'>Important Notes</p>
+                    <div className='rounded-md bg-muted/50 p-3'>
                       <p className="text-sm">{selectedProgram.notes}</p>
                     </div>
                   </div>
@@ -452,18 +451,18 @@ export function BulgeBracketView() {
 
                 {/* Historical Data */}
                 {selectedProgram.lastYearOpening && (
-                  <div className="pt-3 border-t border-border">
-                    <p className="text-xs text-muted-foreground">Last year opened: {selectedProgram.lastYearOpening}</p>
+                  <div className='border-border border-t pt-3'>
+                    <p className='text-muted-foreground text-xs'>Last year opened: {selectedProgram.lastYearOpening}</p>
                   </div>
                 )}
 
                 {/* Actions */}
                 <div className="flex items-center gap-2 pt-3">
-                  <button className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm flex items-center justify-center gap-2">
+                  <button className='flex flex-1 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-primary-foreground text-sm transition-colors hover:bg-primary/90'>
                     <ExternalLink className="size-3.5" />
                     Apply Now
                   </button>
-                  <button className="px-4 py-2 bg-muted rounded-md hover:bg-muted/80 transition-colors text-sm">
+                  <button className='rounded-md bg-muted px-4 py-2 text-sm transition-colors hover:bg-muted/80'>
                     Save
                   </button>
                 </div>

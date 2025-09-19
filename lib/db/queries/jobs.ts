@@ -24,7 +24,6 @@ import {
   type Job,
   type JobApplication,
   type JobSearchPreference,
-  type JobInteraction,
 } from '../schema';
 
 // biome-ignore lint: Forbidden non-null assertion.

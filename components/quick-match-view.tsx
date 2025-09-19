@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Zap, Clock, Target, TrendingUp, AlertCircle,
-  ChevronRight, Calendar, MapPin, Building2, Star,
-  CheckCircle, XCircle, Sparkles, Code, Briefcase, DollarSign
+  Zap, Clock, TrendingUp, AlertCircle,
+  ChevronRight, Calendar, MapPin, 
+  CheckCircle, Sparkles, Code, Briefcase, DollarSign
 } from 'lucide-react';
 import { bulgeBracketPrograms } from '@/lib/data/bulge-bracket-programs';
 import { useDomain } from '@/components/domain-provider';
@@ -319,7 +319,7 @@ export function QuickMatchView() {
           <div className="flex items-center gap-3">
             {getDomainIcon()}
             <h1 className="font-bold text-2xl">Quick Match</h1>
-            <span className={`rounded-full px-2 py-0.5 text-xs bg-gradient-to-r ${domainConfig.theme.logoColor} text-white`}>
+            <span className={`rounded-full bg-gradient-to-r px-2 py-0.5 text-xs ${domainConfig.theme.logoColor} text-white`}>
               {domainConfig.name}
             </span>
           </div>
@@ -396,7 +396,7 @@ export function QuickMatchView() {
                           : 'border-border hover:bg-accent'
                       }`}
                     >
-                      <MapPin className="mb-2 size-4 mx-auto" />
+                      <MapPin className='mx-auto mb-2 size-4' />
                       <div className="font-medium text-sm">{loc}</div>
                     </button>
                   ))}
@@ -501,7 +501,7 @@ export function QuickMatchView() {
               >
                 <div className="relative">
                   <div className="size-16 animate-spin rounded-full border-4 border-muted border-t-primary" />
-                  <Zap className="absolute top-1/2 left-1/2 size-6 -translate-x-1/2 -translate-y-1/2 transform text-primary" />
+                  <Zap className='-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 size-6 transform text-primary' />
                 </div>
                 <p className="mt-4 text-muted-foreground">Finding your perfect matches...</p>
               </motion.div>

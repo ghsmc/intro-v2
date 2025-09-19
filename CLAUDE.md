@@ -26,7 +26,7 @@ pnpm format            # Format code with Biome
 ### Database Management
 ```bash
 pnpm db:generate       # Generate Drizzle migrations
-pnpm db:migrate        # Run database migrations
+pnpm db:migrate        # Run database migrations (required when Job table error occurs)
 pnpm db:studio         # Open Drizzle Studio GUI
 pnpm db:push           # Push schema changes directly to database
 pnpm db:pull           # Pull schema from database
@@ -34,7 +34,7 @@ pnpm db:pull           # Pull schema from database
 
 ### Testing
 ```bash
-pnpm test              # Run Playwright tests
+pnpm test              # Run Playwright tests with PLAYWRIGHT=True
 ```
 
 ## Architecture Overview
@@ -78,6 +78,10 @@ Tools are defined in `/lib/ai/tools/` and include:
 - `update-document.ts` - Document updates
 - `get-weather.ts` - Weather data fetching
 - `request-suggestions.ts` - Suggestion generation
+- `intelligent-job-search.ts` - Comprehensive job search with database integration
+- `advanced-job-search.ts` - Enhanced job search with detailed filtering
+- `quick-match.ts` - Quick job matching based on user profile
+- `bulge-bracket-search.ts` - Finance-specific job search
 
 #### Database Schema
 Primary tables (defined in `/lib/db/schema.ts`):
@@ -87,6 +91,11 @@ Primary tables (defined in `/lib/db/schema.ts`):
 - `Document` - Created documents/artifacts
 - `Suggestion` - Chat suggestions
 - `Vote` - Message voting
+- `Company` - Company profiles with job postings
+- `Job` - Comprehensive job listings with AI-optimized fields
+- `JobApplication` - User job applications tracking
+- `JobSearchPreference` - User job search preferences
+- `JobInteraction` - Job view/save tracking for recommendations
 
 #### Authentication Flow
 - Guest access supported via `/api/auth/guest`

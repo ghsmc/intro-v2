@@ -28,6 +28,7 @@ import { getWeather } from '@/lib/ai/tools/get-weather';
 import { webSearchTool, newsSearchTool } from '@/lib/ai/tools/web-search';
 import { bulgeBracketSearchTool } from '@/lib/ai/tools/bulge-bracket-search';
 import { jobSearchTool } from '@/lib/ai/tools/intelligent-job-search';
+import { createWebJobSearchTool, createPeopleSearchTool } from '@/lib/ai/tools/tool-wrappers';
 import { isProductionEnvironment } from '@/lib/constants';
 import { myProvider } from '@/lib/ai/providers';
 import { entitlementsByUserType } from '@/lib/ai/entitlements';
@@ -222,6 +223,8 @@ export async function POST(request: Request) {
                       'webSearchTool',
                       'newsSearchTool',
                       'jobSearchTool',
+                      'webJobSearchTool',
+                      'peopleSearchTool',
                       'bulgeBracketSearchTool',
                       'createDocument',
                       'updateDocument',
@@ -232,6 +235,8 @@ export async function POST(request: Request) {
                       'webSearchTool',
                       'newsSearchTool',
                       'jobSearchTool',
+                      'webJobSearchTool',
+                      'peopleSearchTool',
                       'createDocument',
                       'updateDocument',
                       'requestSuggestions',
@@ -242,6 +247,8 @@ export async function POST(request: Request) {
             webSearchTool,
             newsSearchTool,
             jobSearchTool,
+            webJobSearchTool: createWebJobSearchTool(userData),
+            peopleSearchTool: createPeopleSearchTool(userData),
             ...(domain === 'FINANCE' ? { bulgeBracketSearchTool } : {}),
             createDocument: createDocument({ session, dataStream }),
             updateDocument: updateDocument({ session, dataStream }),
