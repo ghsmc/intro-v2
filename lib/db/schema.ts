@@ -11,6 +11,8 @@ import {
   foreignKey,
   boolean,
   integer,
+  index,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core';
 import type { AppUsage } from '../usage';
 
@@ -215,3 +217,169 @@ export const company = pgTable('Company', {
 });
 
 export type Company = InferSelectModel<typeof company>;
+
+// Job-related tables for comprehensive job tracking
+export const job = pgTable('Job', {
+  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  companyId: uuid('companyId')
+    .notNull()
+    .references(() => company.id, { onDelete: 'cascade' }),
+
+  // Basic Information
+  title: varchar('title', { length: 256 }).notNull(),
+  department: varchar('department', { length: 128 }),
+  team: varchar('team', { length: 128 }),
+  level: varchar('level', { length: 64 }), // entry, mid, senior, lead, principal, staff
+  type: varchar('type', { length: 64 }).notNull(), // full-time, part-time, contract, internship
+
+  // Location & Remote
+  location: varchar('location', { length: 256 }),
+  locationCity: varchar('locationCity', { length: 128 }),
+  locationState: varchar('locationState', { length: 64 }),
+  locationCountry: varchar('locationCountry', { length: 64 }),
+  remoteType: varchar('remoteType', { length: 32 }), // remote, hybrid, onsite
+
+  // Compensation
+  salaryMin: integer('salaryMin'),
+  salaryMax: integer('salaryMax'),
+  salaryCurrency: varchar('salaryCurrency', { length: 8 }).default('USD'),
+  salaryPeriod: varchar('salaryPeriod', { length: 16 }).default('year'), // year, month, hour
+  equity: varchar('equity', { length: 64 }),
+  benefits: jsonb('benefits'), // Array of benefits
+
+  // Description & Requirements
+  description: text('description').notNull(),
+  requirements: jsonb('requirements'), // Array of requirements
+  responsibilities: jsonb('responsibilities'), // Array of responsibilities
+  preferredQualifications: jsonb('preferredQualifications'), // Array of nice-to-haves
+
+  // Skills & Categories (for LLM searchability)
+  skills: jsonb('skills'), // Array of required skills
+  categories: jsonb('categories'), // Array of job categories (engineering, product, sales, etc.)
+  tags: jsonb('tags'), // Additional searchable tags
+  keywords: text('keywords'), // Full-text search keywords generated from content
+
+  // Application Info
+  applicationUrl: varchar('applicationUrl', { length: 512 }),
+  applicationEmail: varchar('applicationEmail', { length: 256 }),
+  applicationDeadline: timestamp('applicationDeadline'),
+
+  // Metadata
+  externalId: varchar('externalId', { length: 256 }), // ID from external job board
+  source: varchar('source', { length: 64 }), // where job was sourced from
+  sourceUrl: varchar('sourceUrl', { length: 512 }),
+
+  // Status
+  status: varchar('status', { length: 32 }).notNull().default('active'), // active, closed, draft, archived
+  featured: boolean('featured').default(false),
+  verified: boolean('verified').default(false),
+
+  // Timestamps
+  postedAt: timestamp('postedAt').notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+  expiresAt: timestamp('expiresAt'),
+
+  // LLM-optimized fields
+  embedding: jsonb('embedding'), // Vector embedding for semantic search
+  aiSummary: text('aiSummary'), // AI-generated summary for quick understanding
+  aiMatchCriteria: jsonb('aiMatchCriteria'), // Structured criteria for AI matching
+}, (table) => ({
+  // Indexes for efficient searching
+  companyIdx: index('job_company_idx').on(table.companyId),
+  statusIdx: index('job_status_idx').on(table.status),
+  postedAtIdx: index('job_posted_at_idx').on(table.postedAt),
+  companyStatusIdx: index('job_company_status_idx').on(table.companyId, table.status),
+}));
+
+export type Job = InferSelectModel<typeof job>;
+
+// Job applications tracking
+export const jobApplication = pgTable('JobApplication', {
+  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  jobId: uuid('jobId')
+    .notNull()
+    .references(() => job.id, { onDelete: 'cascade' }),
+  userId: uuid('userId')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+
+  status: varchar('status', { length: 32 }).notNull().default('draft'), // draft, submitted, reviewing, interviewed, offered, rejected, withdrawn
+  stage: varchar('stage', { length: 64 }), // application, screening, phone, onsite, offer
+
+  coverLetter: text('coverLetter'),
+  resumeVersion: jsonb('resumeVersion'), // Snapshot of user's resume at time of application
+  customAnswers: jsonb('customAnswers'), // Answers to custom questions
+
+  notes: text('notes'), // User's notes
+
+  appliedAt: timestamp('appliedAt'),
+  updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+}, (table) => ({
+  // Indexes
+  userIdx: index('application_user_idx').on(table.userId),
+  jobIdx: index('application_job_idx').on(table.jobId),
+  userJobIdx: uniqueIndex('application_user_job_idx').on(table.userId, table.jobId),
+}));
+
+export type JobApplication = InferSelectModel<typeof jobApplication>;
+
+// Job search preferences
+export const jobSearchPreference = pgTable('JobSearchPreference', {
+  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  userId: uuid('userId')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' })
+    .unique(),
+
+  // Preferences
+  desiredRoles: jsonb('desiredRoles'), // Array of role titles
+  desiredCompanies: jsonb('desiredCompanies'), // Array of company IDs or names
+  desiredLocations: jsonb('desiredLocations'), // Array of locations
+  remotePreference: varchar('remotePreference', { length: 32 }), // remote-only, hybrid-ok, onsite-ok, any
+
+  // Compensation expectations
+  minSalary: integer('minSalary'),
+  maxSalary: integer('maxSalary'),
+  salaryCurrency: varchar('salaryCurrency', { length: 8 }).default('USD'),
+
+  // Work preferences
+  companySize: jsonb('companySize'), // Array of size preferences (startup, mid, enterprise)
+  industries: jsonb('industries'), // Array of preferred industries
+  jobTypes: jsonb('jobTypes'), // Array of job types (full-time, contract, etc.)
+  experienceLevel: varchar('experienceLevel', { length: 32 }), // entry, mid, senior, lead, principal
+
+  // Skills & interests
+  skills: jsonb('skills'), // User's skills
+  interests: jsonb('interests'), // Areas of interest
+
+  // Search settings
+  alertsEnabled: boolean('alertsEnabled').default(true),
+  alertFrequency: varchar('alertFrequency', { length: 16 }).default('daily'), // realtime, daily, weekly
+
+  updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+});
+
+export type JobSearchPreference = InferSelectModel<typeof jobSearchPreference>;
+
+// Job interaction tracking (for recommendations)
+export const jobInteraction = pgTable('JobInteraction', {
+  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  jobId: uuid('jobId')
+    .notNull()
+    .references(() => job.id, { onDelete: 'cascade' }),
+  userId: uuid('userId')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+
+  action: varchar('action', { length: 32 }).notNull(), // viewed, saved, applied, dismissed, shared
+  context: jsonb('context'), // Additional context (search query, referrer, etc.)
+
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+}, (table) => ({
+  // Indexes
+  userIdx: index('interaction_user_idx').on(table.userId),
+  jobIdx: index('interaction_job_idx').on(table.jobId),
+  actionIdx: index('interaction_action_idx').on(table.action),
+}));
+
+export type JobInteraction = InferSelectModel<typeof jobInteraction>;

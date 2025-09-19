@@ -43,7 +43,7 @@ export function FinanceCompaniesView() {
   const [selectedCompany, setSelectedCompany] = useState<FinanceCompany | null>(null);
 
   // Import the finance companies data directly
-  const companiesByTier = useMemo(() => {
+  const companiesByTier = useMemo((): Record<string, FinanceCompany[]> => {
     // This would normally come from your seed data
     // For now, using empty object - you can import from seed-finance-companies.ts
     return {};
@@ -75,7 +75,7 @@ export function FinanceCompaniesView() {
 
   const getAllCategories = () => {
     const categories = new Set<string>();
-    Object.values(companiesByTier).flat().forEach(company => {
+    Object.values(companiesByTier).flat().forEach((company: any) => {
       categories.add(company.category);
     });
     return Array.from(categories).sort();

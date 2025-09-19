@@ -185,7 +185,7 @@ export function QuickMatchView() {
             reasons: reasons.slice(0, 2),
             urgency,
             locations: program.locations,
-            deadline: program.closingDate,
+            deadline: program.closingDate || undefined,
             salary: program.compensationRange,
             type: program.tier
           };

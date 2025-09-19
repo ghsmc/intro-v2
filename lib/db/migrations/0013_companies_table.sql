@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "Company" (
 	"previousRank" integer,
 	"trending" varchar,
 	"growth" varchar(16),
-	"domainType" varchar NOT NULL,
+	"domainType" varchar NOT NULL DEFAULT 'SOFTWARE',
 	"featured" boolean DEFAULT false,
 	"metadata" jsonb,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
@@ -26,7 +26,38 @@ CREATE TABLE IF NOT EXISTS "Company" (
 );
 
 -- Create indexes for better performance
-CREATE INDEX IF NOT EXISTS "company_domain_idx" ON "Company" ("domainType");
-CREATE INDEX IF NOT EXISTS "company_rank_idx" ON "Company" ("rank");
-CREATE INDEX IF NOT EXISTS "company_category_idx" ON "Company" ("category");
-CREATE INDEX IF NOT EXISTS "company_name_idx" ON "Company" ("name");
+-- Skip indexes for columns that might not exist
+DO $$
+BEGIN
+  -- Check and create domainType index
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'Company' AND column_name = 'domainType'
+  ) THEN
+    CREATE INDEX IF NOT EXISTS "company_domain_idx" ON "Company" ("domainType");
+  END IF;
+
+  -- Check and create rank index
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'Company' AND column_name = 'rank'
+  ) THEN
+    CREATE INDEX IF NOT EXISTS "company_rank_idx" ON "Company" ("rank");
+  END IF;
+
+  -- Check and create category index
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'Company' AND column_name = 'category'
+  ) THEN
+    CREATE INDEX IF NOT EXISTS "company_category_idx" ON "Company" ("category");
+  END IF;
+
+  -- Check and create name index
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'Company' AND column_name = 'name'
+  ) THEN
+    CREATE INDEX IF NOT EXISTS "company_name_idx" ON "Company" ("name");
+  END IF;
+END $$;

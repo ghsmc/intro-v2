@@ -46,6 +46,9 @@ const db = drizzle(client);
 // Export company queries
 export * from './queries/companies';
 
+// Export job queries
+export * from './queries/jobs';
+
 export async function getUser(email: string): Promise<Array<User>> {
   try {
     return await db.select().from(user).where(eq(user.email, email));

@@ -25,8 +25,9 @@ import { createDocument } from '@/lib/ai/tools/create-document';
 import { updateDocument } from '@/lib/ai/tools/update-document';
 import { requestSuggestions } from '@/lib/ai/tools/request-suggestions';
 import { getWeather } from '@/lib/ai/tools/get-weather';
-import { webSearchTool, newsSearchTool, jobSearchTool } from '@/lib/ai/tools/web-search';
+import { webSearchTool, newsSearchTool } from '@/lib/ai/tools/web-search';
 import { bulgeBracketSearchTool } from '@/lib/ai/tools/bulge-bracket-search';
+import { jobSearchTool } from '@/lib/ai/tools/intelligent-job-search';
 import { isProductionEnvironment } from '@/lib/constants';
 import { myProvider } from '@/lib/ai/providers';
 import { entitlementsByUserType } from '@/lib/ai/entitlements';
@@ -215,7 +216,7 @@ export async function POST(request: Request) {
             experimental_activeTools:
               selectedChatModel === 'chat-model-reasoning'
                 ? []
-                : domain === 'FINANCE' 
+                : domain === 'FINANCE'
                   ? [
                       'getWeather',
                       'webSearchTool',

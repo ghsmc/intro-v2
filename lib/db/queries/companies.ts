@@ -7,6 +7,11 @@ import { company, type Company } from '../schema';
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
 
+// Get all companies
+export async function getCompanies() {
+  return await db.select().from(company).orderBy(desc(company.name));
+}
+
 export async function getCompaniesByDomain({
   domainType,
   category,
