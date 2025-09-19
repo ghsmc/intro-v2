@@ -48,6 +48,60 @@ interface JobListing {
 
 // LLM-powered query builder with deep profile integration
 class IntelligentQueryBuilder {
+  private getTargetCompanies(query: string, profile?: any): string[] {
+    const companies = [];
+
+    // Silicon Valley giants
+    if (query.toLowerCase().includes('silicon valley') || query.toLowerCase().includes('bay area')) {
+      companies.push('Google', 'Meta', 'Apple', 'Netflix', 'Adobe', 'Salesforce', 'Oracle', 'Intel', 'NVIDIA');
+    }
+
+    // Based on values
+    if (profile?.values?.includes('intellectual_challenge')) {
+      companies.push('OpenAI', 'Anthropic', 'DeepMind', 'Google Research', 'Microsoft Research');
+    }
+    if (profile?.values?.includes('high_earning_potential')) {
+      companies.push('Jane Street', 'Two Sigma', 'Citadel', 'Goldman Sachs', 'Stripe', 'Databricks');
+    }
+    if (profile?.values?.includes('social_impact')) {
+      companies.push('Microsoft', 'Salesforce', 'Khan Academy', 'Duolingo', 'Coursera');
+    }
+
+    // High-growth startups
+    companies.push('Stripe', 'Databricks', 'Scale AI', 'Ramp', 'Notion', 'Figma', 'Canva');
+
+    // Always include top tech
+    companies.push('Amazon', 'Microsoft', 'Tesla', 'SpaceX', 'Uber', 'Airbnb');
+
+    // Dedupe and return top companies
+    return [...new Set(companies)].slice(0, 12);
+  }
+
+  private getCompanyDomain(company: string): string {
+    const domainMap: Record<string, string> = {
+      'Google': 'careers.google.com',
+      'Meta': 'metacareers.com',
+      'Apple': 'jobs.apple.com',
+      'Microsoft': 'careers.microsoft.com',
+      'Amazon': 'amazon.jobs',
+      'Netflix': 'jobs.netflix.com',
+      'OpenAI': 'openai.com/careers',
+      'Anthropic': 'anthropic.com/careers',
+      'Stripe': 'stripe.com/jobs',
+      'Databricks': 'databricks.com/company/careers',
+      'Goldman Sachs': 'goldmansachs.com/careers',
+      'Jane Street': 'janestreet.com/join-jane-street',
+    };
+    return domainMap[company] || `${company.toLowerCase().replace(' ', '')}.com/careers`;
+  }
+
+  private getCurrentSeason(): string {
+    const month = new Date().getMonth();
+    if (month >= 8 || month <= 1) return 'summer';
+    if (month >= 2 && month <= 4) return 'fall';
+    return 'spring';
+  }
+
   async buildSearchQueries(
     userQuery: string,
     userProfile?: {
@@ -65,40 +119,61 @@ class IntelligentQueryBuilder {
     }
   ): Promise<string[]> {
     try {
-      const { text } = await generateText({
-        model: myProvider.languageModel('chat-model'),
-        prompt: `You are a job search expert. Transform this user query into optimized search queries for finding relevant job listings.
+      // Determine if this is an internship search
+      const isInternship = userQuery.toLowerCase().includes('internship') ||
+                           userProfile?.immediateGoal?.includes('internship') ||
+                           (userProfile?.classYear && parseInt(userProfile.classYear) >= new Date().getFullYear());
 
-User Query: "${userQuery}"
-${userProfile ? `
-User Profile:
-- Name: ${userProfile.name || 'Not specified'}
-- Major: ${userProfile.major || 'Not specified'}
-- Class Year: ${userProfile.classYear || 'Not specified'}
-- Skills: ${userProfile.skills?.join(', ') || 'Not specified'}
-- Values: ${userProfile.values?.join(', ') || 'Not specified'}
-- Immediate Goal: ${userProfile.immediateGoal || 'Not specified'}
-- Energy Profile: ${userProfile.energyProfile ? JSON.stringify(userProfile.energyProfile) : 'Not specified'}
-- Experience: ${userProfile.experience || 'Not specified'}
-- Location: ${userProfile.location || 'Any'}
-- Preferences: ${userProfile.preferences?.join(', ') || 'Not specified'}
-${userProfile.resumeData ? `- Resume highlights: ${JSON.stringify(userProfile.resumeData).substring(0, 200)}` : ''}
-` : ''}
+      // Build a comprehensive list of target companies based on profile
+      const targetCompanies = this.getTargetCompanies(userQuery, userProfile);
+      const currentYear = new Date().getFullYear();
+      const nextYear = currentYear + 1;
+      const season = this.getCurrentSeason();
 
-Generate 3-5 different search queries that will find the most relevant job listings. Consider:
-1. Direct job title searches
-2. Company-specific searches if mentioned
-3. Skill-based searches
-4. Industry/domain searches
-5. Location-specific searches if relevant
+      // Generate specific queries
+      const queries: string[] = [];
 
-For ML/AI roles, include variations like "machine learning engineer", "ML engineer", "AI engineer", "deep learning", etc.
-For specific companies like OpenAI, include "OpenAI careers", "OpenAI jobs", "jobs at OpenAI", etc.
-
-Return ONLY the search queries, one per line, no numbering or bullets.`,
+      // Add company-specific searches
+      targetCompanies.forEach(company => {
+        if (isInternship) {
+          queries.push(`${company} internship ${nextYear}`);
+          queries.push(`${company} summer internship ${season} ${nextYear}`);
+          queries.push(`${company} engineering intern`);
+          queries.push(`site:${this.getCompanyDomain(company)} internship`);
+        } else {
+          queries.push(`${company} software engineer`);
+          queries.push(`${company} careers engineering`);
+          queries.push(`site:${this.getCompanyDomain(company)} careers`);
+        }
       });
 
-      return text.split('\n').filter(q => q.trim().length > 0);
+      // Add specific program searches if internship
+      if (isInternship) {
+        queries.push('Google STEP internship');
+        queries.push('Meta University internship');
+        queries.push('Microsoft Explore program');
+        queries.push('Amazon Future Engineer');
+        queries.push('Apple internship program');
+      }
+
+      // Add location-based searches
+      if (userQuery.toLowerCase().includes('silicon valley') || userQuery.toLowerCase().includes('bay area')) {
+        queries.push(`software engineering internship Silicon Valley ${nextYear}`);
+        queries.push(`tech internship Bay Area summer ${nextYear}`);
+        queries.push(`Palo Alto internship computer science`);
+        queries.push(`Mountain View software intern`);
+      }
+
+      // Add general but specific searches
+      queries.push(`software engineering internship ${nextYear}`);
+      queries.push(`computer science internship summer ${nextYear}`);
+      queries.push(`SWE intern ${season} ${nextYear}`);
+
+      // Limit and dedupe
+      const uniqueQueries = [...new Set(queries)].slice(0, 15);
+
+      console.log('🎯 Generated queries:', uniqueQueries);
+      return uniqueQueries;
     } catch (error) {
       console.error('Error generating search queries:', error);
       // Fallback to basic query expansion
@@ -137,6 +212,63 @@ Return ONLY the search queries, one per line, no numbering or bullets.`,
     );
 
     return queries;
+  }
+}
+
+// Tavily API client (fallback)
+class TavilyClient {
+  private apiKey: string;
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+
+  async search(query: string): Promise<SerperSearchResult> {
+    try {
+      const response = await fetch('https://api.tavily.com/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'api-key': this.apiKey
+        },
+        body: JSON.stringify({
+          query,
+          search_depth: 'advanced',
+          include_raw_content: false,
+          max_results: 20,
+          include_domains: [
+            'careers.google.com', 'metacareers.com', 'jobs.apple.com',
+            'amazon.jobs', 'stripe.com/jobs', 'openai.com/careers',
+            'linkedin.com', 'indeed.com', 'glassdoor.com'
+          ]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Tavily API error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      // Convert Tavily format to Serper format
+      return {
+        organic: data.results?.map((result: any) => ({
+          title: result.title,
+          link: result.url,
+          snippet: result.content || result.snippet,
+          date: result.published_date
+        })) || [],
+        answerBox: data.answer ? {
+          answer: data.answer,
+          snippet: data.answer,
+          title: 'Answer'
+        } : undefined,
+        knowledgeGraph: undefined
+      };
+    } catch (error) {
+      console.error('Tavily search error:', error);
+      throw error;
+    }
   }
 }
 
@@ -470,7 +602,8 @@ Keep the response concise but informative. Focus on the top 3-4 most relevant op
 // Generate search strategy reasoning
 async function generateSearchStrategy(
   query: string,
-  userProfile?: any
+  userProfile?: any,
+  searchQueries?: string[]
 ): Promise<string> {
   if (!userProfile) {
     return `Searching for: "${query}"`;
@@ -515,17 +648,41 @@ async function generateSearchStrategy(
     strategy += `  → Tailoring search to this objective\n`;
   }
 
-  // Parse the query for specific intent
-  const queryLower = query.toLowerCase();
-  if (queryLower.includes('internship') || queryLower.includes('summer')) {
-    strategy += `\n**Search Focus:** Summer internship programs\n`;
-  } else if (queryLower.includes('part-time') || queryLower.includes('part time')) {
-    strategy += `\n**Search Focus:** Part-time opportunities during academic term\n`;
-  } else if (queryLower.includes('new grad') || queryLower.includes('entry level')) {
-    strategy += `\n**Search Focus:** Entry-level and new graduate positions\n`;
+  // Extract target companies from queries
+  if (searchQueries && searchQueries.length > 0) {
+    const companies = new Set<string>();
+    const companyNames = ['Google', 'Meta', 'Apple', 'Microsoft', 'Amazon', 'Netflix', 'Uber',
+                          'Stripe', 'OpenAI', 'Anthropic', 'Goldman Sachs', 'Jane Street',
+                          'Databricks', 'Scale AI', 'Airbnb', 'Tesla', 'SpaceX', 'Adobe',
+                          'Salesforce', 'Oracle', 'Intel', 'NVIDIA', 'Two Sigma', 'Citadel',
+                          'Ramp', 'Notion', 'Figma', 'Canva', 'DeepMind', 'Duolingo'];
+
+    searchQueries.forEach(q => {
+      companyNames.forEach(company => {
+        if (q.toLowerCase().includes(company.toLowerCase())) {
+          companies.add(company);
+        }
+      });
+    });
+
+    if (companies.size > 0) {
+      strategy += `\n**🏢 Target Companies:**\n`;
+      const companyList = Array.from(companies);
+      // Display in rows of 6 companies
+      const rows = [];
+      for (let i = 0; i < companyList.length; i += 6) {
+        rows.push(companyList.slice(i, i + 6).join(' • '));
+      }
+      strategy += rows.join('\n') + '\n';
+    }
+
+    strategy += `\n**📊 Search Details:**\n`;
+    strategy += `  • ${searchQueries.length} targeted search queries\n`;
+    strategy += `  • Covering company career pages + job boards\n`;
+    strategy += `  • Including ${query.toLowerCase().includes('internship') ? 'internship programs' : 'full-time positions'}\n`;
   }
 
-  strategy += `\nSearching now...`;
+  strategy += `\n**⚡ Executing searches...**`;
   return strategy;
 }
 
@@ -549,27 +706,51 @@ async function performWebJobSearch(
   };
 }> {
   const serperApiKey = process.env.SERPER_API_KEY;
+  const tavilyApiKey = process.env.TAVILY_API_KEY;
 
-  if (!serperApiKey) {
-    throw new Error('SERPER_API_KEY environment variable is required');
+  if (!serperApiKey && !tavilyApiKey) {
+    throw new Error('Either SERPER_API_KEY or TAVILY_API_KEY environment variable is required');
   }
 
   const queryBuilder = new IntelligentQueryBuilder();
-  const serperClient = new SerperClient(serperApiKey);
   const processor = new JobResultProcessor();
 
   try {
-    // Generate search strategy
-    const searchStrategy = await generateSearchStrategy(query, options.userProfile);
-
-    // Generate intelligent search queries
+    // Generate intelligent search queries first
     const searchQueries = await queryBuilder.buildSearchQueries(query, options.userProfile);
+
+    // Generate search strategy with the queries
+    const searchStrategy = await generateSearchStrategy(query, options.userProfile, searchQueries);
 
     console.log('🔍 Searching with queries:', searchQueries);
 
-    // Execute searches in parallel
-    const searchPromises = searchQueries.map(q => serperClient.searchJobs(q));
-    const searchResults = await Promise.all(searchPromises);
+    // Execute searches with fallback
+    let searchResults: SerperSearchResult[] = [];
+
+    if (serperApiKey) {
+      try {
+        const serperClient = new SerperClient(serperApiKey);
+        const searchPromises = searchQueries.map(q => serperClient.searchJobs(q));
+        searchResults = await Promise.all(searchPromises);
+      } catch (error: any) {
+        console.log('Serper API failed:', error.message);
+        if (error.message?.includes('Too Many Requests') && tavilyApiKey) {
+          console.log('Falling back to Tavily API...');
+          const tavilyClient = new TavilyClient(tavilyApiKey);
+          const searchPromises = searchQueries.map(q => tavilyClient.search(q));
+          searchResults = await Promise.all(searchPromises);
+        } else if (!tavilyApiKey) {
+          throw new Error('Serper API rate limit hit and no Tavily API key configured as fallback');
+        } else {
+          throw error;
+        }
+      }
+    } else if (tavilyApiKey) {
+      console.log('Using Tavily API (Serper not configured)...');
+      const tavilyClient = new TavilyClient(tavilyApiKey);
+      const searchPromises = searchQueries.map(q => tavilyClient.search(q));
+      searchResults = await Promise.all(searchPromises);
+    }
 
     // Process and extract job listings
     const jobs = await processor.processSearchResults(searchResults, query);

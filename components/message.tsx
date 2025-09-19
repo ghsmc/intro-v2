@@ -20,6 +20,7 @@ const getUserInitials = (user?: User) => {
 };
 import { DocumentToolResult } from './document';
 import { Response } from './elements/response';
+import { ResponseWithCitations } from './elements/response-with-citations';
 import { MessageContent } from './elements/message';
 import {
   Tool,
@@ -205,13 +206,22 @@ const PurePreviewMessage = ({
                           : undefined
                       }
                     >
-                      <Response>
-                        {sanitizedText || part.text || ''}
-                      </Response>
-                      {citations.length > 0 && /\[\d+\]/.test(sanitizedText || '') && (
-                        <div className="mt-2">
-                          <CitedText text={sanitizedText} citations={citations} />
-                        </div>
+                      {/* Use ResponseWithCitations if text contains cite tags, otherwise use regular Response */}
+                      {sanitizedText?.includes('<cite>') ? (
+                        <ResponseWithCitations>
+                          {sanitizedText || part.text || ''}
+                        </ResponseWithCitations>
+                      ) : (
+                        <>
+                          <Response>
+                            {sanitizedText || part.text || ''}
+                          </Response>
+                          {citations.length > 0 && /\[\d+\]/.test(sanitizedText || '') && (
+                            <div className="mt-2">
+                              <CitedText text={sanitizedText} citations={citations} />
+                            </div>
+                          )}
+                        </>
                       )}
                     </MessageContent>
                   </div>
@@ -372,26 +382,113 @@ const PurePreviewMessage = ({
                       </div>
                     </div>
                   ) : toolType === 'tool-webJobSearchTool' ? (
-                    <div className='font-mono text-muted-foreground text-xs'>
-                      <div className='mb-2 flex items-center gap-2'>
-                        <div className='size-2 rounded-full bg-green-500'></div>
-                        <span className='uppercase tracking-wider'>SEARCH COMPLETE</span>
-                      </div>
-                      <div className="space-y-1 pl-4 border-l border-muted-foreground/20">
-                        <div className='flex justify-between'>
-                          <span className="text-muted-foreground/60">Jobs found:</span>
-                          <span className="text-foreground">{(part as any).output.jobs?.length || 0}</span>
+                    <div className='text-muted-foreground text-sm space-y-3'>
+                      {/* Search Strategy Section */}
+                      {(part as any).output.searchStrategy && (
+                        <div className='font-mono text-xs border border-muted-foreground/20 rounded-lg p-3 bg-muted/30'>
+                          <div className='mb-2 flex items-center gap-2'>
+                            <div className='size-1.5 rounded-full bg-blue-500 animate-pulse'></div>
+                            <span className='uppercase tracking-wider text-muted-foreground/80'>THINKING</span>
+                          </div>
+                          <div className='prose prose-sm max-w-none text-muted-foreground/90'>
+                            <div dangerouslySetInnerHTML={{ __html: (part as any).output.searchStrategy.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br />') }} />
+                          </div>
                         </div>
-                        {(part as any).output.searchMetadata && (
+                      )}
+
+                      {/* Search Results Section */}
+                      <div className='font-mono text-xs space-y-3'>
+                        <div className='mb-2 flex items-center gap-2'>
+                          <div className='size-2 rounded-full bg-green-500'></div>
+                          <span className='uppercase tracking-wider'>SEARCH COMPLETE</span>
+                        </div>
+
+                        {/* Summary Stats */}
+                        <div className="space-y-1 pl-4 border-l border-muted-foreground/20">
                           <div className='flex justify-between'>
-                            <span className="text-muted-foreground/60">Sources:</span>
-                            <span className="text-foreground">{(part as any).output.searchMetadata.sources?.length || 0}</span>
+                            <span className="text-muted-foreground/60">Jobs found:</span>
+                            <span className="text-foreground font-semibold">{(part as any).output.jobs?.length || 0}</span>
+                          </div>
+                          {(part as any).output.searchMetadata?.sources && (
+                            <div className='flex justify-between'>
+                              <span className="text-muted-foreground/60">Sources:</span>
+                              <span className="text-foreground">{(part as any).output.searchMetadata.sources?.join(', ').substring(0, 50)}...</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Job Listings */}
+                        {(part as any).output.jobs?.length > 0 && (
+                          <div className='space-y-2'>
+                            <div className='uppercase tracking-wider text-muted-foreground/80 text-[10px]'>TOP OPPORTUNITIES</div>
+                            <div className='space-y-2'>
+                              {(part as any).output.jobs.slice(0, 5).map((job: any, idx: number) => (
+                                <div key={idx} className='border border-muted-foreground/20 rounded-lg p-3 bg-background/50 hover:bg-muted/30 transition-colors'>
+                                  <div className='flex items-start justify-between gap-2'>
+                                    <div className='flex-1 min-w-0'>
+                                      <div className='font-semibold text-foreground text-sm truncate'>
+                                        {job.title}
+                                      </div>
+                                      <div className='text-muted-foreground text-xs mt-0.5'>
+                                        {job.company} • {job.location || 'Remote'}
+                                      </div>
+                                    </div>
+                                    <a
+                                      href={job.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className='flex items-center gap-1 px-2 py-1 bg-primary/10 hover:bg-primary/20 rounded text-[10px] font-medium text-primary transition-colors whitespace-nowrap'
+                                    >
+                                      APPLY
+                                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                      </svg>
+                                    </a>
+                                  </div>
+                                  {job.salary && (
+                                    <div className='text-green-600 dark:text-green-400 text-xs mt-1 font-medium'>
+                                      💰 {job.salary}
+                                    </div>
+                                  )}
+                                  <div className='text-muted-foreground/80 text-[11px] mt-2 line-clamp-2'>
+                                    {job.description}
+                                  </div>
+                                  <div className='flex items-center gap-2 mt-2'>
+                                    <img
+                                      src={`https://www.google.com/s2/favicons?domain=${job.sourceDomain || new URL(job.url).hostname}&sz=16`}
+                                      alt=""
+                                      className='w-3 h-3'
+                                    />
+                                    <span className='text-[10px] text-muted-foreground/60'>
+                                      via {job.sourceDomain || new URL(job.url).hostname.replace('www.', '')}
+                                    </span>
+                                    {job.postedDate && (
+                                      <span className='text-[10px] text-muted-foreground/60'>
+                                        • {job.postedDate}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         )}
-                        <div className='flex justify-between'>
-                          <span className="text-muted-foreground/60">Query:</span>
-                          <span className="text-foreground truncate max-w-[200px]">{(part as any).input?.query || 'N/A'}</span>
-                        </div>
+
+                        {/* Search Queries Used */}
+                        {(part as any).output.searchMetadata?.queries && (
+                          <details className='group'>
+                            <summary className='cursor-pointer text-[10px] text-muted-foreground/60 hover:text-muted-foreground'>
+                              <span className='group-open:hidden'>▶</span>
+                              <span className='hidden group-open:inline'>▼</span>
+                              {' '}SEARCH QUERIES ({(part as any).output.searchMetadata.queries.length})
+                            </summary>
+                            <ul className='mt-1 space-y-0.5 pl-3'>
+                              {(part as any).output.searchMetadata.queries.map((q: string, i: number) => (
+                                <li key={i} className='text-foreground/60 text-[10px] truncate max-w-[400px]'>→ {q}</li>
+                              ))}
+                            </ul>
+                          </details>
+                        )}
                       </div>
                     </div>
                   ) : toolType === 'tool-peopleSearchTool' ? (

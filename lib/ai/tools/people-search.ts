@@ -284,12 +284,68 @@ async function generateNetworkingResponse(
     }
   }
 
-  // Add practical networking advice
-  response += '\n**Networking Tips:**\n';
-  response += '• Mention your Yale connection in outreach messages\n';
-  response += '• Reference specific shared experiences or interests\n';
-  response += '• Request a brief informational interview (15-20 min)\n';
-  response += '• Prepare specific questions about their career path\n';
+  // Generate personalized outreach template for top connections
+  if (profiles.length > 0 && userProfile) {
+    response += '\n**📧 Personalized Outreach Template:**\n\n';
+
+    const topProfile = profiles[0];
+    const isYaleAlum = topProfile.school === 'Yale University';
+
+    response += '```\n';
+    response += `Subject: ${isYaleAlum ? 'Yale Student' : 'Student'} - Quick Question about ${topProfile.company || 'Your Career Path'}\n\n`;
+    response += `Hi ${topProfile.name?.split(' ')[0] || 'there'},\n\n`;
+
+    if (isYaleAlum) {
+      response += `I'm a ${userProfile.classYear || 'current'} Yale student studying ${userProfile.major || 'Computer Science'}`;
+      if (topProfile.graduationYear) {
+        response += ` (I saw you graduated in ${topProfile.graduationYear})`;
+      }
+      response += '. ';
+    } else {
+      response += `I'm a student at Yale studying ${userProfile.major || 'Computer Science'}. `;
+    }
+
+    response += `I came across your profile and was really impressed by your work`;
+    if (topProfile.company) {
+      response += ` at ${topProfile.company}`;
+    }
+    response += '.\n\n';
+
+    if (userProfile.immediateGoal?.includes('internship')) {
+      response += `I'm currently exploring internship opportunities and would love to learn about your experience `;
+      response += `${topProfile.company ? `at ${topProfile.company}` : 'in the industry'}. `;
+    } else {
+      response += `I'm interested in learning more about ${topProfile.company ? `careers at ${topProfile.company}` : 'your career path'}. `;
+    }
+
+    response += `Would you have 15 minutes for a brief call or coffee chat in the next couple of weeks?\n\n`;
+
+    response += `I'm particularly curious about:\n`;
+    response += `• Your transition from ${isYaleAlum ? 'Yale' : 'school'} to ${topProfile.company || 'industry'}\n`;
+    response += `• The day-to-day work in your role\n`;
+    response += `• Any advice for someone looking to break into the field\n\n`;
+
+    response += `Thanks so much for your time!\n\n`;
+    response += `Best,\n${userProfile.name || '[Your Name]'}`;
+    if (userProfile.classYear) {
+      response += `\nYale '${userProfile.classYear.slice(2)}`;
+    }
+    response += '\n```\n';
+
+    response += '\n**💡 Outreach Tips:**\n';
+    response += '• Send connection request with personalized note on LinkedIn\n';
+    response += '• Follow up after 1 week if no response\n';
+    response += '• Keep initial message under 150 words\n';
+    response += '• Suggest specific times for availability\n';
+    response += '• Send thank you note after any conversation\n';
+  } else {
+    // Original tips if no personalized template
+    response += '\n**Networking Tips:**\n';
+    response += '• Mention your Yale connection in outreach messages\n';
+    response += '• Reference specific shared experiences or interests\n';
+    response += '• Request a brief informational interview (15-20 min)\n';
+    response += '• Prepare specific questions about their career path\n';
+  }
 
   return response;
 }
