@@ -76,7 +76,7 @@ export const ResponseWithCitations = memo(
         )}
         {...props}
       >
-        {processedContent}
+        {typeof processedContent === 'string' ? processedContent : children}
       </Streamdown>
     );
   },

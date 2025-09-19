@@ -1,5 +1,5 @@
-import { QuickMatchView } from '@/components/quick-match-view';
+import { UnifiedQuickMatch } from '@/components/quick-match-unified';
 
 export default function QuickMatchPage() {
-  return <QuickMatchView />;
+  return <UnifiedQuickMatch />;
 }
